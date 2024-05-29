@@ -23,7 +23,7 @@ function Sidebar() {
                <li><a href="app-inbox.html"><i className="fa fa-envelope"></i>Messages</a></li>
                <li><a href="setting.html"><i className="fa fa-gear"></i>Settings</a></li>
                <li className="divider"></li>
-               <li><a href="page-login.html"><i className="fa fa-power-off"></i>Logout</a></li>
+               <li><a href="login"><i className="fa fa-power-off"></i>Logout</a></li>
              </ul>
            </div>
          </div>
