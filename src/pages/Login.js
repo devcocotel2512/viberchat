@@ -1,32 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useAuth } from '../context/AuthContext.js';
 const Login = () => {
+  // State variables for email and password
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const { setIsLoggedIn } = useAuth();
+  // Function to handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const apiUrl = `${process.env.REACT_APP_API_URL}/login`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('authToken', data.token); // Assuming the API returns a token
+      setIsLoggedIn(true);
+      window.location.href = '/home';
+    } catch (error) {
+      setErrorMessage('Login failed. Please check your credentials.');
+    }
+  };
+
   return (
     <div className="auth-main">
       <div className="auth_div vivify fadeIn">
         <div className="auth_brand">
-          <a className="navbar-brand" href="#"><img src='assets/images/icon.svg' width={50} className='d-inline-block align-top mr-2' />Mooli</a>                                                
+          <a className="navbar-brand" href="/"><img src='assets/images/icon.svg' alt="aa" width={50} className='d-inline-block align-top mr-2' />Mooli</a>
         </div>
         <div className="card">
           <div className="header">
             <p className="lead">Login to your account</p>
           </div>
           <div className="body">
-            <form className="form-auth-small" action="index.html">
+            <form className="form-auth-small" onSubmit={handleSubmit}>
               <div className="form-group c_form_group">
                 <label>Email</label>
-                <input type="email" className="form-control" placeholder="Enter your email address" />
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="form-group c_form_group">
                 <label>Password</label>
-                <input type="password" className="form-control" placeholder="Enter your password" />
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
               <div className="form-group clearfix">
                 <label className="fancy-checkbox element-left">
                   <input type="checkbox" />
                   <span>Remember me</span>
-                </label>								
+                </label>
               </div>
               <button type="submit" className="btn btn-dark btn-lg btn-block">LOGIN</button>
               <div className="bottom">
