@@ -23,7 +23,7 @@ function Sidebar() {
                <li><a href="app-inbox.html"><i className="fa fa-envelope"></i>Messages</a></li>
                <li><a href="setting.html"><i className="fa fa-gear"></i>Settings</a></li>
                <li className="divider"></li>
-               <li><a href="login"><i className="fa fa-power-off"></i>Logout</a></li>
+               <li><a href="/login"><i className="fa fa-power-off"></i>Logout</a></li>
              </ul>
            </div>
          </div>
@@ -34,7 +34,7 @@ function Sidebar() {
              <li className="header">Apps</li>
              {/* <li><a href="app-inbox.html"><i className="fa fa-envelope"></i> <span>Email</span> <span className="badge badge-default mr-0">12</span></a></li> */}
              <li><a href="/chat"><i className="fa fa-comments"></i> <span>Chat</span></a></li>
-             <li><a href="/setting"><i className="fa fa-comments"></i> <span>Setting</span></a></li>
+             <li><a href="/about"><i className="fa fa-comments"></i> <span>About</span></a></li>
              {/* <li><a href="app-calendar.html"><i className="fa fa-calendar"></i> <span>Calendar</span></a></li>
              <li><a href="app-todo.html"><i className="fa fa-th-list"></i> <span>Todo List</span></a></li>
              <li><a href="app-filemanager.html"><i className="fa fa-folder"></i> <span>File Manager</span></a></li>

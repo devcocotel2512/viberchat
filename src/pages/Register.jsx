@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Register = () => {
   return (
+    
     <div className="auth-main">
       <div className="auth_div vivify fadeIn">
         <div className="auth_brand">
