@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+// import { AuthContext } from './AuthContext';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.js';
+// import { AuthContext } from '../context/AuthContext.js';
 const Login = () => {
   // State variables for email and password
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { setIsLoggedIn } = useAuth();
+  // const { setIsLoggedIn } = useContext(AuthContext);
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,8 +31,8 @@ const Login = () => {
 
       const data = await response.json();
       localStorage.setItem('authToken', data.token); // Assuming the API returns a token
-      setIsLoggedIn(true);
-      window.location.href = '/home';
+      // setIsLoggedIn(true);
+      window.location.href = '/';
     } catch (error) {
       setErrorMessage('Login failed. Please check your credentials.');
     }
