@@ -29,12 +29,12 @@ function Sidebar() {
          </div>
          <nav id="left-sidebar-nav" className="sidebar-nav">
            <ul id="main-menu" className="metismenu animation-li-delay">
-             <li className="header">Main</li>
-             <li className="active"><a href="index.html"><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+             {/* <li className="header">Main</li>
+             <li className="active"><a href="index.html"><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li> */}
              <li className="header">Apps</li>
-             <li><a href="app-inbox.html"><i className="fa fa-envelope"></i> <span>Email</span> <span className="badge badge-default mr-0">12</span></a></li>
+             {/* <li><a href="app-inbox.html"><i className="fa fa-envelope"></i> <span>Email</span> <span className="badge badge-default mr-0">12</span></a></li> */}
              <li><a href="/chat"><i className="fa fa-comments"></i> <span>Chat</span></a></li>
-             <li><a href="/about"><i className="fa fa-comments"></i> <span>About</span></a></li>
+             <li><a href="/setting"><i className="fa fa-comments"></i> <span>Setting</span></a></li>
              {/* <li><a href="app-calendar.html"><i className="fa fa-calendar"></i> <span>Calendar</span></a></li>
              <li><a href="app-todo.html"><i className="fa fa-th-list"></i> <span>Todo List</span></a></li>
              <li><a href="app-filemanager.html"><i className="fa fa-folder"></i> <span>File Manager</span></a></li>
