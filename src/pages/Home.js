@@ -7,7 +7,7 @@ import Layout from '../components/Layout';
 
 function Home() {
   return (
-    <>
+    
     <Layout>
     <div id="main-content">
             <div className="container-fluid">
@@ -42,7 +42,7 @@ function Home() {
           </div>
     </Layout>
 
-    </>
+    
   );
 }
 
