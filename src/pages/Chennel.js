@@ -27,7 +27,8 @@ const Channel = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaWRsYXllciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzE3MDYxNDA3LCJleHAiOjE3MTcwNjUwMDd9.DVjBxtNLzotVwALha0FF66GNc65T8YAUVhzZsKCzJaE'
+          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA',
+          
         },
         body: JSON.stringify(payload)
       });
@@ -182,7 +183,7 @@ const Channel = () => {
                       type="submit"
                       className="btn btn-primary theme-bg gradient"
                     >
-                      Validate
+                      Submit
                     </button>
                   </form>
                 </div>

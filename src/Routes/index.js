@@ -9,6 +9,7 @@ import Chat from '../pages/Chat';
 import Register from '../pages/Register';
 import Chennel from '../pages/Chennel';
 import AddUser from '../pages/AddUser';
+import ViewChennel from '../pages/ViewChennel';
 
 
 
@@ -26,8 +27,9 @@ function RoutesComponent() {
       <Route path="/login" element={<Login />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/chenel" element={<Chennel />} />
+      <Route path="/add-chennel" element={<Chennel />} />
       <Route path="/add-user" element={<AddUser />} />
+      <Route path="/chenel" element={<ViewChennel />} />
     </Routes>
     
   );
