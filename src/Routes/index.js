@@ -1,20 +1,21 @@
 // Routes.js
-import React,{useContext,useState} from 'react';
-import { Route, Routes  } from 'react-router-dom';
+import React,{useContext,useState,useEffect} from 'react';
+import { Route, Routes ,Navigate  } from 'react-router-dom';
 import Home from '../pages/Home';
 import Setting from '../pages/Setting';
 import Contact from '../pages/Contact';
 import Login from '../pages/Login';
+import Logout from '../pages/Logout.js';
 import Chat from '../pages/Chat';
 import Register from '../pages/Register';
-import Chennel from '../pages/Channel';
+import Channel from '../pages/Channel';
 import AddUser from '../pages/AddUser';
 import ViewChennel from '../pages/ViewChennel';
 
 
 
 function RoutesComponent() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('authToken')));
   useEffect(() => {
@@ -29,15 +30,21 @@ function RoutesComponent() {
   return (
     
     <Routes>
-      <Route path="/home"  element={<Home />} />
-      <Route path="/setting" element={<Setting />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/chat" element={<Chat />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/add-chennel" element={<Chennel />} />
-      <Route path="/add-user" element={<AddUser />} />
-      <Route path="/chenel" element={<ViewChennel />} />
+      <Route path="/"  element={ isLoggedIn ? <Home /> : <Navigate to="/login" replace />} />
+      {/* <Route path="/login"  element={<Login />} /> */}
+      <Route path="/login"  element={ isLoggedIn ? <Navigate to="/" replace /> : <Login />} />
+      <Route path="/logout"  element={<Logout />} />
+      <Route path="/register"  element={<Register />} />
+      
+      <Route path="/home"  element={ isLoggedIn ? <Home /> : <Navigate to="/login" replace />} />
+      <Route path="/setting" element={ isLoggedIn ? <Setting /> : <Navigate to="/login" replace />} />
+      <Route path="/contact" element={ isLoggedIn ? <Contact /> : <Navigate to="/login" replace />}  />
+      
+      <Route path="/chat" element={ isLoggedIn ? <Chat /> : <Navigate to="/login" replace />}  />
+      
+      <Route path="/add-chennel" element={ isLoggedIn ? <Channel /> : <Navigate to="/login" replace />}  />
+      <Route path="/add-user" element={ isLoggedIn ? <AddUser /> : <Navigate to="/login" replace />}  />
+      <Route path='/channel' element={ isLoggedIn ? <ViewChennel /> : <Navigate to="/login" replace />}  />
     </Routes>
     
   );
