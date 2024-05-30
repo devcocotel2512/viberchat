@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.js';
+import { useAuth } from './services/authService';
 const Login = () => {
  
   const [email, setEmail] = useState('');
@@ -31,7 +31,7 @@ const Login = () => {
       const data = await response.json();
       localStorage.setItem('authToken', data.token); // Assuming the API returns a token
       // setIsLoggedIn(true);
-      window.location.href = '/';
+      window.location.href = '/home';
     } catch (error) {
       setErrorMessage('Login failed. Please check your credentials.');
     }
@@ -75,7 +75,7 @@ const Login = () => {
                   <span>Remember me</span>
                 </label>
               </div>
-              <button type="submit" className="btn btn-dark btn-lg btn-block">LOGIN</button>
+              <button type="submit" className="btn btn-light btn-lg btn-block">LOGIN</button>
               <div className="bottom">
                 <span className="helper-text m-b-10"><i className="fa fa-lock"></i> <a href="page-forgot-password.html">Forgot password?</a></span>
                 <span>Don't have an account? <Link to="/register">Register</Link></span>
@@ -84,7 +84,14 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="animate_lines"></div>
+      <div className="animate_lines">
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+      </div>
     </div>
   );
 }
