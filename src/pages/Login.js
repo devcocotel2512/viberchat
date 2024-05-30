@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 // import { AuthContext } from './AuthContext';
-import { Link,useHistory } from 'react-router-dom';
+import { Link,useNavigate  } from 'react-router-dom';
 import authService from './services/authService';
 // import { AuthContext } from '../context/AuthContext.js';
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const history = useHistory();
+  const navigate  = useNavigate ();
 
   // const { setIsLoggedIn } = useContext(AuthContext);
   // Function to handle form submission
@@ -25,7 +25,7 @@ const Login = () => {
 
       const data = await response.json();
       localStorage.setItem('authToken', data.token);
-      history.push('/dashboard');
+      navigate('/dashboard');
 
       // setIsLoggedIn(true);
       // window.location.href = '/';

@@ -1,6 +1,6 @@
 // Routes.js
 import React,{useContext,useState} from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes  } from 'react-router-dom';
 import Home from '../pages/Home';
 import Setting from '../pages/Setting';
 import Contact from '../pages/Contact';
@@ -14,6 +14,7 @@ function RoutesComponent() {
   const { isLoggedIn } = useContext(AuthContext); // Get login state
 
   return (
+    
     <Routes>
       <Route path="/"  element={<Home />} />
       <Route path="/setting" element={<Setting />} />
@@ -22,6 +23,7 @@ function RoutesComponent() {
       <Route path="/chat" element={<Chat />} />
       <Route path="/register" element={<Register />} />
     </Routes>
+    
   );
 }
 
