@@ -10,6 +10,7 @@ import Chat from '../pages/Chat';
 import Register from '../pages/Register';
 import Channel from '../pages/Channel';
 import AddUser from '../pages/AddUser';
+import ViewChennel from '../pages/ViewChennel';
 
 
 

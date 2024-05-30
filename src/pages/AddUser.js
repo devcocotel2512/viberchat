@@ -23,7 +23,8 @@ const AddUser = () => {
     const requestOptions = {
       method: "POST",
       headers: {
-        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaWRsYXllciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzE2OTYzNTE3LCJleHAiOjE3MTY5NjcxMTd9.aSVO6-oZY_X9Sru6MYfiP6BR51MiBVzDThP-xWafsZU",
+        
+        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -35,16 +36,24 @@ const AddUser = () => {
   
     try {
       const response = await fetch("http://135.181.146.84:8001/add-user", requestOptions);
+      console.log("Response Status:", response.status);
+      const data = await response.json();
+      console.log("Response Data:", data);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      console.log("Response Data:", data);
+      // Clear form data after successful submission
+      setFormData({
+        name: "",
+        email: "",
+        password: ""
+      });
     } catch (error) {
       console.error("Error occurred while submitting the form:", error);
       // Additional error handling can be added here, such as displaying an error message to the user.
     }
   };
+
   return (
     <Layout>
       <div id="main-content">
