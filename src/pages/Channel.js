@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Layout from "../components/Layout";
 
 const Channel = () => {
   const formRef = useRef(null); // Create a ref for the form
+  const [type, setType] = useState("Viber"); // State to manage the selected type
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -13,7 +14,7 @@ const Channel = () => {
     const payload = {
       lbl: formValues.label,
       id: 1, // Assuming this is a static value
-      type: "vi", // Assuming this is a static value
+      type: type, // Using the selected type from state
       formname: formValues.form,
       name: formValues.name,
       crndurl: formValues.url,
@@ -28,7 +29,6 @@ const Channel = () => {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA',
-          
         },
         body: JSON.stringify(payload)
       });
@@ -45,6 +45,11 @@ const Channel = () => {
     }
   };
 
+  // Function to handle type change
+  const handleTypeChange = (event) => {
+    setType(event.target.value);
+  };
+
   return (
     <Layout>
       <div id="main-content">
@@ -57,7 +62,7 @@ const Channel = () => {
               </div>
               <div className="col-lg-8 col-md-12 col-sm-12 text-lg-right"></div>
             </div>
-          </div> 
+          </div>
           <div className="row clearfix">
             <div className="col-md-12">
               <div className="card">
@@ -66,7 +71,7 @@ const Channel = () => {
                 </div>
                 <div className="body">
                   <form ref={formRef} id="basic-form" method="post" onSubmit={handleSubmit} noValidate>
-                    <h6>Label:</h6>
+                    <h5>Label:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -78,12 +83,19 @@ const Channel = () => {
                         />
                       </label>
                     </div>
-                    <div className="form-group">
-                      <label>
-                        Type: <span>Viber</span>
-                      </label>
+                    <label>Type:</label>
+                    <div className="form-group c_form_group">
+                     
+                      <select
+                        className="form-control"
+                        value={type}
+                        onChange={handleTypeChange}
+                      >
+                        <option value="Viber">Viber</option>
+                        {/* Add more options as needed */}
+                      </select>
                     </div>
-                    <h6>Form</h6>
+                    <h5>Form</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -96,7 +108,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h6>URL:</h6>
+                    <h5>URL:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -109,7 +121,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h6>App-Key:</h6>
+                    <h5>App-Key:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -122,7 +134,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h6>Auth-Key:</h6>
+                    <h5>Auth-Key:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -135,7 +147,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h6>Receiver-Color:</h6>
+                    <h5>Receiver-Color:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -148,7 +160,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h6>Sender-Color:</h6>
+                    <h5>Sender-Color:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -161,7 +173,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h6>Name:</h6>
+                    <h5>Name:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
