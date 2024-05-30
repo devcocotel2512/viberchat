@@ -31,6 +31,6 @@ function RoutesComponent() {
     </Routes>
     
   );
-}
+}   
 
 export default RoutesComponent;
