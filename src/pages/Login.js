@@ -1,37 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from './services/authService';
+import React, { useState, useContext } from 'react';
+// import { AuthContext } from './AuthContext';
+import { Link,useNavigate  } from 'react-router-dom';
+import authService from './services/authService';
+// import { AuthContext } from '../context/AuthContext.js';
 const Login = () => {
  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate  = useNavigate ();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('authToken'));
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const apiUrl = 'http://135.181.146.84:8001/login'; // Direct API URL
-
+   
     try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      const response = await authService.login({ email, password });
 
-      if (!response.ok) {
+
+
+      if (response.status !== 200) {
+        
         throw new Error('Login failed');
       }
+      else{
+       
+      const data = await response.data;
+      
+      localStorage.setItem('authToken', data.token);
+      
 
-      const data = await response.json();
-      localStorage.setItem('authToken', data.token); // Assuming the API returns a token
-      // setIsLoggedIn(true);
-      window.location.href = '/home';
+      setIsLoggedIn(true);
+      navigate('/');
+      window.location.href = '/';
+      }
+      // window.location.href = '/';
     } catch (error) {
+      console.log('error',error);
       setErrorMessage('Login failed. Please check your credentials.');
     }
   };
@@ -74,7 +80,7 @@ const Login = () => {
                   <span>Remember me</span>
                 </label>
               </div>
-              <button type="submit" className="btn btn-light btn-lg btn-block">LOGIN</button>
+              <button type="submit" className="btn btn-dark btn-lg btn-block">LOGIN</button>
               <div className="bottom">
                 <span className="helper-text m-b-10"><i className="fa fa-lock"></i> <a href="page-forgot-password.html">Forgot password?</a></span>
                 <span>Don't have an account? <Link to="/register">Register</Link></span>
@@ -83,14 +89,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="animate_lines">
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-      </div>
+      <div className="animate_lines"></div>
     </div>
   );
 }

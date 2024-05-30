@@ -21,7 +21,7 @@ code {
   border: 1px solid #dee2e6;
     /*border: 1px solid var(--border-color);*/
     text-align: left;
-    padding: 5px;
+    padding: 5px; 
 }
 label {
     display: inline;
