@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.js';
+import React, { useState, useContext } from 'react';
+// import { AuthContext } from './AuthContext';
+import { Link,useNavigate  } from 'react-router-dom';
+import authService from './services/authService';
+// import { AuthContext } from '../context/AuthContext.js';
 const Login = () => {
  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { setIsLoggedIn } = useAuth();
+  const navigate  = useNavigate ();
+
+  // const { setIsLoggedIn } = useContext(AuthContext);
   // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const apiUrl = 'http://135.181.146.84:8001/login'; // Direct API URL
-
+   
     try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      const response = await authService.login({ email, password });
+
 
       if (!response.ok) {
         throw new Error('Login failed');
       }
 
       const data = await response.json();
-      localStorage.setItem('authToken', data.token); // Assuming the API returns a token
+      localStorage.setItem('authToken', data.token);
+      navigate('/dashboard');
+
       // setIsLoggedIn(true);
-      window.location.href = '/';
+      // window.location.href = '/';
     } catch (error) {
       setErrorMessage('Login failed. Please check your credentials.');
     }
