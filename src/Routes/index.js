@@ -1,5 +1,5 @@
 // Routes.js
-import React,{useContext,useEffect,useState} from 'react';
+import React,{useContext,useState} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Setting from '../pages/Setting';
@@ -7,30 +7,13 @@ import Contact from '../pages/Contact';
 import Login from '../pages/Login';
 import Chat from '../pages/Chat';
 import Register from '../pages/Register';
-import VerifyEmail from '../pages/VerifyEmail'
+import Chennel from '../pages/Chennel';
+import AddUser from '../pages/AddUser';
+
 
 
 function RoutesComponent() {
   const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    setLoggedIn(loggedIn);
-  }, []);
-
-  const handleLogin = async () => {
-   // Set loading to true before initiating login
-    try {
-      // Simulate API call for login process
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a 2-second delay
-      
-      localStorage.setItem("loggedIn", true); // Navigate to the dashboard after successful login
-    } catch (error) {
-      console.error("Error logging in:", error);
-    } finally {
-      
-    }
-  };
 
   
 
@@ -43,7 +26,8 @@ function RoutesComponent() {
       <Route path="/login" element={<Login />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/register" element={<Register />} />
-      <Route path='/verify-email' element={<VerifyEmail />} />
+      <Route path="/chenel" element={<Chennel />} />
+      <Route path="/add-user" element={<AddUser />} />
     </Routes>
   );
 }
