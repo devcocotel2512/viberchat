@@ -7,11 +7,15 @@ import Contact from '../pages/Contact';
 import Login from '../pages/Login';
 import Chat from '../pages/Chat';
 import Register from '../pages/Register';
-import { AuthContext } from '../context/AuthContext'; // Import your auth context
+import Chennel from '../pages/Chennel';
+import AddUser from '../pages/AddUser';
+
 
 
 function RoutesComponent() {
-  const { isLoggedIn } = useContext(AuthContext); // Get login state
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  
 
   return (
     
@@ -22,9 +26,11 @@ function RoutesComponent() {
       <Route path="/login" element={<Login />} />
       <Route path="/chat" element={<Chat />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/chenel" element={<Chennel />} />
+      <Route path="/add-user" element={<AddUser />} />
     </Routes>
     
   );
-}
+}   
 
 export default RoutesComponent;
