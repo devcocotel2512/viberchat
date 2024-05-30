@@ -42,9 +42,10 @@ function RoutesComponent() {
       
       <Route path="/chat" element={ isLoggedIn ? <Chat /> : <Navigate to="/login" replace />}  />
       
-      <Route path="/add-chennel" element={ isLoggedIn ? <Channel /> : <Navigate to="/login" replace />}  />
+      <Route path="/add-channel" element={ isLoggedIn ? <Channel /> : <Navigate to="/login" replace />}  />
       <Route path="/add-user" element={ isLoggedIn ? <AddUser /> : <Navigate to="/login" replace />}  />
-      <Route path='/channel' element={ isLoggedIn ? <ViewChennel /> : <Navigate to="/login" replace />}  />
+      <Route path="/channel"  element={ isLoggedIn ? <ViewChennel /> : <Navigate to="/login" replace />}  />
+      
     </Routes>
     
   );
