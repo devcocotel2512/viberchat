@@ -35,7 +35,7 @@ function Sidebar() {
              {/* <li><a href="app-inbox.html"><i className="fa fa-envelope"></i> <span>Email</span> <span className="badge badge-default mr-0">12</span></a></li> */}
              <li><a href="/chat"><i className="fa fa-comments"></i> <span>Chat</span></a></li>
              <li><a href="/channel"><i className="fa fa-comments"></i> <span> Channel</span></a></li>
-             <li><a href="/add-user"><i className="fa fa-user"></i> <span>User</span></a></li>
+             <li><a href="/user"><i className="fa fa-user"></i> <span>User</span></a></li>
              
            </ul>
          </nav>

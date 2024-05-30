@@ -83,8 +83,9 @@ const Channel = () => {
                         />
                       </label>
                     </div>
-                    <div className="form-group">
-                      <label>Type:</label>
+                    <label>Type:</label>
+                    <div className="form-group c_form_group">
+                     
                       <select
                         className="form-control"
                         value={type}

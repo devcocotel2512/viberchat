@@ -11,6 +11,7 @@ import Register from '../pages/Register';
 import Channel from '../pages/Channel';
 import AddUser from '../pages/AddUser';
 import ViewChennel from '../pages/ViewChennel';
+import ViewUser from '../pages/ViewUser.js';
 
 
 
@@ -45,7 +46,8 @@ function RoutesComponent() {
       <Route path="/add-channel" element={ isLoggedIn ? <Channel /> : <Navigate to="/login" replace />}  />
       <Route path="/add-user" element={ isLoggedIn ? <AddUser /> : <Navigate to="/login" replace />}  />
       <Route path="/channel"  element={ isLoggedIn ? <ViewChennel /> : <Navigate to="/login" replace />}  />
-      
+      <Route path="/user"  element={ isLoggedIn ? <ViewUser /> : <Navigate to="/login" replace />}  />
+
     </Routes>
     
   );
