@@ -8,9 +8,9 @@ import Login from '../pages/Login';
 import Logout from '../pages/Logout.js';
 import Chat from '../pages/Chat';
 import Register from '../pages/Register';
-import Channel from '../pages/Channel';
+import Channel from '../pages/Add-Channel.js';
 import AddUser from '../pages/AddUser';
-import ViewChennel from '../pages/ViewChennel';
+import ViewChennel from '../pages/Channel.js';
 import ViewUser from '../pages/ViewUser.js';
 
 
