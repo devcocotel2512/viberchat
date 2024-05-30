@@ -1,15 +1,14 @@
-// Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-
+import { useAuth } from '../context/AuthContext.js';
 const Login = () => {
   const { setIsLoggedIn } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  const { setIsLoggedIn } = useAuth();
+  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const apiUrl = 'http://135.181.146.84:8001/login'; // Direct API URL
@@ -32,8 +31,8 @@ const Login = () => {
 
       const data = await response.json();
       localStorage.setItem('authToken', data.token); // Assuming the API returns a token
-      setIsLoggedIn(true);
-      window.location.href = '/home';
+      // setIsLoggedIn(true);
+      window.location.href = '/';
     } catch (error) {
       setErrorMessage('Login failed. Please check your credentials.');
     }

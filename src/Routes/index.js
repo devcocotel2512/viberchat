@@ -1,5 +1,5 @@
 // Routes.js
-import React from 'react';
+import React,{useContext,useState} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../pages/Home';
 import Setting from '../pages/Setting';
@@ -7,8 +7,12 @@ import Contact from '../pages/Contact';
 import Login from '../pages/Login';
 import Chat from '../pages/Chat';
 import Register from '../pages/Register';
+import { AuthContext } from '../context/AuthContext'; // Import your auth context
+
 
 function RoutesComponent() {
+  const { isLoggedIn } = useContext(AuthContext); // Get login state
+
   return (
     
     <Routes>

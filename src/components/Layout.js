@@ -9,7 +9,13 @@ function Layout( {children}) {
       <div id="body" className="theme-amethyst">
 
 
-        
+        {/* <div className="page-loader-wrapper">
+          <div className="loader">
+            <div className="m-t-30"><img src="assets/images/icon.svg" width="40" height="40" alt="Mooli" /></div>
+            <p>Please wait...</p>
+          </div>
+        </div> */}
+
 
        
 
