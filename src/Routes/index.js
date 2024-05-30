@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Setting from '../pages/Setting';
 import Contact from '../pages/Contact';
 import Login from '../pages/Login';
+import Logout from '../pages/Logout.js';
 import Chat from '../pages/Chat';
 import Register from '../pages/Register';
 import Channel from '../pages/Channel';
@@ -31,6 +32,7 @@ function RoutesComponent() {
       <Route path="/"  element={ isLoggedIn ? <Home /> : <Navigate to="/login" replace />} />
       {/* <Route path="/login"  element={<Login />} /> */}
       <Route path="/login"  element={ isLoggedIn ? <Navigate to="/" replace /> : <Login />} />
+      <Route path="/logout"  element={<Logout />} />
       <Route path="/register"  element={<Register />} />
       
       <Route path="/home"  element={ isLoggedIn ? <Home /> : <Navigate to="/login" replace />} />

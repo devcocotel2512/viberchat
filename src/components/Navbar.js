@@ -139,7 +139,7 @@ function Navbar() {
                 </li>
                 <li><a href="javascript:void(0);" className="right_toggle icon-menu" title="Right Menu"><i className="fa fa-comments-o"></i></a></li>
                 <li className="hidden-xs"><a href="javascript:void(0);" id="btnFullscreen" className="icon-menu"><i className="fa fa-arrows-alt"></i></a></li>
-                <li><a href="page-login.html" className="icon-menu"><i className="fa fa-power-off"></i></a></li>
+                <li><a href="/logout" className="icon-menu"><i className="fa fa-power-off"></i></a></li>
               </ul>
             </div>
           </div>

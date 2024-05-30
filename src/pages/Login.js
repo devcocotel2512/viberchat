@@ -33,6 +33,7 @@ const Login = () => {
 
       setIsLoggedIn(true);
       navigate('/');
+      window.location.href = '/';
       }
       // window.location.href = '/';
     } catch (error) {
