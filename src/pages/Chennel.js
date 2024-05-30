@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import Layout from "../components/Layout";
 
-const Chennel = () => {
+const Channel = () => {
+  const formRef = useRef(null); // Create a ref for the form
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -12,10 +14,12 @@ const Chennel = () => {
       lbl: formValues.label,
       id: 1, // Assuming this is a static value
       type: "vi", // Assuming this is a static value
-      frm: formValues.form,
-      nm: formValues.name,
+      formname: formValues.form,
+      name: formValues.name,
       crndurl: formValues.url,
-      authkey: formValues.authKey
+      authkey: formValues.authKey,
+      recivercolor: formValues.recivercolor,
+      sendercolor: formValues.sendercolor,
     };
 
     try {
@@ -23,13 +27,16 @@ const Chennel = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaWRsYXllciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzE2OTYzNTE3LCJleHAiOjE3MTY5NjcxMTd9.aSVO6-oZY_X9Sru6MYfiP6BR51MiBVzDThP-xWafsZU'
+          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaWRsYXllciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzE3MDYxNDA3LCJleHAiOjE3MTcwNjUwMDd9.DVjBxtNLzotVwALha0FF66GNc65T8YAUVhzZsKCzJaE'
         },
         body: JSON.stringify(payload)
       });
 
       const result = await response.json();
       console.log(result);
+
+      // Reset the form after successful submission
+      formRef.current.reset();
 
       // Handle the response as needed
     } catch (error) {
@@ -54,10 +61,10 @@ const Chennel = () => {
             <div className="col-md-12">
               <div className="card">
                 <div className="header">
-                  <h2>Add Chennel</h2>
+                  <h2>Add Channel</h2>
                 </div>
                 <div className="body">
-                  <form id="basic-form" method="post" onSubmit={handleSubmit} noValidate>
+                  <form ref={formRef} id="basic-form" method="post" onSubmit={handleSubmit} noValidate>
                     <h5>Label:</h5>
                     <div className="form-group c_form_group">
                       <label>
@@ -188,4 +195,4 @@ const Chennel = () => {
   );
 };
 
-export default Chennel;
+export default Channel;

@@ -23,7 +23,7 @@ const AddUser = () => {
     const requestOptions = {
       method: "POST",
       headers: {
-        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaWRsYXllciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzE2OTYzNTE3LCJleHAiOjE3MTY5NjcxMTd9.aSVO6-oZY_X9Sru6MYfiP6BR51MiBVzDThP-xWafsZU",
+        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaWRsYXllciIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWF0IjoxNzE3MDYxNDA3LCJleHAiOjE3MTcwNjUwMDd9.DVjBxtNLzotVwALha0FF66GNc65T8YAUVhzZsKCzJaE",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -40,11 +40,18 @@ const AddUser = () => {
       }
       const data = await response.json();
       console.log("Response Data:", data);
+      // Clear form data after successful submission
+      setFormData({
+        name: "",
+        email: "",
+        password: ""
+      });
     } catch (error) {
       console.error("Error occurred while submitting the form:", error);
       // Additional error handling can be added here, such as displaying an error message to the user.
     }
   };
+
   return (
     <Layout>
       <div id="main-content">
