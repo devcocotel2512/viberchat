@@ -4,7 +4,7 @@ import { Link,useNavigate  } from 'react-router-dom';
 import authService from './services/authService';
 // import { AuthContext } from '../context/AuthContext.js';
 const Login = () => {
-  // State variables for email and password
+ 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,7 +38,7 @@ const Login = () => {
     <div className="auth-main">
       <div className="auth_div vivify fadeIn">
         <div className="auth_brand">
-          <a className="navbar-brand" href="/"><img src='assets/images/icon.svg' alt="aa" width={50} className='d-inline-block align-top mr-2' />Mooli</a>
+          <a className="navbar-brand" href="/home"><img src='assets/images/icon.svg' alt="aa" width={50} className='d-inline-block align-top mr-2' />Mooli</a>
         </div>
         <div className="card">
           <div className="header">
@@ -81,9 +81,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="animate_lines">
-      
-      </div>
+      <div className="animate_lines"></div>
     </div>
   );
 }
