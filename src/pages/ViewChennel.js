@@ -15,10 +15,9 @@ const ViewChennel = () => {
         <div className="container-fluid">
           {/* Page header section */}
           <div className="block-header">
-            <div className="row clearfix">
+            <div className="row clearfix mb-2">
               <div className="col-xl-5 col-md-5 col-sm-12">
-                <h1>Hi, Welcomeback!</h1>
-                <span>JustDo Chat App,</span>
+              
               </div>
               <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
                 <button

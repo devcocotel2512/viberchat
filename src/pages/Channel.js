@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import Layout from "../components/Layout";
+import channelService from "./services/channelService";
 
 const Channel = () => {
   const formRef = useRef(null); // Create a ref for the form
@@ -24,14 +25,8 @@ const Channel = () => {
     };
 
     try {
-      const response = await fetch('http://135.181.146.84:8001/add-channel', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA',
-        },
-        body: JSON.stringify(payload)
-      });
+     
+     const response = await channelService.addChannel(JSON.stringify(payload));
 
       const result = await response.json();
       console.log(result);
@@ -55,10 +50,9 @@ const Channel = () => {
       <div id="main-content">
         <div className="container-fluid">
           <div className="block-header">
-            <div className="row clearfix">
+            <div className="row clearfix mb-2">
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <h1>Hi, Welcomeback!</h1>
-                <span>JustDo Form Validation,</span>
+                
               </div>
               <div className="col-lg-8 col-md-12 col-sm-12 text-lg-right"></div>
             </div>
@@ -71,7 +65,7 @@ const Channel = () => {
                 </div>
                 <div className="body">
                   <form ref={formRef} id="basic-form" method="post" onSubmit={handleSubmit} noValidate>
-                    <h5>Label:</h5>
+                    <h6>Label:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -83,7 +77,7 @@ const Channel = () => {
                         />
                       </label>
                     </div>
-                    <label>Type:</label>
+                    <h6>Type:</h6>
                     <div className="form-group c_form_group">
                      
                       <select
@@ -95,7 +89,7 @@ const Channel = () => {
                         {/* Add more options as needed */}
                       </select>
                     </div>
-                    <h5>Form</h5>
+                    <h6>Form:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -108,7 +102,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>URL:</h5>
+                    <h6>URL:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -121,7 +115,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>App-Key:</h5>
+                    <h6>App-Key:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -134,7 +128,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Auth-Key:</h5>
+                    <h6>Auth-Key:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -147,7 +141,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Receiver-Color:</h5>
+                    <h6>Receiver-Color:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -160,7 +154,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Sender-Color:</h5>
+                    <h6>Sender-Color:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -173,7 +167,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Name:</h5>
+                    <h6>Name:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
