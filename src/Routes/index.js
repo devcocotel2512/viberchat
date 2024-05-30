@@ -16,7 +16,15 @@ import ViewChennel from '../pages/ViewChennel';
 function RoutesComponent() {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem('authToken')));
+  useEffect(() => {
+    // Check for existing token in local storage on app load
+    const token = localStorage.getItem('authToken');
+    
+    if (token) {
+      setIsLoggedIn(true);
+    }
+}, []);
 
   return (
     

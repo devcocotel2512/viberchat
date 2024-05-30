@@ -57,7 +57,7 @@ const Channel = () => {
               </div>
               <div className="col-lg-8 col-md-12 col-sm-12 text-lg-right"></div>
             </div>
-          </div>
+          </div> 
           <div className="row clearfix">
             <div className="col-md-12">
               <div className="card">
@@ -66,7 +66,7 @@ const Channel = () => {
                 </div>
                 <div className="body">
                   <form ref={formRef} id="basic-form" method="post" onSubmit={handleSubmit} noValidate>
-                    <h5>Label:</h5>
+                    <h6>Label:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -83,7 +83,7 @@ const Channel = () => {
                         Type: <span>Viber</span>
                       </label>
                     </div>
-                    <h5>Form</h5>
+                    <h6>Form</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -96,7 +96,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>URL:</h5>
+                    <h6>URL:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -109,7 +109,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>App-Key:</h5>
+                    <h6>App-Key:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -122,7 +122,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Auth-Key:</h5>
+                    <h6>Auth-Key:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -135,7 +135,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Receiver-Color:</h5>
+                    <h6>Receiver-Color:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -148,7 +148,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Sender-Color:</h5>
+                    <h6>Sender-Color:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -161,7 +161,7 @@ const Channel = () => {
                       </label>
                     </div>
 
-                    <h5>Name:</h5>
+                    <h6>Name:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input

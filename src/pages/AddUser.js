@@ -75,7 +75,7 @@ const AddUser = () => {
                 </div>
                 <div className="body">
                   <form id="basic-form" onSubmit={handleSubmit} noValidate>
-                    <h5>Name:</h5>
+                    <h6>Name:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -86,10 +86,10 @@ const AddUser = () => {
                           placeholder="Enter Your Name"
                           value={formData.name}
                           onChange={handleChange}
-                        />
+                        /> 
                       </label>
                     </div>
-                    <h5>Email:</h5>
+                    <h6>Email:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -103,7 +103,7 @@ const AddUser = () => {
                         />
                       </label>
                     </div>
-                    <h5>Password:</h5>
+                    <h6>Password:</h6>
                     <div className="form-group c_form_group">
                       <label>
                         <input
