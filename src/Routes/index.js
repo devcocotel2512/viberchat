@@ -1,6 +1,6 @@
 // Routes.js
 import React,{useContext,useState} from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes  } from 'react-router-dom';
 import Home from '../pages/Home';
 import Setting from '../pages/Setting';
 import Contact from '../pages/Contact';
@@ -29,6 +29,7 @@ function RoutesComponent() {
       <Route path="/chenel" element={<Chennel />} />
       <Route path="/add-user" element={<AddUser />} />
     </Routes>
+    
   );
 }
 

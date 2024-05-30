@@ -32,7 +32,7 @@ const Chat = () => {
                     </div>
                     <div className="row clearfix">
                         <div className="col-lg-12">
-                            <div className="card">
+                            <div className="card bg-white">
                                 <div className="chatapp_list">
                                     <ul className="nav nav-tabs2 mb-4 d-flex text-center">
                                         <li className="nav-item flex-fill"><a data-toggle="tab" className="nav-link active show" href="#chats-Users">Chat</a></li>
@@ -284,7 +284,7 @@ const Chat = () => {
                                 </div>
                                 <div className="chatapp_body">
                                     <div class="chat-header">
-                                        <a href="javascript:void(0);" class="open_detail">
+                                        <a href="javascript:void(0);" class="open_detail bg-white">
                                             <div class="media mb-0">
                                                 <img class="rounded-circle w35" src="assets/images/user.png" alt="" />
                                                 <div class="media-body mr-3 ml-3 text-muted">
@@ -294,10 +294,10 @@ const Chat = () => {
                                             </div>
                                         </a>
                                         <div>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-default hidden-xs"><i class="fa fa-file"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-default"><i class="fa fa-image"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-default"><i class="fa fa-video-camera"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-default"><i class="fa fa-plus"></i></a>
+                                            <a href="javascript:void(0);" class="btn btn-sm btn-default hidden-xs bg-white"><i class="fa fa-file"></i></a>
+                                            <a href="javascript:void(0);" class=" bg-white btn btn-sm btn-default"><i class="fa fa-image"></i></a>
+                                            <a href="javascript:void(0);" class=" bg-white btn btn-sm btn-default"><i class="fa fa-video-camera"></i></a>
+                                            <a href="javascript:void(0);" class=" bg-white btn btn-sm btn-default"><i class="fa fa-plus"></i></a>
                                         </div>
                                     </div>
                                     <div class="chat-history">
