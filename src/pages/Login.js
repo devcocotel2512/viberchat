@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+// Login.js
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.js';
+import { useAuth } from '../context/AuthContext';
+
 const Login = () => {
-  // State variables for email and password
+  const { setIsLoggedIn } = useAuth();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { setIsLoggedIn } = useAuth();
-  // Function to handle form submission
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const apiUrl = `${process.env.REACT_APP_API_URL}/login`;
+    const apiUrl = 'http://135.181.146.84:8001/login'; // Direct API URL
 
     try {
       const response = await fetch(apiUrl, {
@@ -41,7 +43,7 @@ const Login = () => {
     <div className="auth-main">
       <div className="auth_div vivify fadeIn">
         <div className="auth_brand">
-          <a className="navbar-brand" href="/"><img src='assets/images/icon.svg' alt="aa" width={50} className='d-inline-block align-top mr-2' />Mooli</a>
+          <a className="navbar-brand" href="/home"><img src='assets/images/icon.svg' alt="aa" width={50} className='d-inline-block align-top mr-2' />Mooli</a>
         </div>
         <div className="card">
           <div className="header">
@@ -84,9 +86,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="animate_lines">
-      
-      </div>
+      <div className="animate_lines"></div>
     </div>
   );
 }
