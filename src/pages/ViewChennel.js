@@ -6,7 +6,7 @@ const ViewChennel = () => {
   const navigate = useNavigate(); // Create a useNavigate instance
 
   const handleAddChannelClick = () => {
-    navigate("/add-chennel"); // Use navigate to redirect on button click
+    navigate("/add-channel"); // Use navigate to redirect on button click
   };
 
   return (
