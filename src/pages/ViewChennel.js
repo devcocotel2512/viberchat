@@ -2,25 +2,40 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import channelService from "./services/channelService";
 
 const Chennel = () => {
   const navigate = useNavigate();
-  const [datalist, setDataList] = useState([]);
-  const handleAddChannelClick = () => {
-    navigate("/add-channel"); // Use navigate to redirect on button click
+  const [channels, setChannels] = useState([]);
+  const [selectedChannel, setSelectedChannel] = useState("");
+  const handleChannelSelection = (event) => {
+    setSelectedChannel(event.target.value);
   };
 
   useEffect(() => {
-    getData();
+    const fetchChannels = async () => {
+      try {
+        const response = await channelService.getChannel({
+          searchquery: {
+            _id: "raidlayer",
+          },
+          projection: {
+            chnl: 1,
+          },
+          showcount: 1,
+        }); // Replace '/channels' with your actual API endpoint
+        // console.log(response.data.data[0].chnl);
+        setChannels(response.data.data[0].chnl);
+      } catch (error) {
+        console.error("Error fetching channels:", error);
+      }
+    };
+
+    fetchChannels();
   }, []);
 
-  const getData = async () => {
-    try {
-      const response = await axios.get("http://135.181.146.84:8001/mfind");
-      setDataList(response.data);
-    } catch (error) {
-      console.error("Error fetching Data:", error);
-    }
+  const handleAddChannelClick = () => {
+    navigate("/add-channel"); // Use navigate to redirect on button click
   };
 
   return (
@@ -52,20 +67,25 @@ const Chennel = () => {
                   <h2>Channel Details</h2>
                 </div>
                 <div className="body">
-                  <table className="table">
+                  <table className="table table-bordered">
                     <thead>
                       <tr>
-                        <th>Sr.No</th>
+                        <th style={{ textAlign: "right" }}>Sr.No</th>
+                        <th>Name</th>
                         <th>Lable</th>
+                        <th>Form</th>
                         <th>Type</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {datalist.map((data, index) => (
-                        <tr key={data._id}>
-                          <td>{index + 1}</td>
-                          <td>{data.lbl}</td>
-                          <td>{data.type}</td>
+                      {channels.map((channel, index) => (
+                        <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit" }}>
+                          <td style={{ textAlign: "right" }}>{index + 1}</td> 
+                          <td>{channel.nm}</td>
+                          <td>{channel.lbl}</td> 
+                          <td>{channel.frm}</td>
+                          <td>{channel.type}</td>
+                          
                         </tr>
                       ))}
                     </tbody>

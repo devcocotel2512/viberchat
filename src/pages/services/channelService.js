@@ -16,5 +16,21 @@ const addChannel = async (payload) => {
     const response = await axios.post(API_URL+'/mfind',payload);
     return response;
   };
+
+  const addUser = async (payload) => {
+    const token = localStorage.getItem('authToken'); // Retrieve the token from local storage
+    const response = await axios.post(`${API_URL}/add-channel`, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${token}`, // Use the token in the Authorization header
+      },
+    });
+    return response;
+  };
+
+  const getUser = async (payload) => {
+    const response = await axios.post(API_URL+'/mfind',payload);
+    return response;
+  };
   
-  export default { addChannel,getChannel };
+  export default { addChannel,getChannel,addUser,getUser };
