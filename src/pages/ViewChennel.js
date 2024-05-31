@@ -57,7 +57,7 @@ const Chennel = () => {
                   className="btn btn-primary theme-bg gradient"
                   onClick={handleAddChannelClick}
                 >
-                  Add-Chennel
+                  Add Channel
                 </button>
               </div>
             </div>

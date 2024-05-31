@@ -77,7 +77,7 @@ const ViewUser = () => {
                   className="btn btn-primary"
                   onClick={handleAddChannelClick}
                 >
-                  Add-User
+                  Add User
                 </button>
               </div>
             </div>

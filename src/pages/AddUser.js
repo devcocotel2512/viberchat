@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import authService from "./services/authService";
 const AddUser = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -59,27 +60,18 @@ const AddUser = () => {
 
     console.log("Form Data:", formData);
 
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: formData.name,
-        email: formData.email,
-        password: formData.password
-      })
+
+    const payload = {
+      username: formData.name,
+      email: formData.email,
+      password: formData.password
     };
-
     try {
-      const response = await fetch("http://135.181.146.84:8001/add-user", requestOptions);
-      const data = await response.json();
-      console.log("Response Status:", response.status);
-      console.log("Response Data:", data);
+      const response = await authService.addUser(payload);
 
-      if (!response.ok) {
-        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+
+      if (!response.data.status) {
+        throw new Error(response.data.message || `HTTP error! status: ${response.data.status}`);
       }
 
       // Clear form data after successful submission
@@ -117,61 +109,61 @@ const AddUser = () => {
                 </div>
                 <div className="body">
                   <form id="basic-form" onSubmit={handleSubmit} noValidate>
-                  <div className="form-group">
-                    <h6>Name:</h6>
-                    <div className="form-group c_form_group">
-                      <label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="name"
-                          required
-                          placeholder="Enter Your Name"
-                          value={formData.name}
-                          onChange={handleChange}
-                        />
-                        
-                      </label>
-                    </div>
-                    {errors.name && <div className="error">{errors.name}</div>}
+                    <div className="form-group">
+                      <h6>Name:</h6>
+                      <div className="form-group c_form_group">
+                        <label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="name"
+                            required
+                            placeholder="Enter Your Name"
+                            value={formData.name}
+                            onChange={handleChange}
+                          />
+
+                        </label>
+                      </div>
+                      {errors.name && <div className="error">{errors.name}</div>}
                     </div>
                     <div className="form-group">
-                    <h6>Email:</h6>
-                    <div className="form-group c_form_group">
-                      <label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          name="email"
-                          required
-                          placeholder="Enter Your Email"
-                          value={formData.email}
-                          onChange={handleChange}
-                        />
-                        
-                      </label>
-                    </div>
-                    {errors.email && <div className="error">{errors.email}</div>}
+                      <h6>Email:</h6>
+                      <div className="form-group c_form_group">
+                        <label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            name="email"
+                            required
+                            placeholder="Enter Your Email"
+                            value={formData.email}
+                            onChange={handleChange}
+                          />
+
+                        </label>
+                      </div>
+                      {errors.email && <div className="error">{errors.email}</div>}
                     </div>
                     <div className="form-group">
-                    <h6>Password:</h6>
-                    <div className="form-group c_form_group">
-                      <label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          name="password"
-                          required
-                          placeholder="Enter Your Password"
-                          value={formData.password}
-                          onChange={handleChange}
-                        />
-                        
-                      </label>
+                      <h6>Password:</h6>
+                      <div className="form-group c_form_group">
+                        <label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            required
+                            placeholder="Enter Your Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                          />
+
+                        </label>
+                      </div>
+                      {errors.password && <div className="error">{errors.password}</div>}
                     </div>
-                    {errors.password && <div className="error">{errors.password}</div>}
-                    </div>
-                    
+
                     <div className="form-group">
                       <div className="row clearfix"></div>
                     </div>

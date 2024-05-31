@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import channelService from './services/channelService';
 const Channel = () => {
   const [formData, setFormData] = useState({
     label: "",
@@ -59,18 +59,11 @@ const Channel = () => {
     };
 
     try {
-      const response = await fetch('http://135.181.146.84:8001/add-channel', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA',
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json();
-      console.log(result);
-      if (response.ok) {
+      const response = await channelService.addChannel(payload); 
+      if (!response.data.status) {
+        throw new Error(response.data.message || `HTTP error! status: ${response.data.status}`);
+      }
+      else{
         // Display success message
         toast.success('Channel added successfully!');
         // Reset the form after successful submission
@@ -85,11 +78,8 @@ const Channel = () => {
           name: ""
         });
         setErrors({});
-      } else {
-        // Display error message from the response
-        toast.error(result.message || 'Failed to add channel');
+      
       }
-
     } catch (error) {
       console.error('Error:', error);
       toast.error(error.message || 'An unexpected error occurred');
