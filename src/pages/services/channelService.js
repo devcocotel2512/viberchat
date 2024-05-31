@@ -12,8 +12,8 @@ const addChannel = async (payload) => {
   return response;
 };
 
-  const getChannel = async () => {
-    const response = await axios.get(API_URL+'/channel');
+  const getChannel = async (payload) => {
+    const response = await axios.post(API_URL+'/mfind',payload);
     return response;
   };
   
