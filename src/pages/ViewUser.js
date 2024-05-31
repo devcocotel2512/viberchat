@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import authService from "./services/authService";
 import Switch from '@mui/material/Switch';
 import Pagination from '@mui/material/Pagination';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const ViewUser = () => {
   const navigate = useNavigate();
@@ -38,8 +40,21 @@ const ViewUser = () => {
     fetchUsers();
   }, []);
 
-  const handleAddChannelClick = () => {
+  const handleAddUserClick = () => {
     navigate("/add-user");
+  };
+
+  const handleEditUserClick = (userId) => {
+    navigate(`/edit-user/${userId}`);
+  };
+
+  const handleDeleteUserClick = async (userId) => {
+    try {
+      await authService.deleteUser(userId);
+      setUsers(users.filter(user => user._id !== userId));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   const handleToggleVerified = async (index) => {
@@ -75,7 +90,7 @@ const ViewUser = () => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={handleAddChannelClick}
+                  onClick={handleAddUserClick}
                 >
                   Add User
                 </button>
@@ -95,6 +110,7 @@ const ViewUser = () => {
                           <th>Name</th>
                           <th>Email</th>
                           <th>Verified</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -109,6 +125,22 @@ const ViewUser = () => {
                                 onChange={() => handleToggleVerified(indexOfFirstUser + index)}
                                 color="primary"
                               />
+                            </td>
+                            <td className="flex mr-2">
+                              <button
+                                type="button"
+                                className="btn btn-warning mr-2"
+                                onClick={() => handleEditUserClick(user._id)}
+                              >
+                                <FontAwesomeIcon icon={faUserPen} />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteUserClick(user._id)}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
                             </td>
                           </tr>
                         ))}

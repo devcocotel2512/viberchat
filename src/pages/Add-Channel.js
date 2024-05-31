@@ -8,7 +8,6 @@ const Channel = () => {
     label: "",
     form: "",
     url: "",
-    
     authKey: "",
     receiverColor: "Green",
     senderColor: "Blue",
