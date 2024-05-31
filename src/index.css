@@ -26,3 +26,17 @@ code {
 label {
     display: inline;
 }
+.error{
+  color: red;
+  font-size: 13px;
+}
+.form-group {
+    margin-top: 13px;
+    margin-bottom: 0px;
+}
+.server-error {
+  color: red;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
