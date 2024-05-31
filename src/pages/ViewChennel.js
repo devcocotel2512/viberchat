@@ -67,20 +67,21 @@ const Chennel = () => {
                   <h2>Channel Details</h2>
                 </div>
                 <div className="body">
-                  <table className="table table-bordered">
+                  <table className="table  table-bordered">
                     <thead>
                       <tr>
-                        <th style={{ textAlign: "right" }}>Sr.No</th>
+                        <th style={{ textAlign: "left" }}>Sr.No</th>
                         <th>Name</th>
                         <th>Lable</th>
                         <th>Form</th>
                         <th>Type</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
                       {channels.map((channel, index) => (
                         <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit" }}>
-                          <td style={{ textAlign: "right" }}>{index + 1}</td> 
+                          <td style={{ textAlign: "left" }}>{index + 1}</td> 
                           <td>{channel.nm}</td>
                           <td>{channel.lbl}</td> 
                           <td>{channel.frm}</td>

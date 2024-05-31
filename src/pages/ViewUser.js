@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import channelService from "./services/channelService";
+import Switch from '@mui/material/Switch';
 
 const ViewUser = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const ViewUser = () => {
         });
         setUsers(response.data.data[0].user);
       } catch (error) {
-        console.error("Error fetching channels:", error);
+        console.error("Error fetching users:", error);
       }
     };
 
@@ -32,11 +33,24 @@ const ViewUser = () => {
     navigate("/add-user");
   };
 
+  const handleToggleVerified = async (index) => {
+    const updatedUsers = [...users];
+    const user = updatedUsers[index];
+    user.verified = !user.verified;
+
+    setUsers(updatedUsers);
+
+    try {
+      await channelService.updateUser(user._id, { verified: user.verified });
+    } catch (error) {
+      console.error("Error updating user verification status:", error);
+    }
+  };
+
   return (
     <Layout>
       <div id="main-content">
         <div className="container-fluid">
-          {/* Page header section */}
           <div className="block-header">
             <div className="row clearfix mb-2">
               <div className="col-xl-5 col-md-5 col-sm-12"></div>
@@ -57,10 +71,10 @@ const ViewUser = () => {
                     <h2>Users Details</h2>
                   </div>
                   <div className="body">
-                    <table className="table table-bordered"> {/* Add border */}
+                    <table className="table table-bordered">
                       <thead>
                         <tr>
-                          <th style={{ textAlign: "right" }}>Sr.No</th> {/* Align right */}
+                          <th style={{ textAlign: "left" }}>Sr.No</th>
                           <th>Name</th>
                           <th>Email</th>
                           <th>Verified</th>
@@ -68,11 +82,17 @@ const ViewUser = () => {
                       </thead>
                       <tbody>
                         {users.map((user, index) => (
-                          <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit" }}> {/* Optional: Alternating row color */}
-                            <td style={{ textAlign: "right" }}>{index + 1}</td>
+                          <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit" }}>
+                            <td style={{ textAlign: "left" }}>{index + 1}</td>
                             <td>{user.un}</td>
                             <td>{user.em}</td>
-                            <td>{user.verified}</td>
+                            <td>
+                              <Switch
+                                checked={user.verified}
+                                onChange={() => handleToggleVerified(index)}
+                                color="primary"
+                              />
+                            </td>
                           </tr>
                         ))}
                       </tbody>

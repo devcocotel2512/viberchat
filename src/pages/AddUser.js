@@ -16,14 +16,27 @@ const AddUser = () => {
     });
   };
 
+  const validateForm = () => {
+    const { name, email, password } = formData;
+    const isNameValid = name.trim() !== "";
+    const isEmailValid = email.includes("@");
+    const isPasswordValid = password.length >= 6;
+    return isNameValid && isEmailValid && isPasswordValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-  
+
+    const isFormValid = validateForm();
+    console.log("Form Valid:", isFormValid);
+
+    if (!isFormValid) {
+      return; // Stop the submission if the form is not valid
+    }
+
     const requestOptions = {
       method: "POST",
       headers: {
-        
         "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA",
         "Content-Type": "application/json"
       },
@@ -33,7 +46,7 @@ const AddUser = () => {
         password: formData.password
       })
     };
-  
+
     try {
       const response = await fetch("http://135.181.146.84:8001/add-user", requestOptions);
       console.log("Response Status:", response.status);
@@ -61,8 +74,7 @@ const AddUser = () => {
           <div className="block-header">
             <div className="row clearfix">
               <div className="col-lg-4 col-md-12 col-sm-12">
-                <h1>Hi, Welcomeback!</h1>
-                <span>JustDo Form Validation,</span>
+                
               </div>
               <div className="col-lg-8 col-md-12 col-sm-12 text-lg-right"></div>
             </div>
