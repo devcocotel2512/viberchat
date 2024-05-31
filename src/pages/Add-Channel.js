@@ -50,8 +50,8 @@ const Channel = () => {
       lbl: formValues.label,
       id: 1, // Assuming this is a static value
       type: type, // Assuming this is a static value
-      formname: formValues.form,
-      name: formValues.name,
+      frm: formValues.form,
+      nm: formValues.name,
       crndurl: formValues.url,
       authkey: formValues.authKey,
       recivercolor: formValues.receiverColor,
