@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Layout from "../components/Layout";
-import channelService from "./services/channelService";
 
-const ViewChennel = () => {
-  const navigate = useNavigate(); // Create a useNavigate instance
+const Channel = () => {
+  const formRef = useRef(null); // Create a ref for the form
+  const [type, setType] = useState("Viber"); // State to manage the selected type
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,8 +24,14 @@ const ViewChennel = () => {
     };
 
     try {
-     
-     const response = await channelService.addChannel(JSON.stringify(payload));
+      const response = await fetch('http://135.181.146.84:8001/add-channel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlJhaWRsYXllcjc4NzgiLCJlbWFpbCI6InJhaWRsYXllckBnbWFpbC5jb20iLCJpYXQiOjE3MTcwNjI3MTcsImV4cCI6MTcxNzA2NjMxN30.rmVr_pmurfgfB28r99WFkC35TCnwPsKuwvy8WNonzaA',
+        },
+        body: JSON.stringify(payload)
+      });
 
       const result = await response.json();
       console.log(result);
@@ -39,47 +45,21 @@ const ViewChennel = () => {
     }
   };
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
+  // Function to handle type change
+  const handleTypeChange = (event) => {
+    setType(event.target.value);
+  };
 
   return (
     <Layout>
       <div id="main-content">
         <div className="container-fluid">
-          {/* Page header section */}
           <div className="block-header">
-            <div className="row clearfix mb-2">
+            <div className="row clearfix">
               <div className="col-lg-4 col-md-12 col-sm-12">
-                
+               
               </div>
+              <div className="col-lg-8 col-md-12 col-sm-12 text-lg-right"></div>
             </div>
           </div>
           <div className="row clearfix">
@@ -90,7 +70,7 @@ const ViewChennel = () => {
                 </div>
                 <div className="body">
                   <form ref={formRef} id="basic-form" method="post" onSubmit={handleSubmit} noValidate>
-                    <h6>Label:</h6>
+                    <h5>Label:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -102,7 +82,7 @@ const ViewChennel = () => {
                         />
                       </label>
                     </div>
-                    <h6>Type:</h6>
+                    <h5>Type:</h5>
                     <div className="form-group c_form_group">
                      
                       <select
@@ -111,10 +91,11 @@ const ViewChennel = () => {
                         onChange={handleTypeChange}
                       >
                         <option value="Viber">Viber</option>
+                        <option value="User">User</option>
                         {/* Add more options as needed */}
                       </select>
                     </div>
-                    <h6>Form:</h6>
+                    <h5>Form</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -127,7 +108,7 @@ const ViewChennel = () => {
                       </label>
                     </div>
 
-                    <h6>URL:</h6>
+                    <h5>URL:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -140,7 +121,7 @@ const ViewChennel = () => {
                       </label>
                     </div>
 
-                    <h6>App-Key:</h6>
+                    <h5>App-Key:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -153,7 +134,7 @@ const ViewChennel = () => {
                       </label>
                     </div>
 
-                    <h6>Auth-Key:</h6>
+                    <h5>Auth-Key:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -166,7 +147,7 @@ const ViewChennel = () => {
                       </label>
                     </div>
 
-                    <h6>Receiver-Color:</h6>
+                    <h5>Receiver-Color:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -179,7 +160,7 @@ const ViewChennel = () => {
                       </label>
                     </div>
 
-                    <h6>Sender-Color:</h6>
+                    <h5>Sender-Color:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -192,7 +173,7 @@ const ViewChennel = () => {
                       </label>
                     </div>
 
-                    <h6>Name:</h6>
+                    <h5>Name:</h5>
                     <div className="form-group c_form_group">
                       <label>
                         <input
@@ -212,7 +193,7 @@ const ViewChennel = () => {
                     <br />
                     <button
                       type="submit"
-                      className="btn btn-primary theme-bg gradient"
+                      className="btn btn-primary "
                     >
                       Submit
                     </button>
@@ -227,4 +208,4 @@ const ViewChennel = () => {
   );
 };
 
-export default ViewChennel;
+export default Channel;
