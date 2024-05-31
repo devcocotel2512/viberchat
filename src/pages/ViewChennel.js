@@ -1,43 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Chennel = () => {
   const navigate = useNavigate();
-  const [channelData, setChannelData] = useState(null); // State to store fetched channel data
-
+  const [datalist, setDataList] = useState([]);
   const handleAddChannelClick = () => {
     navigate("/add-channel"); // Use navigate to redirect on button click
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://135.181.146.84:8001/mfind', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            searchquery: {
-              "_id": "<YOUR_CHANNEL_ID>", // Replace with your actual ID
-            },
-            projection: { "chnl": 1 },
-            showcount: 1
-          })
-        });
+    getData();
+  }, []);
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        setChannelData(data); // Update state with fetched data
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []); // Empty dependency array to fetch data only once on component mount
+  const getData = async () => {
+    try {
+      const response = await axios.get("http://135.181.146.84:8001/mfind");
+      setDataList(response.data);
+    } catch (error) {
+      console.error("Error fetching Data:", error);
+    }
+  };
 
   return (
     <Layout>
@@ -61,35 +45,35 @@ const Chennel = () => {
             </div>
           </div>
 
-          {channelData && ( // Conditionally render table only if data is available
-            <div className="row clearfix">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="header">
-                    <h2>Channel Details</h2>
-                  </div>
-                  <div className="body">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>Field</th>
-                          <th>Value</th>
+          <div className="row clearfix">
+            <div className="col-md-12">
+              <div className="card">
+                <div className="header">
+                  <h2>Channel Details</h2>
+                </div>
+                <div className="body">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Sr.No</th>
+                        <th>Lable</th>
+                        <th>Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {datalist.map((data, index) => (
+                        <tr key={data._id}>
+                          <td>{index + 1}</td>
+                          <td>{data.lbl}</td>
+                          <td>{data.type}</td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {channelData.chnl && ( // Check if "chnl" property exists before rendering
-                          <tr>
-                            <td>Channel Name</td>
-                            <td>{channelData.id}</td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </Layout>
