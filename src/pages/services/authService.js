@@ -9,5 +9,11 @@ const register = async (userData) => {
     const response = await axios.post(API_URL+'/login', userData);
     return response;
   };
+
+  const getUser = async (payload) => {
+    const response = await axios.post(API_URL+'/mfind',payload);
+    return response;
+  };
+
   
-  export default { register,login };
+  export default { register,login,getUser};

@@ -25,9 +25,7 @@ const Channel = () => {
     if (!formData.form) errors.form = "Form is required";
     if (!formData.url) {
       errors.url = "URL is required";
-    } else if (formData.url.length > 15) {
-      errors.url = "URL must be 15 characters or less";
-    }
+    } 
     
     if (!formData.authKey) errors.authKey = "Auth Key is required";
     if (!formData.receiverColor) errors.receiverColor = "Receiver Color is required";
