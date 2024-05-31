@@ -9,6 +9,16 @@ const register = async (userData) => {
     const response = await axios.post(API_URL+'/login', userData);
     return response;
   };
+
+
+  const getUser = async (payload) => {
+    const response = await axios.post(API_URL+'/mfind',payload);
+    return response;
+  };
+
+  
+  
+
   const addUser = async (userData) => {
     console.log('ssa',userData);
     const response = await axios.post(`${API_URL}/add-user`, userData, {
@@ -21,4 +31,5 @@ const register = async (userData) => {
     return response;
   };
   
-  export default { register,login,addUser };
+  export default { register,login,addUser,getUser };
+

@@ -1,63 +1,81 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { useNavigate } from "react-router-dom";
+import authService from "./services/authService";
+import Switch from '@mui/material/Switch';
+import Pagination from '@mui/material/Pagination';
 
 const ViewUser = () => {
-  const navigate = useNavigate(); // Create a useNavigate instance
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10; // Number of users per page
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await authService.getUser({
+          searchquery: {
+            _id: "raidlayer",
+          },
+          projection: {
+            user: 1,
+          },
+          showcount: 1,
+        });
+        console.log("Response Data:", response.data);
+        const usersData = response.data.data[0].user.map(user => ({
+          ...user,
+          verified: Boolean(user.verified)  // Ensure verified is a boolean
+        }));
+        console.log("Processed Users Data:", usersData);
+        setUsers(usersData);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   const handleAddChannelClick = () => {
-    navigate("/add-user"); // Use navigate to redirect on button click
+    navigate("/add-user");
   };
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
+  const handleToggleVerified = async (index) => {
+    const updatedUsers = [...users];
+    const user = updatedUsers[index];
+    user.verified = !user.verified;
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
+    setUsers(updatedUsers);
+
+    try {
+      await authService.updateUser(user._id, { verified: user.verified });
+    } catch (error) {
+      console.error("Error updating user verification status:", error);
+    }
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
   return (
     <Layout>
       <div id="main-content">
         <div className="container-fluid">
-          {/* Page header section */}
           <div className="block-header">
             <div className="row clearfix mb-2">
               <div className="col-xl-5 col-md-5 col-sm-12"></div>
               <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
                 <button
-                  type="button" // Change type to "button" for click event
+                  type="button"
                   className="btn btn-primary"
-                  onClick={handleAddChannelClick} // Add onClick handler
+                  onClick={handleAddChannelClick}
                 >
                   Add User
                 </button>
@@ -67,53 +85,42 @@ const ViewUser = () => {
               <div className="col-md-12">
                 <div className="card">
                   <div className="header mb-3">
-                    <TableContainer component={Paper}>
-                      <Table
-                        sx={{ minWidth: 700 }}
-                        aria-label="customized table"
-                      >
-                        <TableHead>
-                          <TableRow>
-                            <StyledTableCell>
-                              Dessert (100g serving)
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                              Calories
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                              Fat&nbsp;(g)
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                              Carbs&nbsp;(g)
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                              Protein&nbsp;(g)
-                            </StyledTableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row) => (
-                            <StyledTableRow key={row.name}>
-                              <StyledTableCell component="th" scope="row">
-                                {row.name}
-                              </StyledTableCell>
-                              <StyledTableCell align="right">
-                                {row.calories}
-                              </StyledTableCell>
-                              <StyledTableCell align="right">
-                                {row.fat}
-                              </StyledTableCell>
-                              <StyledTableCell align="right">
-                                {row.carbs}
-                              </StyledTableCell>
-                              <StyledTableCell align="right">
-                                {row.protein}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
+                    <h2>Users Details</h2>
+                  </div>
+                  <div className="body">
+                    <table className="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th style={{ textAlign: "left" }}>Sr.No</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Verified</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentUsers.map((user, index) => (
+                          <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit" }}>
+                            <td style={{ textAlign: "left" }}>{indexOfFirstUser + index + 1}</td>
+                            <td>{user.un}</td>
+                            <td>{user.em}</td>
+                            <td>
+                              <Switch
+                                checked={user.verified}
+                                onChange={() => handleToggleVerified(indexOfFirstUser + index)}
+                                color="primary"
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <Pagination
+                      count={Math.ceil(users.length / usersPerPage)}
+                      page={currentPage}
+                      onChange={handleChangePage}
+                      color="primary"
+                      className="mt-3"
+                    />
                   </div>
                 </div>
               </div>
