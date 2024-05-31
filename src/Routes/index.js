@@ -10,8 +10,8 @@ import Chat from '../pages/Chat';
 import Register from '../pages/Register';
 import Channel from '../pages/Add-Channel.js';
 import AddUser from '../pages/AddUser';
-import ViewChennel from '../pages/Channel.js';
-import ViewUser from '../pages/ViewUser.js';
+import ViewChennel from '../pages/ViewChennel.js';
+import ViewUser from '../pages/ViewUser.js'
 
 
 
