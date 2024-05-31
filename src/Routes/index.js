@@ -8,9 +8,10 @@ import Login from '../pages/Login';
 import Logout from '../pages/Logout.js';
 import Chat from '../pages/Chat';
 import Register from '../pages/Register';
-import Channel from '../pages/Channel';
+import Channel from '../pages/Add-Channel.js';
 import AddUser from '../pages/AddUser';
-import ViewChennel from '../pages/ViewChennel';
+import ViewChennel from '../pages/ViewChennel.js';
+import ViewUser from '../pages/ViewUser.js'
 
 
 
@@ -42,9 +43,11 @@ function RoutesComponent() {
       
       <Route path="/chat" element={ isLoggedIn ? <Chat /> : <Navigate to="/login" replace />}  />
       
-      <Route path="/channel" element={ isLoggedIn ? <Channel /> : <Navigate to="/login" replace />}  />
+      <Route path="/add-channel" element={ isLoggedIn ? <Channel /> : <Navigate to="/login" replace />}  />
       <Route path="/add-user" element={ isLoggedIn ? <AddUser /> : <Navigate to="/login" replace />}  />
-      
+      <Route path="/channel"  element={ isLoggedIn ? <ViewChennel /> : <Navigate to="/login" replace />}  />
+      <Route path="/user"  element={ isLoggedIn ? <ViewUser /> : <Navigate to="/login" replace />}  />
+
     </Routes>
     
   );
