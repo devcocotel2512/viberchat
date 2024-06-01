@@ -17,9 +17,14 @@ const addChannel = async (payload) => {
     return response;
   };
 
+  const updateChannel = async (channelData) => {
+    return axios.put(API_URL+'/api/channel/update', channelData); // Adjust the URL and method as per your API
+  };
+  
+
   
   
 
  
   
-  export default { addChannel,getChannel};
+  export default { addChannel,getChannel,updateChannel};

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import channelService from "./services/channelService";
 import Pagination from "@mui/material/Pagination"; // Import Pagination component from MUI
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +8,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Chennel = () => {
+  const { lbl } = useParams();
   const navigate = useNavigate();
   const [channels, setChannels] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +20,7 @@ const Chennel = () => {
         const response = await channelService.getChannel({
           searchquery: {
             _id: "raidlayer",
+            _lbl: lbl,
           },
           projection: {
             chnl: 1,
@@ -32,15 +34,15 @@ const Chennel = () => {
     };
 
     fetchChannels();
-  }, []);
+  }, [lbl]); // Adding lbl as a dependency to refetch when it changes
 
   const handleAddChannelClick = () => {
     navigate("/add-channel");
   };
 
-  const handleEditChannelClick = (channelId) => {
-    navigate(`/edit-channel/${channelId}`);
-  };
+  const EditChannel = (channelLbl) => {
+    navigate(`/edit-channel/${channelLbl}`);
+  }
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
@@ -48,10 +50,7 @@ const Chennel = () => {
 
   const indexOfLastChannel = currentPage * channelsPerPage;
   const indexOfFirstChannel = indexOfLastChannel - channelsPerPage;
-  const currentChannels = channels.slice(
-    indexOfFirstChannel,
-    indexOfLastChannel
-  );
+  const currentChannels = channels.slice(indexOfFirstChannel, indexOfLastChannel);
 
   return (
     <Layout>
@@ -93,8 +92,7 @@ const Chennel = () => {
                         <tr
                           key={index}
                           style={{
-                            backgroundColor:
-                              index % 2 === 0 ? "#f9f9f9" : "inherit",
+                            backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit",
                           }}
                         >
                           <td style={{ textAlign: "left" }}>
@@ -106,19 +104,15 @@ const Chennel = () => {
                           <td className="flex">
                             <button
                               type="button"
-                              className="btn btn-warning mr-2"
-                              onClick={() =>
-                                handleEditChannelClick(channel._id)
-                              }
+                              className="btn btn-warning mr-2 rounded"
+                              onClick={() => EditChannel(channel.lbl)} // Pass the label directly
                             >
                               <FontAwesomeIcon icon={faPenToSquare} />
                             </button>
                             <button
                               type="button"
-                              className="btn btn-danger"
-                              onClick={() =>
-                                handleEditChannelClick(channel._id)
-                              }
+                              className="btn btn-danger ml-2 rounded"
+                              // Add onClick for delete action if needed
                             >
                               <FontAwesomeIcon icon={faTrash} />
                             </button>

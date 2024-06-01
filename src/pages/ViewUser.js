@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import authService from "./services/authService";
-import Switch from '@mui/material/Switch';
-import Pagination from '@mui/material/Pagination';
+import Switch from "@mui/material/Switch";
+import Pagination from "@mui/material/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const ViewUser = () => {
   const navigate = useNavigate();
+  const { un } = useParams();
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10; // Number of users per page
@@ -19,6 +20,7 @@ const ViewUser = () => {
         const response = await authService.getUser({
           searchquery: {
             _id: "raidlayer",
+            _un: un,
           },
           projection: {
             user: 1,
@@ -26,9 +28,9 @@ const ViewUser = () => {
           showcount: 1,
         });
         console.log("Response Data:", response.data);
-        const usersData = response.data.data[0].user.map(user => ({
+        const usersData = response.data.data[0].user.map((user) => ({
           ...user,
-          verified: Boolean(user.verified)  // Ensure verified is a boolean
+          verified: Boolean(user.verified), // Ensure verified is a boolean
         }));
         console.log("Processed Users Data:", usersData);
         setUsers(usersData);
@@ -38,23 +40,10 @@ const ViewUser = () => {
     };
 
     fetchUsers();
-  }, []);
+  }, [un]);
 
   const handleAddUserClick = () => {
     navigate("/add-user");
-  };
-
-  const handleEditUserClick = (userId) => {
-    navigate(`/edit-user/${userId}`);
-  };
-
-  const handleDeleteUserClick = async (userId) => {
-    try {
-      await authService.deleteUser(userId);
-      setUsers(users.filter(user => user._id !== userId));
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
   };
 
   const handleToggleVerified = async (index) => {
@@ -70,6 +59,9 @@ const ViewUser = () => {
       console.error("Error updating user verification status:", error);
     }
   };
+  const EditUser = (userUn) => {
+ navigate(`/edit-user/${userUn}`)
+  }
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
@@ -115,29 +107,38 @@ const ViewUser = () => {
                       </thead>
                       <tbody>
                         {currentUsers.map((user, index) => (
-                          <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit" }}>
-                            <td style={{ textAlign: "left" }}>{indexOfFirstUser + index + 1}</td>
+                          <tr
+                            key={index}
+                            style={{
+                              backgroundColor:
+                                index % 2 === 0 ? "#f9f9f9" : "inherit",
+                            }}
+                          >
+                            <td style={{ textAlign: "left" }}>
+                              {indexOfFirstUser + index + 1}
+                            </td>
                             <td>{user.un}</td>
                             <td>{user.em}</td>
                             <td>
                               <Switch
                                 checked={user.verified}
-                                onChange={() => handleToggleVerified(indexOfFirstUser + index)}
+                                onChange={() =>
+                                  handleToggleVerified(indexOfFirstUser + index)
+                                }
                                 color="primary"
                               />
                             </td>
                             <td className="flex mr-2">
                               <button
                                 type="button"
-                                className="btn btn-warning mr-2"
-                                onClick={() => handleEditUserClick(user._id)}
+                                onClick={() => EditUser(user.un)}
+                                className="btn btn-warning mr-2 rounded"
                               >
                                 <FontAwesomeIcon icon={faUserPen} />
                               </button>
                               <button
                                 type="button"
-                                className="btn btn-danger"
-                                onClick={() => handleDeleteUserClick(user._id)}
+                                className="btn btn-danger ml-2 rounded"
                               >
                                 <FontAwesomeIcon icon={faTrash} />
                               </button>

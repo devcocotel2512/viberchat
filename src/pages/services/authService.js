@@ -30,6 +30,12 @@ const register = async (userData) => {
     console.log('dsdsd',response);
     return response;
   };
+
+  const updateUser = async(payload) => {
+    const responce = await axios.post(API_URL+'/api/updateUser', payload)
+   return responce
+  };
   
-  export default { register,login,addUser,getUser };
+  
+  export default { register,login,addUser,getUser,updateUser};
 
