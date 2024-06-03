@@ -55,11 +55,14 @@ const ViewUser = () => {
 
     try {
       await authService.updateUser(user._id, { verified: user.verified });
-    } catch (error) {
+     
+    }  
+    catch (error) {
       console.error("Error updating user verification status:", error);
     }
   };
   const EditUser = (userUn) => {
+    console.log("userUn", userUn)
  navigate(`/edit-user/${userUn}`)
   }
 

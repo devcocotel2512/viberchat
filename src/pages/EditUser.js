@@ -1,76 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { useParams } from 'react-router-dom';
-import authService from './services/authService';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Layout from "../components/Layout";
+import authService from "./services/authService"; // Adjust the path as needed
 
 const EditUser = () => {
   const { userun } = useParams();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
-    un: '',
-    em: '',
-    pass: ''
+    un: "",
+    em: "",
+    pass: "",
   });
 
+  // Fetch user data when component mounts
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await authService.getUser({
           searchquery: {
             _id: "raidlayer",
+            "user.un": userun,
           },
           projection: {
-            user: 1
+            "user.$": 1,
           },
-           showcount: 1,
         });
 
-        if (response.data && response.data.data && response.data.data.length > 0) {
-          const user = response.data.data[0].user[0];
+        if (
+          response.data &&
+          response.data.data &&
+          response.data.data.length > 0 &&
+          response.data.data[0].user &&
+          response.data.data[0].user.length > 0
+        ) {
+          const fetchedUser = response.data.data[0].user[0];
           setUserData({
-            un: user.un,
-            em: user.em,
-            pass: user.pass
+            un: fetchedUser.un,
+            em: fetchedUser.em,
+            pass: fetchedUser.pass,
           });
+        } else {
+          console.error("User not found");
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [userun]);
 
-  const handleInputChange = (e) => {
+  // Handle form input changes
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await authService.updateUser({
-        searchquery: { _id: "raidlayer" }, // Assuming _id is raidlayer, adjust if necessary
-        updateData: { 
-          user: [
-            {
-              un: userData.un,
-              em: userData.em,
-              pass: userData.pass
-            }
-          ]
-        }
+        searchquery: {
+          _id: "raidlayer",
+          "user.un": userun,
+        },
+        body: {
+          "user.$.un": userData.un,
+          "user.$.em": userData.em,
+          "user.$.pass": userData.pass,
+        },
       });
-      if (response.data && response.data.success) {
-        console.log('User data updated successfully');
-        // You can also redirect or give feedback to the user here
-      } else {
-        console.error('Error updating user data:', response.data.message);
+
+      if (response.status === 200) {
+        alert('User updated successfully'); 
+        console.error("Failed to update user data");
       }
     } catch (error) {
-      console.error('Error updating user data:', error);
+      console.error("Error updating user data:", error);
     }
   };
 
@@ -98,7 +108,7 @@ const EditUser = () => {
                           name="un"
                           className="form-control"
                           value={userData.un}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="form-group">
@@ -108,7 +118,7 @@ const EditUser = () => {
                           name="em"
                           className="form-control"
                           value={userData.em}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="form-group">
@@ -118,10 +128,9 @@ const EditUser = () => {
                           name="pass"
                           className="form-control"
                           value={userData.pass}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
-                      {/* Add other fields as necessary */}
                       <button type="submit" className="btn btn-primary mt-4">
                         Save Changes
                       </button>

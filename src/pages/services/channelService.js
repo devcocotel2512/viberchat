@@ -17,9 +17,14 @@ const addChannel = async (payload) => {
     return response;
   };
 
-  const updateChannel = async (channelData) => {
-    return axios.put(API_URL+'/api/channel/update', channelData); // Adjust the URL and method as per your API
-  };
+  const updateChannel = async (payload) => {
+    const response = await axios.put(`${API_URL}/update`, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token, // Use the token in the Authorization header
+      },
+    });
+  }
   
 
   

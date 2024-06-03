@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import Layout from "../components/Layout";
-import { useNavigate, useParams } from "react-router-dom";
-import channelService from "./services/channelService";
+import React, { useState, useEffect } from 'react';
+import Layout from '../components/Layout';
+import { useNavigate, useParams } from 'react-router-dom';
+import channelService from './services/channelService';
 
 const EditChannel = () => {
   const { channelLbl } = useParams();
   const [channelData, setChannelData] = useState({
-    name: "",
-    label: "",
-    form: "",
-    type: "",
-    authkey: "",
+    name: '',
+    label: '',
+    form: '',
+    type: '',
+    authkey: '',
   });
 
   useEffect(() => {
@@ -18,10 +18,11 @@ const EditChannel = () => {
       try {
         const response = await channelService.getChannel({
           searchquery: {
-            _id: "raidlayer",
+            _id: 'raidlayer',
+            'chnl.lbl': channelLbl,
           },
           projection: {
-            chnl: 1,
+            'chnl.$': 1,
           },
           showcount: 1,
         });
@@ -38,14 +39,14 @@ const EditChannel = () => {
           });
         }
       } catch (error) {
-        console.error("Error fetching channel data:", error);
+        console.error('Error fetching channel data:', error);
       }
     };
 
     fetchChannelData();
-  }, []);
+  }, [channelLbl]);
 
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setChannelData((prevData) => ({
       ...prevData,
@@ -53,9 +54,26 @@ const EditChannel = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your update logic here
+    try {
+      await channelService.updateChannel({
+        searchquery: {
+          _id: 'raidlayer',
+          'chnl.lbl': channelLbl,
+        },
+        body: {
+          'chnl.$.nm': channelData.name,
+          'chnl.$.lbl': channelData.label,
+          'chnl.$.frm': channelData.form,
+          'chnl.$.type': channelData.type,
+          'chnl.$.authkey': channelData.authkey,
+        },
+      });
+      alert('Channel updated successfully');
+    } catch (error) {
+      console.error('Error updating channel:', error);
+    }
   };
 
   return (
@@ -71,7 +89,7 @@ const EditChannel = () => {
               <div className="col-md-12">
                 <div className="card">
                   <div className="header">
-                    <h2>Edit Channel: </h2>
+                    <h2>Edit Channel:</h2>
                   </div>
                   <div className="body">
                     <form onSubmit={handleSubmit}>
@@ -82,7 +100,7 @@ const EditChannel = () => {
                           name="name"
                           className="form-control"
                           value={channelData.name}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="form-group">
@@ -92,7 +110,7 @@ const EditChannel = () => {
                           name="label"
                           className="form-control"
                           value={channelData.label}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
                       <div className="form-group">
@@ -102,32 +120,29 @@ const EditChannel = () => {
                           name="form"
                           className="form-control"
                           value={channelData.form}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
-
                       <div className="form-group">
-                        <label>type</label>
+                        <label>Type</label>
                         <input
                           type="text"
-                          name="form"
+                          name="type"
                           className="form-control"
                           value={channelData.type}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
-
                       <div className="form-group">
                         <label>Auth-Key</label>
                         <input
                           type="text"
-                          name="form"
+                          name="authkey"
                           className="form-control"
                           value={channelData.authkey}
-                          onChange={handleInputChange}
+                          onChange={handleChange}
                         />
                       </div>
-                      {/* Add other fields as necessary */}
                       <button type="submit" className="btn btn-primary mt-4">
                         Save Changes
                       </button>
