@@ -3,7 +3,11 @@ import Layout from "../components/Layout";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import channelService from './services/channelService';
+import { useNavigate } from "react-router-dom";
+
+
 const Channel = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     label: "",
     form: "",
@@ -98,6 +102,14 @@ const Channel = () => {
       [name]: ""
     });
   };
+
+  const addChanel = () => {
+    navigate('/channel')
+  }
+
+  const back = () => {
+    navigate('/channel')
+  }
 
   return (
     <Layout>
@@ -261,6 +273,9 @@ const Channel = () => {
                     >
                       Submit
                     </button>
+                    <button type="submit" className="btn btn-class ml-3 rounded" onClick={back}>
+                        Back
+                        </button>
                   </form>
                 </div>
               </div>
