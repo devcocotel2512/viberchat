@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import authService from "./services/authService"; // Adjust the path as needed
+import ClipLoader from "react-spinners/ClipLoader";
 
 const EditUser = () => {
   const { userun } = useParams();
@@ -11,11 +12,13 @@ const EditUser = () => {
     em: "",
     pass: "",
   });
+  const [loading, setLoading] = useState(true);
 
   // Fetch user data when component mounts
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        setLoading(true);
         const response = await authService.getUser({
           searchquery: {
             _id: "raidlayer",
@@ -44,6 +47,8 @@ const EditUser = () => {
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -62,6 +67,7 @@ const EditUser = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await authService.updateUser({
         searchquery: {
@@ -76,11 +82,15 @@ const EditUser = () => {
       });
 
       if (response.status === 200) {
-        alert('User updated successfully'); 
+        alert("User updated successfully");
+        navigate("/view-user"); // Adjust this path as needed
+      } else {
         console.error("Failed to update user data");
       }
     } catch (error) {
       console.error("Error updating user data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,41 +110,47 @@ const EditUser = () => {
                     <h2>Edit User: {userun}</h2>
                   </div>
                   <div className="body">
-                    <form onSubmit={handleSubmit}>
-                      <div className="form-group">
-                        <label>Username</label>
-                        <input
-                          type="text"
-                          name="un"
-                          className="form-control"
-                          value={userData.un}
-                          onChange={handleChange}
-                        />
+                    {loading ? (
+                      <div className="loading-container">
+                        <ClipLoader color={"#123abc"} loading={loading} size={50} />
                       </div>
-                      <div className="form-group">
-                        <label>Email</label>
-                        <input
-                          type="email"
-                          name="em"
-                          className="form-control"
-                          value={userData.em}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Password</label>
-                        <input
-                          type="password"
-                          name="pass"
-                          className="form-control"
-                          value={userData.pass}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <button type="submit" className="btn btn-primary mt-4">
-                        Save Changes
-                      </button>
-                    </form>
+                    ) : (
+                      <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                          <label>Username</label>
+                          <input
+                            type="text"
+                            name="un"
+                            className="form-control"
+                            value={userData.un}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Email</label>
+                          <input
+                            type="email"
+                            name="em"
+                            className="form-control"
+                            value={userData.em}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Password</label>
+                          <input
+                            type="password"
+                            name="pass"
+                            className="form-control"
+                            value={userData.pass}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-primary mt-4">
+                          Save Changes
+                        </button>
+                      </form>
+                    )}
                   </div>
                 </div>
               </div>
@@ -142,6 +158,14 @@ const EditUser = () => {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+      `}</style>
     </Layout>
   );
 };

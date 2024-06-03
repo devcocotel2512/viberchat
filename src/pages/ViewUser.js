@@ -6,17 +6,20 @@ import Switch from "@mui/material/Switch";
 import Pagination from "@mui/material/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ViewUser = () => {
   const navigate = useNavigate();
   const { un } = useParams();
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const usersPerPage = 10; // Number of users per page
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        setLoading(true);
         const response = await authService.getUser({
           searchquery: {
             _id: "raidlayer",
@@ -36,6 +39,8 @@ const ViewUser = () => {
         setUsers(usersData);
       } catch (error) {
         console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -61,10 +66,11 @@ const ViewUser = () => {
       console.error("Error updating user verification status:", error);
     }
   };
+  
   const EditUser = (userUn) => {
-    console.log("userUn", userUn)
- navigate(`/edit-user/${userUn}`)
-  }
+    console.log("userUn", userUn);
+    navigate(`/edit-user/${userUn}`);
+  };
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
@@ -98,65 +104,73 @@ const ViewUser = () => {
                     <h2>Users Details</h2>
                   </div>
                   <div className="body">
-                    <table className="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th style={{ textAlign: "left" }}>Sr.No</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Verified</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {currentUsers.map((user, index) => (
-                          <tr
-                            key={index}
-                            style={{
-                              backgroundColor:
-                                index % 2 === 0 ? "#f9f9f9" : "inherit",
-                            }}
-                          >
-                            <td style={{ textAlign: "left" }}>
-                              {indexOfFirstUser + index + 1}
-                            </td>
-                            <td>{user.un}</td>
-                            <td>{user.em}</td>
-                            <td>
-                              <Switch
-                                checked={user.verified}
-                                onChange={() =>
-                                  handleToggleVerified(indexOfFirstUser + index)
-                                }
-                                color="primary"
-                              />
-                            </td>
-                            <td className="flex mr-2">
-                              <button
-                                type="button"
-                                onClick={() => EditUser(user.un)}
-                                className="btn btn-warning mr-2 rounded"
+                    {loading ? (
+                      <div className="loading-container">
+                        <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                      </div>
+                    ) : (
+                      <>
+                        <table className="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th style={{ textAlign: "left" }}>Sr.No</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Verified</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {currentUsers.map((user, index) => (
+                              <tr
+                                key={index}
+                                style={{
+                                  backgroundColor:
+                                    index % 2 === 0 ? "#f9f9f9" : "inherit",
+                                }}
                               >
-                                <FontAwesomeIcon icon={faUserPen} />
-                              </button>
-                              <button
-                                type="button"
-                                className="btn btn-danger ml-2 rounded"
-                              >
-                                <FontAwesomeIcon icon={faTrash} />
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <Pagination
-                      count={Math.ceil(users.length / usersPerPage)}
-                      page={currentPage}
-                      onChange={handleChangePage}
-                      color="primary"
-                      className="mt-3"
-                    />
+                                <td style={{ textAlign: "left" }}>
+                                  {indexOfFirstUser + index + 1}
+                                </td>
+                                <td>{user.un}</td>
+                                <td>{user.em}</td>
+                                <td>
+                                  <Switch
+                                    checked={user.verified}
+                                    onChange={() =>
+                                      handleToggleVerified(indexOfFirstUser + index)
+                                    }
+                                    color="primary"
+                                  />
+                                </td>
+                                <td className="flex mr-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => EditUser(user.un)}
+                                    className="btn btn-warning mr-2 rounded"
+                                  >
+                                    <FontAwesomeIcon icon={faUserPen} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger ml-2 rounded"
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <Pagination
+                          count={Math.ceil(users.length / usersPerPage)}
+                          page={currentPage}
+                          onChange={handleChangePage}
+                          color="primary"
+                          className="mt-3"
+                        />
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -164,6 +178,14 @@ const ViewUser = () => {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+      `}</style>
     </Layout>
   );
 };

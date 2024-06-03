@@ -1,13 +1,14 @@
 // Navbar.js
 import React from 'react';
 
+
 function Navbar() {
     return (
         <nav className="navbar navbar-fixed-top">
         <div className="container-fluid">
           <div className="navbar-left">
             <div className="navbar-btn">
-              <a href="index.html"><img src="assets/images/icon.svg" alt="Mooli Logo" className="img-fluid logo" /></a>
+              <a href="index.html"><img src="../assets/images/icon.svg" alt="Mooli Logo" className="img-fluid logo" /></a>
               <button type="button" className="btn-toggle-offcanvas"><i className="fa fa-align-left"></i></button>
             </div>
             <form id="navbar-search" className="navbar-form search-form">

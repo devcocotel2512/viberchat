@@ -1,5 +1,7 @@
 // Sidebar.js
 import React from 'react';
+import moli from '../img/icon.svg'
+import user from '../img/user-small.png'
 
 function Sidebar() {
     return (
@@ -7,13 +9,13 @@ function Sidebar() {
        <div id="left-sidebar" className="sidebar">
        <a href="#" className="menu_toggle"><i className="fa fa-angle-left"></i></a>
        <div className="navbar-brand">
-         <a href="index.html"><img src="assets/images/icon.svg" alt="Mooli Logo" className="img-fluid logo" /><span>Mooli</span></a>
+         <a href="/"><img src={moli} alt="Mooli Logo" className="img-fluid logo" /><span>Mooli</span></a>
          <button type="button" className="btn-toggle-offcanvas btn btn-sm float-right"><i className="fa fa-close"></i></button>
        </div>
        <div className="sidebar-scroll">
          <div className="user-account">
            <div className="user_div">
-             <img src="assets/images/user.png" className="user-photo" alt="User Profile Picture" />
+             <img src={user} className="user-photo" alt="User Profile Picture" />
            </div>
            <div className="dropdown">
              <span>Web Developer,</span>

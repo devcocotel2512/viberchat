@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout';
-import { useNavigate, useParams } from 'react-router-dom';
-import channelService from './services/channelService';
+import React, { useState, useEffect } from "react";
+import Layout from "../components/Layout";
+import { useParams } from "react-router-dom";
+import channelService from "./services/channelService";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const EditChannel = () => {
   const { channelLbl } = useParams();
   const [channelData, setChannelData] = useState({
-    name: '',
-    label: '',
-    form: '',
-    type: '',
-    authkey: '',
+    name: "",
+    label: "",
+    form: "",
+    type: "",
+    authkey: "",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchChannelData = async () => {
       try {
+        setLoading(true);
         const response = await channelService.getChannel({
           searchquery: {
-            _id: 'raidlayer',
-            'chnl.lbl': channelLbl,
+            _id: "raidlayer",
+            "chnl.lbl": channelLbl,
           },
           projection: {
-            'chnl.$': 1,
+            "chnl.$": 1,
           },
           showcount: 1,
         });
@@ -39,7 +42,9 @@ const EditChannel = () => {
           });
         }
       } catch (error) {
-        console.error('Error fetching channel data:', error);
+        console.error("Error fetching channel data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -57,22 +62,25 @@ const EditChannel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       await channelService.updateChannel({
         searchquery: {
-          _id: 'raidlayer',
-          'chnl.lbl': channelLbl,
+          _id: "raidlayer",
+          "chnl.lbl": channelLbl,
         },
         body: {
-          'chnl.$.nm': channelData.name,
-          'chnl.$.lbl': channelData.label,
-          'chnl.$.frm': channelData.form,
-          'chnl.$.type': channelData.type,
-          'chnl.$.authkey': channelData.authkey,
+          "chnl.$.nm": channelData.name,
+          "chnl.$.lbl": channelData.label,
+          "chnl.$.frm": channelData.form,
+          "chnl.$.type": channelData.type,
+          "chnl.$.authkey": channelData.authkey,
         },
       });
-      alert('Channel updated successfully');
+      alert("Channel updated successfully");
     } catch (error) {
-      console.error('Error updating channel:', error);
+      console.error("Error updating channel:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -92,61 +100,67 @@ const EditChannel = () => {
                     <h2>Edit Channel:</h2>
                   </div>
                   <div className="body">
-                    <form onSubmit={handleSubmit}>
-                      <div className="form-group">
-                        <label>Name</label>
-                        <input
-                          type="text"
-                          name="name"
-                          className="form-control"
-                          value={channelData.name}
-                          onChange={handleChange}
-                        />
+                    {loading ? (
+                      <div className="loading-container">
+                        <ClipLoader color={"#123abc"} loading={loading} size={50} />
                       </div>
-                      <div className="form-group">
-                        <label>Label</label>
-                        <input
-                          type="text"
-                          name="label"
-                          className="form-control"
-                          value={channelData.label}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Form</label>
-                        <input
-                          type="text"
-                          name="form"
-                          className="form-control"
-                          value={channelData.form}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Type</label>
-                        <input
-                          type="text"
-                          name="type"
-                          className="form-control"
-                          value={channelData.type}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Auth-Key</label>
-                        <input
-                          type="text"
-                          name="authkey"
-                          className="form-control"
-                          value={channelData.authkey}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <button type="submit" className="btn btn-primary mt-4">
-                        Save Changes
-                      </button>
-                    </form>
+                    ) : (
+                      <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                          <label>Name</label>
+                          <input
+                            type="text"
+                            name="name"
+                            className="form-control"
+                            value={channelData.name}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Label</label>
+                          <input
+                            type="text"
+                            name="label"
+                            className="form-control"
+                            value={channelData.label}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Form</label>
+                          <input
+                            type="text"
+                            name="form"
+                            className="form-control"
+                            value={channelData.form}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Type</label>
+                          <input
+                            type="text"
+                            name="type"
+                            className="form-control"
+                            value={channelData.type}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Auth-Key</label>
+                          <input
+                            type="text"
+                            name="authkey"
+                            className="form-control"
+                            value={channelData.authkey}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-primary mt-4">
+                          Save Changes
+                        </button>
+                      </form>
+                    )}
                   </div>
                 </div>
               </div>
@@ -154,6 +168,14 @@ const EditChannel = () => {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+      `}</style>
     </Layout>
   );
 };
