@@ -7,6 +7,33 @@ import Pagination from "@mui/material/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const ViewUser = () => {
   const navigate = useNavigate();
@@ -14,7 +41,7 @@ const ViewUser = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const usersPerPage = 10; // Number of users per page
+  const usersPerPage = 10;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -30,12 +57,10 @@ const ViewUser = () => {
           },
           showcount: 1,
         });
-        console.log("Response Data:", response.data);
         const usersData = response.data.data[0].user.map((user) => ({
           ...user,
-          verified: Boolean(user.verified), // Ensure verified is a boolean
+          verified: Boolean(user.verified),
         }));
-        console.log("Processed Users Data:", usersData);
         setUsers(usersData);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -60,15 +85,12 @@ const ViewUser = () => {
 
     try {
       await authService.updateUser(user._id, { verified: user.verified });
-     
-    }  
-    catch (error) {
+    } catch (error) {
       console.error("Error updating user verification status:", error);
     }
   };
-  
+
   const EditUser = (userUn) => {
-    console.log("userUn", userUn);
     navigate(`/edit-user/${userUn}`);
   };
 
@@ -97,81 +119,72 @@ const ViewUser = () => {
                 </button>
               </div>
             </div>
-            <div className="row clearfix">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="header mb-3">
-                    <h2>Users Details</h2>
-                  </div>
-                  <div className="body">
-                    {loading ? (
-                      <div className="loading-container">
-                        <ClipLoader color={"#123abc"} loading={loading} size={50} />
-                      </div>
-                    ) : (
-                      <>
-                        <table className="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th style={{ textAlign: "left" }}>Sr.No</th>
-                              <th>Name</th>
-                              <th>Email</th>
-                              <th>Verified</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
+          </div>
+          <div className="row clearfix">
+            <div className="col-md-12">
+              <div className="card">
+                <div className="header">
+                  <h2>Users Details</h2>
+                </div>
+                <div className="body">
+                  {loading ? (
+                    <div className="loading-container">
+                      <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                    </div>
+                  ) : (
+                    <>
+                      <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                          <TableHead>
+                            <TableRow>
+                              <StyledTableCell>Sr.No</StyledTableCell>
+                              <StyledTableCell>Name</StyledTableCell>
+                              <StyledTableCell>Email</StyledTableCell>
+                              <StyledTableCell>Verified</StyledTableCell>
+                              <StyledTableCell align="center">Action</StyledTableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
                             {currentUsers.map((user, index) => (
-                              <tr
-                                key={index}
-                                style={{
-                                  backgroundColor:
-                                    index % 2 === 0 ? "#f9f9f9" : "inherit",
-                                }}
-                              >
-                                <td style={{ textAlign: "left" }}>
+                              <StyledTableRow key={index}>
+                                <StyledTableCell>
                                   {indexOfFirstUser + index + 1}
-                                </td>
-                                <td>{user.un}</td>
-                                <td>{user.em}</td>
-                                <td>
+                                </StyledTableCell>
+                                <StyledTableCell>{user.un}</StyledTableCell>
+                                <StyledTableCell>{user.em}</StyledTableCell>
+                                <StyledTableCell>
                                   <Switch
                                     checked={user.verified}
-                                    onChange={() =>
-                                      handleToggleVerified(indexOfFirstUser + index)
-                                    }
+                                    onChange={() => handleToggleVerified(indexOfFirstUser + index)}
                                     color="primary"
                                   />
-                                </td>
-                                <td className="button">
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
                                   <button
                                     type="button"
+                                    className="btn-edit"
                                     onClick={() => EditUser(user.un)}
-                                    className=" btn-edit"
                                   >
                                     <FontAwesomeIcon icon={faUserPen} />
                                   </button>
-                                  <button
-                                    type="button"
-                                    className=" btn-delete"
-                                  >
+                                  <button type="button" className="btn-delete">
                                     <FontAwesomeIcon icon={faTrash} />
                                   </button>
-                                </td>
-                              </tr>
+                                </StyledTableCell>
+                              </StyledTableRow>
                             ))}
-                          </tbody>
-                        </table>
-                        <Pagination
-                          count={Math.ceil(users.length / usersPerPage)}
-                          page={currentPage}
-                          onChange={handleChangePage}
-                          color="primary"
-                          className="mt-3"
-                        />
-                      </>
-                    )}
-                  </div>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      <Pagination
+                        count={Math.ceil(users.length / usersPerPage)}
+                        page={currentPage}
+                        onChange={handleChangePage}
+                        color="primary"
+                        className="mt-3"
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>

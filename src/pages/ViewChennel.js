@@ -2,18 +2,45 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useNavigate, useParams } from "react-router-dom";
 import channelService from "./services/channelService";
-import Pagination from "@mui/material/Pagination"; // Import Pagination component from MUI
+import Pagination from "@mui/material/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import ClipLoader from "react-spinners/ClipLoader";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-const Chennel = () => {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const Channel = () => {
   const { lbl } = useParams();
   const navigate = useNavigate();
   const [channels, setChannels] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const channelsPerPage = 10; // Number of channels per page
+  const channelsPerPage = 10;
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -38,7 +65,7 @@ const Chennel = () => {
     };
 
     fetchChannels();
-  }, [lbl]); // Adding lbl as a dependency to refetch when it changes
+  }, [lbl]);
 
   const handleAddChannelClick = () => {
     navigate("/add-channel");
@@ -87,50 +114,46 @@ const Chennel = () => {
                     </div>
                   ) : (
                     <>
-                      <table className="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th style={{ textAlign: "left" }}>Sr.No</th>
-                            <th>Name</th>
-                            <th>Label</th>
-                            <th>Form</th>
-                            <th style={{ textAlign: "center" }}>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {currentChannels.map((channel, index) => (
-                            <tr
-                              key={index}
-                              style={{
-                                backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit",
-                              }}
-                            >
-                              <td style={{ textAlign: "left" }}>
-                                {indexOfFirstChannel + index + 1}
-                              </td>
-                              <td>{channel.nm}</td>
-                              <td>{channel.lbl}</td>
-                              <td>{channel.frm}</td>
-                              <td className="">
-                                <button
-                                  type="button"
-                                  className="btn-edit"
-                                  onClick={() => EditChannel(channel.lbl)} // Pass the label directly
-                                >
-                                  <FontAwesomeIcon icon={faPenToSquare} />
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn-delete"
-                                  // Add onClick for delete action if needed
-                                >
-                                  <FontAwesomeIcon icon={faTrash} />
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                      <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                          <TableHead>
+                            <TableRow>
+                              <StyledTableCell>Sr.No</StyledTableCell>
+                              <StyledTableCell>Name</StyledTableCell>
+                              <StyledTableCell>Label</StyledTableCell>
+                              <StyledTableCell>Form</StyledTableCell>
+                              <StyledTableCell align="center">Action</StyledTableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {currentChannels.map((channel, index) => (
+                              <StyledTableRow key={index}>
+                                <StyledTableCell>
+                                  {indexOfFirstChannel + index + 1}
+                                </StyledTableCell>
+                                <StyledTableCell>{channel.nm}</StyledTableCell>
+                                <StyledTableCell>{channel.lbl}</StyledTableCell>
+                                <StyledTableCell>{channel.frm}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                  <button
+                                    type="button"
+                                    className="btn-edit"
+                                    onClick={() => EditChannel(channel.lbl)}
+                                  >
+                                    <FontAwesomeIcon icon={faPenToSquare} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn-delete"
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </button>
+                                </StyledTableCell>
+                              </StyledTableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
                       <Pagination
                         count={Math.ceil(channels.length / channelsPerPage)}
                         page={currentPage}
@@ -158,4 +181,4 @@ const Chennel = () => {
   );
 };
 
-export default Chennel;
+export default Channel;
