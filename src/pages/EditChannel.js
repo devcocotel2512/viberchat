@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import channelService from "./services/channelService";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const EditChannel = () => {
+  const navigate = useNavigate();
   const { channelLbl } = useParams();
   const [channelData, setChannelData] = useState({
     name: "",
@@ -84,6 +85,10 @@ const EditChannel = () => {
     }
   };
 
+  const back = () => {
+    navigate("/channel");
+  };
+
   return (
     <Layout>
       <div id="main-content">
@@ -102,7 +107,11 @@ const EditChannel = () => {
                   <div className="body">
                     {loading ? (
                       <div className="loading-container">
-                        <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                        <ClipLoader
+                          color={"#123abc"}
+                          loading={loading}
+                          size={50}
+                        />
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit}>
@@ -156,8 +165,19 @@ const EditChannel = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <button type="submit" className="btn btn-primary mt-4">
+                        <button
+                          type="submit"
+                          className="btn btn-primary mt-4 rounded "
+                        >
                           Save Changes
+                        </button>
+
+                        <button
+                          type="back"
+                          className="btn btn-class mt-4 ml-3 rounded "
+                          onClick={back}
+                        >
+                          Back
                         </button>
                       </form>
                     )}

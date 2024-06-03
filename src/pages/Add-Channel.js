@@ -257,7 +257,7 @@ const Channel = () => {
                     <br />
                     <button
                       type="submit"
-                      className="btn btn-primary theme-bg gradient"
+                      className="btn btn-primary rounded"
                     >
                       Submit
                     </button>

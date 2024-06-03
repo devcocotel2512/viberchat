@@ -66,7 +66,7 @@ const Chennel = () => {
               <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
                 <button
                   type="button"
-                  className="btn btn-primary theme-bg gradient"
+                  className="btn btn-primary rounded"
                   onClick={handleAddChannelClick}
                 >
                   Add Channel
@@ -111,17 +111,17 @@ const Chennel = () => {
                               <td>{channel.nm}</td>
                               <td>{channel.lbl}</td>
                               <td>{channel.frm}</td>
-                              <td className="flex">
+                              <td className="">
                                 <button
                                   type="button"
-                                  className="btn btn-warning mr-2 rounded"
+                                  className="btn-edit"
                                   onClick={() => EditChannel(channel.lbl)} // Pass the label directly
                                 >
                                   <FontAwesomeIcon icon={faPenToSquare} />
                                 </button>
                                 <button
                                   type="button"
-                                  className="btn btn-danger ml-2 rounded"
+                                  className="btn-delete"
                                   // Add onClick for delete action if needed
                                 >
                                   <FontAwesomeIcon icon={faTrash} />

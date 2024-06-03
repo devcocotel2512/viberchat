@@ -93,6 +93,9 @@ const EditUser = () => {
       setLoading(false);
     }
   };
+  const back = () => {
+    navigate('/user')
+  }
 
   return (
     <Layout>
@@ -146,8 +149,11 @@ const EditUser = () => {
                             onChange={handleChange}
                           />
                         </div>
-                        <button type="submit" className="btn btn-primary mt-4">
+                        <button type="submit" className="btn btn-primary mt-4 rounded">
                           Save Changes
+                        </button>
+                        <button type="submit" className="btn btn-class mt-4 ml-3 rounded" onClick={back}>
+                        Back
                         </button>
                       </form>
                     )}

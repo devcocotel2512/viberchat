@@ -90,7 +90,7 @@ const ViewUser = () => {
               <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary rounded"
                   onClick={handleAddUserClick}
                 >
                   Add User
@@ -143,17 +143,17 @@ const ViewUser = () => {
                                     color="primary"
                                   />
                                 </td>
-                                <td className="flex mr-2">
+                                <td className="button">
                                   <button
                                     type="button"
                                     onClick={() => EditUser(user.un)}
-                                    className="btn btn-warning mr-2 rounded"
+                                    className=" btn-edit"
                                   >
                                     <FontAwesomeIcon icon={faUserPen} />
                                   </button>
                                   <button
                                     type="button"
-                                    className="btn btn-danger ml-2 rounded"
+                                    className=" btn-delete"
                                   >
                                     <FontAwesomeIcon icon={faTrash} />
                                   </button>
