@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 // import { AuthContext } from './AuthContext';
+import moli from '../img/icon.svg'
 import { Link,useNavigate  } from 'react-router-dom';
 import authService from './services/authService';
 // import { AuthContext } from '../context/AuthContext.js';
@@ -47,7 +48,7 @@ const Login = () => {
     <div className="auth-main">
       <div className="auth_div vivify fadeIn">
         <div className="auth_brand">
-          <a className="navbar-brand" href="/home"><img src='assets/images/icon.svg' alt="aa" width={50} className='d-inline-block align-top mr-2' />Mooli</a>
+          <a className="navbar-brand" href="/home"><img src={moli} alt="aa" width={50} className='d-inline-block align-top mr-2' />Mooli</a>
         </div>
         <div className="card">
           <div className="header">
@@ -91,6 +92,12 @@ const Login = () => {
         </div>
       </div>
       <div className="animate_lines"></div>
+      <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
     </div>
   );
 }

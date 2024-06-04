@@ -5,6 +5,7 @@ import chatService from './services/chatService';
 import authService from './services/authService';
 import moment from 'moment';
 import ChatHistory from '../components/ChatHistory';
+
 const Chat = () => {
     const [message, setMessage] = useState('');
     const [recipient, setRecipient] = useState('');
