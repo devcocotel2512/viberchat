@@ -1,37 +1,82 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import axios from 'axios'; 
 import channelService from './services/channelService';
-import { resolvePath } from 'react-router-dom';
+import chatService from './services/chatService';
+import authService from './services/authService';
 
 const Chat = () => {
+    const [message, setMessage] = useState('');
+    const [recipient, setRecipient] = useState('');
     const [channels, setChannels] = useState([]);
+    const [chats, setChats] = useState([]);
     const [selectedChannel, setSelectedChannel] = useState('');
-    const handleChannelSelection = (event) => {
-        setSelectedChannel(event.target.value); // Update state on selection change
-       };
+    const [selectedChatHistory, setSelectedChatHistory] = useState([]);
 
+    const handleChannelSelection = (event) => {
+        setSelectedChannel(event.target.value);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log('Form submitted:', { message, recipient, selectedChannel });
+
+        try {
+            const response = await chatService.sendChat({
+                msg: message,
+                rec: recipient,
+                chnl: selectedChannel,
+                sender_name: 'gayatriaaaa',
+                sender_avatar: "https://avatar.example.com",
+                typeofmsg: "text"
+            });
+            console.log('Message sent successfully:', response);
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+
+        setMessage('');
+        setRecipient('');
+    };
+    const handleRecipientClick = (recipientName) => {
+        const selectedChat = chats.find(chat => chat.recipient_name === recipientName);
+        if (selectedChat) {
+            setSelectedChatHistory(selectedChat.history);
+        }
+    };
     useEffect(() => {
         const fetchChannels = async () => {
-          try {
-            const response = await channelService.getChannel({
-                "searchquery": {
-                    "_id": "raidlayer"
-                },
-                "projection": {
-                    "chnl": 1
-                },
-                "showcount": 1
-            }); // Replace '/channels' with your actual API endpoint
-            // console.log(response.data.data[0].chnl);
-            setChannels(response.data.data[0].chnl);
-          } catch (error) {
-            console.error('Error fetching channels:', error);
-          }
+            try {
+                const response = await channelService.getChannel({
+                    "searchquery": { "_id": "raidlayer" },
+                    "projection": { "chnl": 1 },
+                    "showcount": 1
+                });
+                setChannels(response.data.data[0].chnl);
+            } catch (error) {
+                console.error('Error fetching channels:', error);
+            }
         };
-    
+
+        const fetchChats = async () => {
+            try {
+                const response = await authService.getData({
+                    "searchquery": { "_id": "raidlayer" },
+                    "projection": { "chat": 1 },
+                    "showcount": 1
+                });
+                console.log('Chats fetched:', response.data.data[0].chat);  // Debug log
+                const chatsArray = Object.values(response.data.data[0].chat);
+                setChats(chatsArray);
+            } catch (error) {
+                console.error('Error fetching chats:', error);
+            }
+        };
+
+
+        fetchChats();
         fetchChannels();
-      }, []); 
+    }, []);
+ 
     return (
         <Layout>
             <div id="main-content">
@@ -79,76 +124,19 @@ const Chat = () => {
                                                 </div>
                                             </div>
                                             <ul className="right_chat list-unstyled mb-0 animation-li-delay">
-                                                <li class="online">
-                                                    <a href="javascript:void(0);" class="media">
-                                                        <img class="media-object" src="assets/images/xs/avatar4.jpg" alt="" />
-                                                        <div class="media-body">
-                                                            <span class="name">Louis Henry <small class="text-muted">10 min</small></span>
-                                                            <span class="message">How do you do?</span>
-                                                            <span class="badge badge-outline status"></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="online active">
-                                                    <a href="javascript:void(0);" class="media">
-                                                        <img class="media-object " src="assets/images/xs/avatar5.jpg" alt="" />
-                                                        <div class="media-body">
-                                                            <span class="name">Debra Stewart <small class="text-muted">15 min</small></span>
-                                                            <span class="message">I was wondering...</span>
-                                                            <span class="badge badge-outline status"></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="offline">
-                                                    <a href="javascript:void(0);" class="media">
-                                                        <img class="media-object " src="assets/images/xs/avatar2.jpg" alt="" />
-                                                        <div class="media-body">
-                                                            <span class="name">Lisa Garett <small class="text-muted">18 min</small></span>
-                                                            <span class="message">I've forgotten how it felt before</span>
-                                                            <span class="badge badge-outline status"></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="offline">
-                                                    <a href="javascript:void(0);" class="media">
-                                                        <img class="media-object " src="assets/images/xs/avatar1.jpg" alt="" />
-                                                        <div class="media-body">
-                                                            <span class="name">Folisise Chosielie <small class="text-muted">23 min</small></span>
-                                                            <span class="message">Wasup for the third time like...</span>
-                                                            <span class="badge badge-outline status"></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="online">
-                                                    <a href="javascript:void(0);" class="media">
-                                                        <img class="media-object " src="assets/images/xs/avatar3.jpg" alt="" />
-                                                        <div class="media-body">
-                                                            <span class="name">Marshall Nichols <small class="text-muted">27 min</small></span>
-                                                            <span class="message">But we’re probably gonna need a new carpet.</span>
-                                                            <span class="badge badge-outline status"></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="online">
-                                                    <a href="javascript:void(0);" class="media">
-                                                        <img class="media-object " src="assets/images/xs/avatar5.jpg" alt="" />
-                                                        <div class="media-body">
-                                                            <span class="name">Debra Stewart <small class="text-muted">38 min</small></span>
-                                                            <span class="message">It’s not that bad...</span>
-                                                            <span class="badge badge-outline status"></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                <li class="offline">
-                                                    <a href="javascript:void(0);" class="media">
-                                                        <img class="media-object " src="assets/images/xs/avatar2.jpg" alt="" />
-                                                        <div class="media-body">
-                                                            <span class="name">Lisa Garett <small class="text-muted">45 min</small></span>
-                                                            <span class="message">How do you do?</span>
-                                                            <span class="badge badge-outline status"></span>
-                                                        </div>
-                                                    </a>
-                                                </li>
+                                            {chats.map((chat, index) => (
+                                                    <li key={index} className="online">
+                                                         <a href="javascript:void(0);" className="media" onClick={() => handleRecipientClick(chat.recipient_name)}>
+                                                            <img className="media-object" src="assets/images/xs/avatar4.jpg" alt="" />
+                                                            <div className="media-body">
+                                                                <span className="name">{chat.recipient_name || 'Unknown'} <small className="text-muted">{chat.time || 'Unknown'}</small></span>
+                                                                <span className="message">{chat.lastMessage || 'No message available'}</span>
+                                                                <span className="badge badge-outline status"></span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                               
                                             </ul>
                                         </div>
                                         <div className="tab-pane vivify fadeIn" id="create-chat">
@@ -159,9 +147,52 @@ const Chat = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <h6>Enter Mobile Number</h6>
-                                                <input type='text' />
-                                                <button type="submit" className="btn btn-dark btn-lg btn-block">LOGIN</button>
+                                            <form className="message-form" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="message">
+          <h6>Enter Message</h6>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          placeholder="Type your message here..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="recipient">
+          <h6>Enter Mobile Number or ID</h6>
+        </label>
+        <input
+          type="text"
+          id="recipient"
+          name="recipient"
+          placeholder="Enter recipient's mobile number or ID"
+          value={recipient}
+          onChange={(e) => setRecipient(e.target.value)}
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="channelSelect">
+          <h6>Select Channel</h6>
+        </label>
+        <select class="form-control" id="channelSelect" title="Channels" value={selectedChannel} onChange={handleChannelSelection}>
+                                                    <option val="0">Channels</option>
+                                                    {channels.map(channel => (
+          <option key={channel.lbl} value={channel.lbl}>
+            {channel.lbl}
+          </option>
+        ))}
+                                                </select>
+      </div>
+      <button type="submit" className="btn btn-primary">
+        Send Message
+      </button>
+    </form>
                                             </div>
                                         </div>
                                         <div className="tab-pane vivify fadeIn" id="chats-Contact">
@@ -275,7 +306,7 @@ const Chat = () => {
                                             <a href="javascript:void(0);" class=" bg-white btn btn-sm btn-default"><i class="fa fa-plus"></i></a> */}
                                         </div>
                                     </div>
-                                    <div class="chat-history">
+                                    {/* <div class="chat-history">
                                         <ul class="message_data">
                                             <li class="right clearfix">
                                                 <img class="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
@@ -329,7 +360,22 @@ const Chat = () => {
                                                 <span class="data_time">10:12 AM, Today</span>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> */}
+                                    <div className="chat-history">
+    <ul className="message_data">
+        {selectedChatHistory.map((messageObject, index) => (
+            <li key={index} className="right clearfix">
+                <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
+                <div className="message">
+                    <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
+                    {/* Access the message property of the messageObject */}
+                    <span>{messageObject.message}</span>
+                </div>
+                <span className="data_time">10:12 AM, Today</span>
+            </li>
+        ))}
+    </ul>
+</div>
                                     <div class="chat-message">
                                         <div class="form-group c_form_group mb-0">
                                             <textarea type="text" row="" class="form-control" placeholder="Enter text here..."></textarea>
