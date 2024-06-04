@@ -4,7 +4,6 @@ import channelService from './services/channelService';
 import chatService from './services/chatService';
 import authService from './services/authService';
 import moment from 'moment';
-import ChatHistory from '../components/ChatHistory';
 const Chat = () => {
     const [message, setMessage] = useState('');
     const [recipient, setRecipient] = useState('');
@@ -18,67 +17,64 @@ const Chat = () => {
     };
     const handleInputChange = (event) => {
         setMessage(event.target.value);
-    };
-    const formatChatTime = (time) => {
+      };
+      const formatChatTime = (time) => {
         const now = moment();
         const chatTime = moment(time);
         const diffInMinutes = now.diff(chatTime, 'minutes');
         const diffInHours = now.diff(chatTime, 'hours');
         const diffInDays = now.diff(chatTime, 'days');
-
+      
         if (diffInMinutes < 1) {
-            return 'Just now';
+          return 'Just now';
         } else if (diffInMinutes < 60) {
-            return `${diffInMinutes} minutes ago`;
+          return `${diffInMinutes} minutes ago`;
         } else if (diffInHours < 24) {
-            if (diffInHours === 1) {
-                return `${diffInHours} hour ago`;
-            }
-            return `${diffInHours} hours ago`;
+          return `${diffInHours} hours ago`;
         } else if (diffInDays === 1) {
-            return 'Yesterday, ' + chatTime.format('h:mm A');
+          return 'Yesterday, ' + chatTime.format('h:mm A');
         } else if (diffInDays < 7) {
-            return `${diffInDays} days ago, ` + chatTime.format('h:mm A');
+          return `${diffInDays} days ago, ` + chatTime.format('h:mm A');
         } else {
-            return chatTime.format('MMMM D, YYYY, h:mm A');
+          return chatTime.format('MMMM D, YYYY, h:mm A');
         }
-    };
-    const formatChattimedate = (time) => {
-
+      };
+      const formatChattimedate = (time) => {
+        
         const chatTime = moment(time);
         //   return chatTime.format('MMMM D, YYYY, h:mm A');
-        return chatTime.format('h:mm A');
-
-    };
-    const formatChatday = (time) => {
-
+          return chatTime.format('h:mm A');
+        
+      };
+      const formatChatday = (time) => {
+        
         const now = moment();
         const chatTime = moment(time);
-
+        
         const diffInDays = now.diff(chatTime, 'days');
-
+      
         if (diffInDays < 1) {
-            return 'today';
+          return 'today';
         } else if (diffInDays === 1) {
-            return 'Yesterday, ' + chatTime.format('h:mm A');
+          return 'Yesterday, ' + chatTime.format('h:mm A');
         } else if (diffInDays < 7) {
-            return `${diffInDays} days ago, ` + chatTime.format('h:mm A');
+          return `${diffInDays} days ago, ` + chatTime.format('h:mm A');
         } else {
-            return chatTime.format('D MMMM, YYYY');
+          return chatTime.format('MMMM D, YYYY, h:mm A');
         }
-
-    };
-    const handleSendMessage = () => {
-
+        
+      };
+      const handleSendMessage = () => {
+      
         if (message.trim()) { // Check for empty message
             handleSubmit({
                 message: message,
                 recipient: recipient,
                 selectedChannel: selectedChannel
-            });
-            setMessage(''); // Clear textarea after sending a non-empty message
+              });
+          setMessage(''); // Clear textarea after sending a non-empty message
         }
-    };
+      };
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log('Form submitted:', { message, recipient, selectedChannel });
@@ -100,9 +96,9 @@ const Chat = () => {
         setMessage('');
         setRecipient('');
     };
-    const handleRecipientClick = (recipientName, index) => {
+    const handleRecipientClick = (recipientName,index) => {
         const selectedChat = chats.find(chat => chat.recipient_name === recipientName);
-        setRecipient(recipientName);
+        setRecipient(index);
         if (selectedChat) {
             setSelectedChatHistory(selectedChat.history);
         }
@@ -145,7 +141,7 @@ const Chat = () => {
         <Layout>
             <div id="main-content">
                 <div className="container-fluid pb-2">
-
+                    
                     <div className="row clearfix">
                         <div className="col-lg-12">
                             <div className="card bg-white text-dark">
@@ -165,7 +161,7 @@ const Chat = () => {
                                             <ul className="right_chat list-unstyled mb-0 animation-li-delay">
                                                 {chats.map((chat, index) => (
                                                     <li key={index} className="online">
-                                                        <a href="javascript:void(0);" className="media" onClick={() => handleRecipientClick(chat.recipient_name, index)}>
+                                                        <a href="javascript:void(0);" className="media" onClick={() => handleRecipientClick(chat.recipient_name,index)}>
                                                             <img className="media-object" src="assets/images/xs/avatar4.jpg" alt="" />
                                                             <div className="media-body">
                                                                 <span className="name">{chat.rec || 'Unknown'} <small className="text-muted">{formatChatTime(chat.time)}</small></span>
@@ -322,7 +318,7 @@ const Chat = () => {
                                             <div class="media mb-0">
                                                 <img class="rounded-circle w35" src="assets/images/user.png" alt="" />
                                                 <div class="media-body mr-3 ml-3 text-muted">
-                                                    <h6 class="m-0">{recipient||'Unknown'}</h6>
+                                                    <h6 class="m-0">Deborah Cox</h6>
                                                     <small>Webdeveloper</small>
                                                 </div>
                                             </div>
@@ -340,37 +336,59 @@ const Chat = () => {
                                                 </select>
                                             </div>
 
-
+                                            
                                         </div>
                                     </div>
-
-
-                                    <ChatHistory
-                                        selectedChatHistory={selectedChatHistory}
-                                        formatChatday={formatChatday}
-                                        formatChattimedate={formatChattimedate}
-                                    />
+                                  
+                                    <div className="chat-history">
+                                        <ul className="message_data">
+                                            {selectedChatHistory.map((messageObject, index) => (
+                                                <div>
+                                                   { index == 0 &&( <div className="text-center">
+    <span className="badge bg-blue border-0">{formatChatday(messageObject.time)}</span>
+  </div>)}
+                                                   {index > 0 && formatChatday(selectedChatHistory[index - 1].time) !== formatChatday(messageObject.time) && (
+  <div className="text-center">
+    <span className="badge bg-blue border-0">{formatChatday(messageObject.time)}</span>
+  </div>
+)}
+                                                    
+                                                <li key={index} className="right clearfix">
+                                                    <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
+                                                    <div className="message">
+                                                        <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
+                                                        {/* Access the message property of the messageObject */}
+                                                        <span>{messageObject.message}</span>
+                                                        
+                                                        
+                                                    </div>
+                                                    <span className="data_time">{formatChattimedate(messageObject.time)}</span>
+                                                </li>
+                                                </div>
+                                            ))}
+                                        </ul>
+                                    </div>
                                     <div class="chat-message">
-                                        <div class="form-group c_form_group mb-0 d-flex align-items-center">
-
-                                            <textarea
-                                                type="text"
-                                                rows="1"
-                                                className="form-control flex-grow-1 chat-message__textarea"
-                                                placeholder="Enter text here..."
-                                                value={message}
-                                                onChange={handleInputChange}
-                                            />
-                                            <button
-                                                type="button"
-                                                className="btn btn-primary send-message-btn chat-message__button"
-                                                onClick={handleSendMessage}
-                                            >
-                                                <i class="fa fa-paper-plane"></i>
-
-                                            </button>
-
-
+                                        <div class="form-group c_form_group mb-0 d-flex align-items-center"> 
+                                        
+                                        <textarea
+        type="text"
+        rows="1"
+        className="form-control flex-grow-1 chat-message__textarea"
+        placeholder="Enter text here..."
+        value={message}
+        onChange={handleInputChange}
+      />
+      <button
+        type="button"
+        className="btn btn-primary send-message-btn chat-message__button"
+        onClick={handleSendMessage}
+      >
+         <i class="fa fa-paper-plane"></i>
+        
+      </button>
+    
+                                           
 
                                         </div>
                                     </div>

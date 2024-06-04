@@ -57,4 +57,4 @@ const updateUser = async (payload) => {
   // export default { register,login,addUser,getUser,getData };
 
 
-export default { register, login, getUser, addUser, updateUser };
+export default { register, login, getUser, addUser, updateUser,getData };

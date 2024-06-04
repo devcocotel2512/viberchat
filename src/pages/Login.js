@@ -29,6 +29,7 @@ const Login = () => {
       const data = await response.data;
       
       localStorage.setItem('authToken', data.token);
+      localStorage.setItem('loginuser', data.user);
       
 
       setIsLoggedIn(true);
@@ -80,7 +81,7 @@ const Login = () => {
                   <span>Remember me</span>
                 </label>
               </div>
-              <button type="submit" className="btn btn-dark btn-lg btn-block">LOGIN</button>
+              <button type="submit" className="btn btn-dark btn-lg btn-block bg-dark">LOGIN</button>
               <div className="bottom">
                 <span className="helper-text m-b-10"><i className="fa fa-lock"></i> <a href="page-forgot-password.html">Forgot password?</a></span>
                 <span>Don't have an account? <Link to="/register">Register</Link></span>
