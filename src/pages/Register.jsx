@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
+import moli from '../img/icon.svg'
 import authService from './services/authService';
 
 const Register = () => {
@@ -30,7 +31,7 @@ const Register = () => {
       <div className="auth_div vivify fadeIn">
         <div className="auth_brand">
           <a className="navbar-brand" href="#">
-            <img src="assets/images/icon.svg" width={50} className="d-inline-block align-top mr-2" alt="logo" />
+            <img src={moli} width={50} className="d-inline-block align-top mr-2" alt="logo" />
             Mooli
           </a>
         </div>

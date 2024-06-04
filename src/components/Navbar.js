@@ -1,5 +1,6 @@
 // Navbar.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 function Navbar() {
@@ -8,7 +9,7 @@ function Navbar() {
         <div className="container-fluid">
           <div className="navbar-left">
             <div className="navbar-btn">
-              <a href="index.html"><img src="../assets/images/icon.svg" alt="Mooli Logo" className="img-fluid logo" /></a>
+              <img src="../assets/images/icon.svg" className="img-fluid logo" />
               <button type="button" className="btn-toggle-offcanvas"><i className="fa fa-align-left"></i></button>
             </div>
             <form id="navbar-search" className="navbar-form search-form">
@@ -30,10 +31,10 @@ function Navbar() {
                   </div>
                 </li>
                 <li className="dropdown hidden-xs">
-                  <a href="javascript:void(0);" className="dropdown-toggle icon-menu" data-toggle="dropdown">
+                  <Link to="javascript:void(0);" className="dropdown-toggle icon-menu" data-toggle="dropdown">
                     <i className="fa fa-envelope-o"></i>
                     <span className="notification-dot msg">4</span>
-                  </a>
+                  </Link>
                   <ul className="dropdown-menu right_chat email mt-0 animation-li-delay">
                     <li className="header theme-bg gradient mt-0 text-light">You have 4 New eMail</li>
                     <li>
