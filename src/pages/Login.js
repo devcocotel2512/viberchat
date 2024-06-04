@@ -30,6 +30,7 @@ const Login = () => {
       const data = await response.data;
       
       localStorage.setItem('authToken', data.token);
+      localStorage.setItem('loginuser', data.user);
       
 
       setIsLoggedIn(true);
