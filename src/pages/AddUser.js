@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import Layout from "../components/Layout";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
 import authService from "./services/authService";
+import { useNavigate } from "react-router-dom";
+
 const AddUser = () => {
+  const navigate = useNavigate([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -89,6 +91,10 @@ const AddUser = () => {
     }
   };
 
+  const back = () => {
+    navigate('/user')
+  }
+
   return (
     <Layout>
       <div id="main-content">
@@ -170,10 +176,13 @@ const AddUser = () => {
                     <br />
                     <button
                       type="submit"
-                      className="btn btn-primary theme-bg gradient"
+                      className="btn btn-primary rounded"
                     >
                       Submit
                     </button>
+                    <button type="submit" className="btn btn-class  ml-3 rounded" onClick={back}>
+                        Back
+                        </button>
                   </form>
                 </div>
               </div>

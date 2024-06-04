@@ -1,24 +1,55 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import channelService from "./services/channelService";
-import Pagination from "@mui/material/Pagination"; // Import Pagination component from MUI
+import Pagination from "@mui/material/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import ClipLoader from "react-spinners/ClipLoader";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-const Chennel = () => {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const Channel = () => {
+  const { lbl } = useParams();
   const navigate = useNavigate();
   const [channels, setChannels] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const channelsPerPage = 10; // Number of channels per page
+  const [loading, setLoading] = useState(true);
+  const channelsPerPage = 10;
 
   useEffect(() => {
     const fetchChannels = async () => {
       try {
+        setLoading(true);
         const response = await channelService.getChannel({
           searchquery: {
             _id: "raidlayer",
+            _lbl: lbl,
           },
           projection: {
             chnl: 1,
@@ -28,18 +59,20 @@ const Chennel = () => {
         setChannels(response.data.data[0].chnl);
       } catch (error) {
         console.error("Error fetching channels:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchChannels();
-  }, []);
+  }, [lbl]);
 
   const handleAddChannelClick = () => {
     navigate("/add-channel");
   };
 
-  const handleEditChannelClick = (channelId) => {
-    navigate(`/edit-channel/${channelId}`);
+  const EditChannel = (channelLbl) => {
+    navigate(`/edit-channel/${channelLbl}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -48,10 +81,7 @@ const Chennel = () => {
 
   const indexOfLastChannel = currentPage * channelsPerPage;
   const indexOfFirstChannel = indexOfLastChannel - channelsPerPage;
-  const currentChannels = channels.slice(
-    indexOfFirstChannel,
-    indexOfLastChannel
-  );
+  const currentChannels = channels.slice(indexOfFirstChannel, indexOfLastChannel);
 
   return (
     <Layout>
@@ -63,7 +93,7 @@ const Chennel = () => {
               <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
                 <button
                   type="button"
-                  className="btn btn-primary theme-bg gradient"
+                  className="btn btn-primary rounded"
                   onClick={handleAddChannelClick}
                 >
                   Add Channel
@@ -78,70 +108,77 @@ const Chennel = () => {
                   <h2>Channel Details</h2>
                 </div>
                 <div className="body">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th style={{ textAlign: "left" }}>Sr.No</th>
-                        <th>Name</th>
-                        <th>Label</th>
-                        <th>Form</th>
-                        <th style={{ textAlign: "center" }}>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentChannels.map((channel, index) => (
-                        <tr
-                          key={index}
-                          style={{
-                            backgroundColor:
-                              index % 2 === 0 ? "#f9f9f9" : "inherit",
-                          }}
-                        >
-                          <td style={{ textAlign: "left" }}>
-                            {indexOfFirstChannel + index + 1}
-                          </td>
-                          <td>{channel.nm}</td>
-                          <td>{channel.lbl}</td>
-                          <td>{channel.frm}</td>
-                          <td className="flex">
-                            <button
-                              type="button"
-                              className="btn btn-warning mr-2"
-                              onClick={() =>
-                                handleEditChannelClick(channel._id)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faPenToSquare} />
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-danger"
-                              onClick={() =>
-                                handleEditChannelClick(channel._id)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <Pagination
-                    count={Math.ceil(channels.length / channelsPerPage)}
-                    page={currentPage}
-                    onChange={handleChangePage}
-                    color="primary"
-                    className="mt-3"
-                  />
+                  {loading ? (
+                    <div className="loading-container">
+                      <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                    </div>
+                  ) : (
+                    <>
+                      <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                          <TableHead>
+                            <TableRow>
+                              <StyledTableCell>Sr.No</StyledTableCell>
+                              <StyledTableCell>Name</StyledTableCell>
+                              <StyledTableCell>Label</StyledTableCell>
+                              <StyledTableCell>Form</StyledTableCell>
+                              <StyledTableCell align="center">Action</StyledTableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {currentChannels.map((channel, index) => (
+                              <StyledTableRow key={index}>
+                                <StyledTableCell>
+                                  {indexOfFirstChannel + index + 1}
+                                </StyledTableCell>
+                                <StyledTableCell>{channel.nm}</StyledTableCell>
+                                <StyledTableCell>{channel.lbl}</StyledTableCell>
+                                <StyledTableCell>{channel.frm}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                  <button
+                                    type="button"
+                                    className="btn-edit"
+                                    onClick={() => EditChannel(channel.lbl)}
+                                  >
+                                    <FontAwesomeIcon icon={faPenToSquare} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn-delete"
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </button>
+                                </StyledTableCell>
+                              </StyledTableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      <Pagination
+                        count={Math.ceil(channels.length / channelsPerPage)}
+                        page={currentPage}
+                        onChange={handleChangePage}
+                        color="primary"
+                        className="mt-3"
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <style jsx>{`
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+      `}</style>
     </Layout>
   );
 };
 
-export default Chennel;
+export default Channel;

@@ -1,60 +1,79 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import authService from "./services/authService";
-import Switch from '@mui/material/Switch';
-import Pagination from '@mui/material/Pagination';
+import Switch from "@mui/material/Switch";
+import Pagination from "@mui/material/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import ClipLoader from "react-spinners/ClipLoader";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const ViewUser = () => {
   const navigate = useNavigate();
+  const { un } = useParams();
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 10; // Number of users per page
+  const [loading, setLoading] = useState(true);
+  const usersPerPage = 10;
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        setLoading(true);
         const response = await authService.getUser({
           searchquery: {
             _id: "raidlayer",
+            _un: un,
           },
           projection: {
             user: 1,
           },
           showcount: 1,
         });
-        console.log("Response Data:", response.data);
-        const usersData = response.data.data[0].user.map(user => ({
+        const usersData = response.data.data[0].user.map((user) => ({
           ...user,
-          verified: Boolean(user.verified)  // Ensure verified is a boolean
+          verified: Boolean(user.verified),
         }));
-        console.log("Processed Users Data:", usersData);
         setUsers(usersData);
       } catch (error) {
         console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [un]);
 
   const handleAddUserClick = () => {
     navigate("/add-user");
-  };
-
-  const handleEditUserClick = (userId) => {
-    navigate(`/edit-user/${userId}`);
-  };
-
-  const handleDeleteUserClick = async (userId) => {
-    try {
-      await authService.deleteUser(userId);
-      setUsers(users.filter(user => user._id !== userId));
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
   };
 
   const handleToggleVerified = async (index) => {
@@ -69,6 +88,10 @@ const ViewUser = () => {
     } catch (error) {
       console.error("Error updating user verification status:", error);
     }
+  };
+
+  const EditUser = (userUn) => {
+    navigate(`/edit-user/${userUn}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -89,77 +112,93 @@ const ViewUser = () => {
               <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary rounded"
                   onClick={handleAddUserClick}
                 >
                   Add User
                 </button>
               </div>
             </div>
-            <div className="row clearfix">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="header mb-3">
-                    <h2>Users Details</h2>
-                  </div>
-                  <div className="body">
-                    <table className="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th style={{ textAlign: "left" }}>Sr.No</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Verified</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {currentUsers.map((user, index) => (
-                          <tr key={index} style={{ backgroundColor: index % 2 === 0 ? "#f9f9f9" : "inherit" }}>
-                            <td style={{ textAlign: "left" }}>{indexOfFirstUser + index + 1}</td>
-                            <td>{user.un}</td>
-                            <td>{user.em}</td>
-                            <td>
-                              <Switch
-                                checked={user.verified}
-                                onChange={() => handleToggleVerified(indexOfFirstUser + index)}
-                                color="primary"
-                              />
-                            </td>
-                            <td className="flex mr-2">
-                              <button
-                                type="button"
-                                className="btn btn-warning mr-2"
-                                onClick={() => handleEditUserClick(user._id)}
-                              >
-                                <FontAwesomeIcon icon={faUserPen} />
-                              </button>
-                              <button
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={() => handleDeleteUserClick(user._id)}
-                              >
-                                <FontAwesomeIcon icon={faTrash} />
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                    <Pagination
-                      count={Math.ceil(users.length / usersPerPage)}
-                      page={currentPage}
-                      onChange={handleChangePage}
-                      color="primary"
-                      className="mt-3"
-                    />
-                  </div>
+          </div>
+          <div className="row clearfix">
+            <div className="col-md-12">
+              <div className="card">
+                <div className="header">
+                  <h2 className="h2">Users Details</h2>
+                </div>
+                <div className="body">
+                  {loading ? (
+                    <div className="loading-container">
+                      <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                    </div>
+                  ) : (
+                    <>
+                      <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                          <TableHead>
+                            <TableRow>
+                              <StyledTableCell>Sr.No</StyledTableCell>
+                              <StyledTableCell>Name</StyledTableCell>
+                              <StyledTableCell>Email</StyledTableCell>
+                              <StyledTableCell>Verified</StyledTableCell>
+                              <StyledTableCell align="center">Action</StyledTableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {currentUsers.map((user, index) => (
+                              <StyledTableRow key={index}>
+                                <StyledTableCell>
+                                  {indexOfFirstUser + index + 1}
+                                </StyledTableCell>
+                                <StyledTableCell>{user.un}</StyledTableCell>
+                                <StyledTableCell>{user.em}</StyledTableCell>
+                                <StyledTableCell>
+                                  <Switch
+                                    checked={user.verified}
+                                    onChange={() => handleToggleVerified(indexOfFirstUser + index)}
+                                    color="primary"
+                                  />
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                  <button
+                                    type="button"
+                                    className="btn-edit"
+                                    onClick={() => EditUser(user.un)}
+                                  >
+                                    <FontAwesomeIcon icon={faUserPen} />
+                                  </button>
+                                  <button type="button" className="btn-delete">
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </button>
+                                </StyledTableCell>
+                              </StyledTableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                      <Pagination
+                        count={Math.ceil(users.length / usersPerPage)}
+                        page={currentPage}
+                        onChange={handleChangePage}
+                        color="primary"
+                        className="mt-3"
+                      />
+                    </>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <style jsx>{`
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+      `}</style>
     </Layout>
   );
 };
