@@ -3120,6 +3120,10 @@ html.fullscreen-bg #wrapper {
     border: 0
 }
 
+.form-group{
+    width: 140px;
+}
+
 
 @media screen and (max-width: 992px) {
     .navbar-fixed-top #navbar-search .form-control .form-control1 {
