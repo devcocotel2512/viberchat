@@ -169,7 +169,6 @@ const EditChannel = () => {
                             name="authkey"
                             className="form-control"
                             value={channelData.authkey}
-                            onChange={handleChange}
                           />
                         </div>
                         <button
@@ -208,3 +207,6 @@ const EditChannel = () => {
 };
 
 export default EditChannel;
+
+
+
