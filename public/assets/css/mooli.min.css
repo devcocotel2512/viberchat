@@ -3120,9 +3120,6 @@ html.fullscreen-bg #wrapper {
     border: 0
 }
 
-.form-group{
-    width: 140px;
-}
 
 
 @media screen and (max-width: 992px) {
