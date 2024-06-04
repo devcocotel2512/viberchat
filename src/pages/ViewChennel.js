@@ -14,6 +14,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -85,6 +87,7 @@ const Channel = () => {
 
   return (
     <Layout>
+       <ToastContainer />
       <div id="main-content">
         <div className="container-fluid">
           <div className="block-header">

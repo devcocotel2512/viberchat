@@ -80,6 +80,8 @@ const EditChannel = () => {
         },
       });
       toast.success("Channel updated successfully");
+      // window.location.href = '/channel';
+      navigate("/channel");
     } catch (error) {
       console.error("Error updating channel:", error);
       toast.error("Failed to update channel");
@@ -89,7 +91,9 @@ const EditChannel = () => {
   };
 
   const back = () => {
+    // window.location.href = '/channel';
     navigate("/channel");
+    
   };
 
   return (

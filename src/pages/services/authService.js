@@ -54,7 +54,7 @@ const updateUser = async (payload) => {
     const response = await axios.post(API_URL+'/mfind',payload);
     return response;
   };
-  export default { register,login,addUser,getUser,getData };
+  // export default { register,login,addUser,getUser,getData };
 
 
 export default { register, login, getUser, addUser, updateUser };
