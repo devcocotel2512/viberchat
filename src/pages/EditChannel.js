@@ -3,6 +3,8 @@ import Layout from "../components/Layout";
 import { useNavigate, useParams } from "react-router-dom";
 import channelService from "./services/channelService";
 import ClipLoader from "react-spinners/ClipLoader";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditChannel = () => {
   const navigate = useNavigate();
@@ -77,9 +79,10 @@ const EditChannel = () => {
           "chnl.$.authkey": channelData.authkey,
         },
       });
-      alert("Channel updated successfully");
+      toast.success("Channel updated successfully");
     } catch (error) {
       console.error("Error updating channel:", error);
+      toast.error("Failed to update channel");
     } finally {
       setLoading(false);
     }
@@ -171,9 +174,8 @@ const EditChannel = () => {
                         >
                           Save Changes
                         </button>
-
                         <button
-                          type="back"
+                          type="button"
                           className="btn btn-class mt-4 ml-3 rounded "
                           onClick={back}
                         >
@@ -187,6 +189,7 @@ const EditChannel = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
       <style jsx>{`
         .loading-container {

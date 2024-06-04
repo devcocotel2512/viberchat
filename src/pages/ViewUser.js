@@ -124,7 +124,7 @@ const ViewUser = () => {
             <div className="col-md-12">
               <div className="card">
                 <div className="header">
-                  <h2>Users Details</h2>
+                  <h2 className="h2">Users Details</h2>
                 </div>
                 <div className="body">
                   {loading ? (

@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import authService from "./services/authService"; // Adjust the path as needed
 import ClipLoader from "react-spinners/ClipLoader";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditUser = () => {
   const { userun } = useParams();
@@ -14,7 +16,6 @@ const EditUser = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Fetch user data when component mounts
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -55,7 +56,6 @@ const EditUser = () => {
     fetchUserData();
   }, [userun]);
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -64,38 +64,33 @@ const EditUser = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await authService.updateUser({
+    try{
+      setLoading(true);
+      await authService.updateUser({
         searchquery: {
-          _id: "raidlayer",
-          "user.un": userun,
-        },
-        body: {
-          "user.$.un": userData.un,
-          "user.$.em": userData.em,
-          "user.$.pass": userData.pass,
-        },
-      });
-
-      if (response.status === 200) {
-        alert("User updated successfully");
-        navigate("/view-user"); // Adjust this path as needed
-      } else {
-        console.error("Failed to update user data");
-      }
-    } catch (error) {
-      console.error("Error updating user data:", error);
-    } finally {
+                  _id: "raidlayer",
+                  "user.un": userun,
+                },
+                body: {
+                          "user.$.un": userData.un,
+                          "user.$.em": userData.em,
+                          "user.$.pass": userData.pass,
+                        },
+      })
+      toast.success("User Update Successfully");
+    }catch(error){
+      console.error("Error Updating USer:", error);
+      toast.error("Failed to Upadte User");
+    }finally{
       setLoading(false);
     }
-  };
-  const back = () => {
-    navigate('/user')
   }
+
+  const back = () => {
+    navigate('/user');
+  };
 
   return (
     <Layout>
@@ -152,8 +147,8 @@ const EditUser = () => {
                         <button type="submit" className="btn btn-primary mt-4 rounded">
                           Save Changes
                         </button>
-                        <button type="submit" className="btn btn-class mt-4 ml-3 rounded" onClick={back}>
-                        Back
+                        <button type="button" className="btn btn-class mt-4 ml-3 rounded" onClick={back}>
+                          Back
                         </button>
                       </form>
                     )}
@@ -163,6 +158,7 @@ const EditUser = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
       <style jsx>{`
         .loading-container {
