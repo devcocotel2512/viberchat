@@ -3113,8 +3113,16 @@ html.fullscreen-bg #wrapper {
     border: 0
 }
 
+.form-control1{
+    width: 300px;
+    height: 33px;
+    border-radius: 10px;
+    border: 0
+}
+
+
 @media screen and (max-width: 992px) {
-    .navbar-fixed-top #navbar-search .form-control {
+    .navbar-fixed-top #navbar-search .form-control .form-control1 {
         width: 180px
     }
 }
@@ -4534,7 +4542,8 @@ select.form-control:not([size]):not([multiple]) {
     color: var(--font-555);
     background-color: var(--card-color);
     border-color: var(--border-color);
-    padding: 6px 18px
+    padding: 6px 18px;
+    margin-right: 30px;
 }
 
 .btn.btn-default.btn-sm {

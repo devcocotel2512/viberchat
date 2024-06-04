@@ -1,7 +1,8 @@
 // Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
     return (
@@ -13,8 +14,8 @@ function Navbar() {
               <button type="button" className="btn-toggle-offcanvas"><i className="fa fa-align-left"></i></button>
             </div>
             <form id="navbar-search" className="navbar-form search-form">
-              <button type="button" className="btn btn-default"><i className="icon-magnifier"></i></button>
-              <input value="" className="form-control" placeholder="Search here..." type="text" />
+              <button type="button" className="btn btn-default"><FontAwesomeIcon icon={ faMagnifyingGlass } className='mb-1 ml-2'/></button>
+              <input value="" className="form-control1" placeholder="" type="text" />
             </form>
           </div>
           <div className="navbar-right">

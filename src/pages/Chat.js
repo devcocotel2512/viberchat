@@ -3,6 +3,8 @@ import Layout from '../components/Layout';
 import channelService from './services/channelService';
 import chatService from './services/chatService';
 import authService from './services/authService';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const Chat = () => {
     const [message, setMessage] = useState('');
@@ -133,7 +135,7 @@ const Chat = () => {
                                             <div className="input-group mb-3">
                                                 <input type="text" className="form-control" placeholder="Search..." />
                                                 <div className="input-group-append">
-                                                    <span className="input-group-text"><i className="icon-magnifier"></i></span>
+                                                    <span className="input-group-text"><FontAwesomeIcon icon={ faMagnifyingGlass }/></span>
                                                 </div>
                                             </div>
                                             <ul className="right_chat list-unstyled mb-0 animation-li-delay">
