@@ -13,9 +13,13 @@ const Chat = () => {
     const [chats, setChats] = useState([]);
     const [selectedChannel, setSelectedChannel] = useState('');
     const [selectedChatHistory, setSelectedChatHistory] = useState([]);
+    const retrievedUser = JSON.parse(localStorage.getItem('loginuser'));
 
+    const [loggedInUser, setLoggedInUser] = useState(retrievedUser);
     const handleChannelSelection = (event) => {
+        
         setSelectedChannel(event.target.value);
+        
     };
     const handleInputChange = (event) => {
         setMessage(event.target.value);
@@ -61,27 +65,24 @@ const Chat = () => {
         if (diffInDays < 1) {
             return 'today';
         } else if (diffInDays === 1) {
-            return 'Yesterday, ' + chatTime.format('h:mm A');
+            return 'Yesterday';
         } else if (diffInDays < 7) {
-            return `${diffInDays} days ago, ` + chatTime.format('h:mm A');
+            return `${diffInDays} days ago`;
         } else {
             return chatTime.format('D MMMM, YYYY');
         }
 
     };
-    const handleSendMessage = () => {
-
+    const handleSendMessage = (event) => {
+        event.preventDefault();
         if (message.trim()) { // Check for empty message
-            handleSubmit({
-                message: message,
-                recipient: recipient,
-                selectedChannel: selectedChannel
-            });
+            handleSubmit(event); 
             setMessage(''); // Clear textarea after sending a non-empty message
         }
     };
     const handleSubmit = async (event) => {
         event.preventDefault();
+    alert(selectedChannel);
         console.log('Form submitted:', { message, recipient, selectedChannel });
 
         try {
@@ -89,7 +90,7 @@ const Chat = () => {
                 msg: message,
                 rec: recipient,
                 chnl: selectedChannel,
-                sender_name: 'gayatriaaaa',
+                sender_name: loggedInUser.un,
                 sender_avatar: "https://avatar.example.com",
                 typeofmsg: "text"
             });
@@ -101,11 +102,16 @@ const Chat = () => {
         setMessage('');
         setRecipient('');
     };
-    const handleRecipientClick = (recipientName, index) => {
+    const handleRecipientClick = (recipientName, recid,chnl) => {
         const selectedChat = chats.find(chat => chat.recipient_name === recipientName);
-        setRecipient(recipientName);
+        setRecipient(recid);
+        setSelectedChannel(chnl);
+        alert(selectedChannel);
+    
         if (selectedChat) {
             setSelectedChatHistory(selectedChat.history);
+            
+            // selectedChannel(chnl);
         }
     };
     useEffect(() => {
@@ -166,7 +172,7 @@ const Chat = () => {
                                             <ul className="right_chat list-unstyled mb-0 animation-li-delay">
                                                 {chats.map((chat, index) => (
                                                     <li key={index} className="online">
-                                                        <a href="javascript:void(0);" className="media" onClick={() => handleRecipientClick(chat.recipient_name, index)}>
+                                                        <a href="javascript:void(0);" className="media" onClick={() => handleRecipientClick(chat.recipient_name, chat.recid,chat.lstcnl)}>
                                                             <img className="media-object" src="assets/images/xs/avatar4.jpg" alt="" />
                                                             <div className="media-body">
                                                                 <span className="name">{chat.rec || 'Unknown'} <small className="text-muted">{formatChatTime(chat.time)}</small></span>
@@ -223,8 +229,8 @@ const Chat = () => {
                                                         <select class="form-control" id="channelSelect" title="Channels" value={selectedChannel} onChange={handleChannelSelection}>
                                                             <option val="0">Channels</option>
                                                             {channels.map(channel => (
-                                                                <option key={channel.lbl} value={channel.lbl}>
-                                                                    {channel.lbl}
+                                                                <option key={channel.lbl} value={channel.lbl}  >
+                                                                    {channel.lbl} 
                                                                 </option>
                                                             ))}
                                                         </select>
@@ -332,7 +338,7 @@ const Chat = () => {
                                             <div class="form-group">
 
                                                 <select class="form-control" id="channelSelect" title="Channels" value={selectedChannel} onChange={handleChannelSelection}>
-                                                    <option val="0">Channels</option>
+                                                    <option val="">Channels</option>
                                                     {channels.map(channel => (
                                                         <option key={channel.lbl} value={channel.lbl}>
                                                             {channel.lbl}
