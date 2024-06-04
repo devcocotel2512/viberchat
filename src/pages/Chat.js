@@ -15,9 +15,22 @@ const Chat = () => {
     const handleChannelSelection = (event) => {
         setSelectedChannel(event.target.value);
     };
-
+    const handleInputChange = (event) => {
+        setMessage(event.target.value);
+      };
+    
+      const handleSendMessage = () => {
+        if (message.trim()) { // Check for empty message
+            handleSubmit({
+                message: message,
+                recipient: recipient,
+                selectedChannel: selectedChannel
+              });
+          setMessage(''); // Clear textarea after sending a non-empty message
+        }
+      };
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         console.log('Form submitted:', { message, recipient, selectedChannel });
 
         try {
@@ -76,7 +89,7 @@ const Chat = () => {
         fetchChats();
         fetchChannels();
     }, []);
- 
+
     return (
         <Layout>
             <div id="main-content">
@@ -124,19 +137,19 @@ const Chat = () => {
                                                 </div>
                                             </div>
                                             <ul className="right_chat list-unstyled mb-0 animation-li-delay">
-                                            {chats.map((chat, index) => (
+                                                {chats.map((chat, index) => (
                                                     <li key={index} className="online">
-                                                         <a href="javascript:void(0);" className="media" onClick={() => handleRecipientClick(chat.recipient_name)}>
+                                                        <a href="javascript:void(0);" className="media" onClick={() => handleRecipientClick(chat.recipient_name)}>
                                                             <img className="media-object" src="assets/images/xs/avatar4.jpg" alt="" />
                                                             <div className="media-body">
-                                                                <span className="name">{chat.recipient_name || 'Unknown'} <small className="text-muted">{chat.time || 'Unknown'}</small></span>
+                                                                <span className="name">{chat.rec || 'Unknown'} <small className="text-muted">{chat.time || 'Unknown'}</small></span>
                                                                 <span className="message">{chat.lastMessage || 'No message available'}</span>
                                                                 <span className="badge badge-outline status"></span>
                                                             </div>
                                                         </a>
                                                     </li>
                                                 ))}
-                                               
+
                                             </ul>
                                         </div>
                                         <div className="tab-pane vivify fadeIn" id="create-chat">
@@ -147,52 +160,52 @@ const Chat = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                            <form className="message-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="message">
-          <h6>Enter Message</h6>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          rows="4"
-          placeholder="Type your message here..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="recipient">
-          <h6>Enter Mobile Number or ID</h6>
-        </label>
-        <input
-          type="text"
-          id="recipient"
-          name="recipient"
-          placeholder="Enter recipient's mobile number or ID"
-          value={recipient}
-          onChange={(e) => setRecipient(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="channelSelect">
-          <h6>Select Channel</h6>
-        </label>
-        <select class="form-control" id="channelSelect" title="Channels" value={selectedChannel} onChange={handleChannelSelection}>
-                                                    <option val="0">Channels</option>
-                                                    {channels.map(channel => (
-          <option key={channel.lbl} value={channel.lbl}>
-            {channel.lbl}
-          </option>
-        ))}
-                                                </select>
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Send Message
-      </button>
-    </form>
+                                                <form className="message-form" onSubmit={handleSubmit}>
+                                                    <div className="form-group">
+                                                        <label htmlFor="message">
+                                                            <h6>Enter Message</h6>
+                                                        </label>
+                                                        <textarea
+                                                            id="message"
+                                                            name="message"
+                                                            rows="4"
+                                                            placeholder="Type your message here..."
+                                                            value={message}
+                                                            onChange={(e) => setMessage(e.target.value)}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="recipient">
+                                                            <h6>Enter Mobile Number or ID</h6>
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            id="recipient"
+                                                            name="recipient"
+                                                            placeholder="Enter recipient's mobile number or ID"
+                                                            value={recipient}
+                                                            onChange={(e) => setRecipient(e.target.value)}
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="channelSelect">
+                                                            <h6>Select Channel</h6>
+                                                        </label>
+                                                        <select class="form-control" id="channelSelect" title="Channels" value={selectedChannel} onChange={handleChannelSelection}>
+                                                            <option val="0">Channels</option>
+                                                            {channels.map(channel => (
+                                                                <option key={channel.lbl} value={channel.lbl}>
+                                                                    {channel.lbl}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" className="btn btn-primary">
+                                                        Send Message
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                         <div className="tab-pane vivify fadeIn" id="chats-Contact">
@@ -294,10 +307,10 @@ const Chat = () => {
                                                 <select class="form-control" id="channelSelect" title="Channels" value={selectedChannel} onChange={handleChannelSelection}>
                                                     <option val="0">Channels</option>
                                                     {channels.map(channel => (
-          <option key={channel.lbl} value={channel.lbl}>
-            {channel.lbl}
-          </option>
-        ))}
+                                                        <option key={channel.lbl} value={channel.lbl}>
+                                                            {channel.lbl}
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             </div>
 
@@ -362,25 +375,54 @@ const Chat = () => {
                                         </ul>
                                     </div> */}
                                     <div className="chat-history">
-    <ul className="message_data">
-        {selectedChatHistory.map((messageObject, index) => (
-            <li key={index} className="right clearfix">
-                <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
-                <div className="message">
-                    <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
-                    {/* Access the message property of the messageObject */}
-                    <span>{messageObject.message}</span>
-                </div>
-                <span className="data_time">10:12 AM, Today</span>
-            </li>
-        ))}
-    </ul>
-</div>
+                                        <ul className="message_data">
+                                            {selectedChatHistory.map((messageObject, index) => (
+                                                <li key={index} className="right clearfix">
+                                                    <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
+                                                    <div className="message">
+                                                        <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
+                                                        {/* Access the message property of the messageObject */}
+                                                        <span>{messageObject.message}</span>
+                                                    </div>
+                                                    <span className="data_time">10:12 AM, Today</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                     <div class="chat-message">
-                                        <div class="form-group c_form_group mb-0">
-                                            <textarea type="text" row="" class="form-control" placeholder="Enter text here..."></textarea>
+                                        <div class="form-group c_form_group mb-0 d-flex align-items-center">
+                                           
+                                                {/* <div class="form-group c_form_group mb-0 d-flex align-items-center">
+                                                    <textarea type="text" rows="2" class="form-control flex-grow-1" placeholder="Enter text here..."  value={message}
+                                                onChange={handleInputChange}></textarea>
+                                                    <button type="button" class="btn btn-primary send-message-btn" onClick={handleSendMessage}>
+                                                        <i class="fas fa-paper-plane"></i>
+                                                        Send
+                                                    </button>
+                                                </div> */}
+                                               
+      <textarea
+        type="text"
+        rows="1"
+        className="form-control flex-grow-1 chat-message__textarea"
+        placeholder="Enter text here..."
+        value={message}
+        onChange={handleInputChange}
+      />
+      <button
+        type="button"
+        className="btn btn-primary send-message-btn chat-message__button"
+        onClick={handleSendMessage}
+      >
+         <i class="fa fa-paper-plane"></i>
+        
+      </button>
+    
+                                           
+
                                         </div>
                                     </div>
+
                                     <div class="user_detail">
                                         <div class="text-center mb-4">
                                             <div class="profile-image"><img src="assets/images/user.png" class="rounded-circle mb-3" alt="" /></div>
