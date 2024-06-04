@@ -30,6 +30,9 @@ const register = async (userData) => {
     console.log('dsdsd',response);
     return response;
   };
-  
-  export default { register,login,addUser,getUser };
+  const getData = async (payload) => {
+    const response = await axios.post(API_URL+'/mfind',payload);
+    return response;
+  };
+  export default { register,login,addUser,getUser,getData };
 
