@@ -10018,14 +10018,14 @@ hr {
 
 @media screen and (max-width: 1440px) {
     .chatapp_body .chat-history {
-        height: 450px;
+        height: 290px;
         overflow-y: auto
     }
 }
 
 @media screen and (max-width: 992px) {
     .chatapp_body .chat-history {
-        height: 630px;
+        height: 200px;
         overflow-y: auto
     }
 }
