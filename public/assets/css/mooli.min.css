@@ -2918,6 +2918,14 @@ html.fullscreen-bg #wrapper {
     position: relative
 }
 
+.btn2{
+    border-radius: 10px;
+    height: 40px;
+    width: 80px;
+    border: none;
+
+}
+
 .card .header h2 small {
     display: block;
     vertical-align: middle;

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useNavigate, useParams } from "react-router-dom";
 import authService from "./services/authService";
-import Switch from "@mui/material/Switch";
 import Pagination from "@mui/material/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -106,97 +105,103 @@ const ViewUser = () => {
     <Layout>
       <div id="main-content">
         <div className="container-fluid">
-
-            <div className="row clearfix mb-2">
-              <div className="col-xl-5 col-md-5 col-sm-12"></div>
-              <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
-                
-              </div>
-            </div>
+          <div className="row clearfix mb-2">
+            <div className="col-xl-5 col-md-5 col-sm-12"></div>
+            <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs"></div>
           </div>
-          <div className="row clearfix">
-            <div className="col-md-12">
-              <div className="card">
+        </div>
+        <div className="row clearfix">
+          <div className="col-md-12">
+            <div className="card">
               <div className="header d-flex justify-content-between align-items-center">
-                  <h2 className="text">User Details</h2>
-                  <button
+                <h2 className="text">User Details</h2>
+                <button
                   type="button"
                   className="btn btn-primary rounded"
                   onClick={handleAddUserClick}
                 >
                   Add User
                 </button>
-                </div>
-                <div className="body">
-                  {loading ? (
-                    <div className="loading-container">
-                      <ClipLoader color={"#123abc"} loading={loading} size={50} />
-                    </div>
-                  ) : (
-                    <>
-                      <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                          <TableHead>
-                            <TableRow>
-                              <StyledTableCell>Sr.No</StyledTableCell>
-                              <StyledTableCell>Name</StyledTableCell>
-                              <StyledTableCell>Email</StyledTableCell>
-                              <StyledTableCell>Verified</StyledTableCell>
-                              <StyledTableCell align="center">Action</StyledTableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {currentUsers.map((user, index) => (
-                              <StyledTableRow key={index}>
-                                <StyledTableCell>
-                                  {indexOfFirstUser + index + 1}
-                                </StyledTableCell>
-                                <StyledTableCell>{user.un}</StyledTableCell>
-                                <StyledTableCell>{user.em}</StyledTableCell>
-                                <StyledTableCell>
-                                  <Switch
-                                    checked={user.verified}
-                                    onChange={() => handleToggleVerified(indexOfFirstUser + index)}
-                                    color="primary"
-                                  />
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                  <button
-                                    type="button"
-                                    className="btn-edit"
-                                    onClick={() => EditUser(user.un)}
-                                  >
-                                    <FontAwesomeIcon icon={faUserPen} />
-                                  </button>
-                                  <button type="button" className="btn-delete">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                  </button>
-                                </StyledTableCell>
-                              </StyledTableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      <Pagination
-                        count={Math.ceil(users.length / usersPerPage)}
-                        page={currentPage}
-                        onChange={handleChangePage}
-                        color="primary"
-                        className="mt-3"
-                      />
-                    </>
-                  )}
-                </div>
+              </div>
+              <div className="body">
+                {loading ? (
+                  <div className="loading-container">
+                    <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                  </div>
+                ) : (
+                  <>
+                    <TableContainer component={Paper}>
+                      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                          <TableRow>
+                            <StyledTableCell>Sr.No</StyledTableCell>
+                            <StyledTableCell>Name</StyledTableCell>
+                            <StyledTableCell>Email</StyledTableCell>
+                            <StyledTableCell>Verified</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {currentUsers.map((user, index) => (
+                            <StyledTableRow key={index}>
+                              <StyledTableCell>
+                                {indexOfFirstUser + index + 1}
+                              </StyledTableCell>
+                              <StyledTableCell>{user.un}</StyledTableCell>
+                              <StyledTableCell>{user.em}</StyledTableCell>
+                              <StyledTableCell>
+                                <button
+                                  className={`btn2 ${user.verified ? 'btn-success' : 'btn-secondary'}`}
+                                  onClick={() => handleToggleVerified(indexOfFirstUser + index)}
+                                >
+                                  {user.verified ? 'Active' : 'Deactive'}
+                                </button>
+                              </StyledTableCell>
+                              <StyledTableCell align="center">
+                                <button
+                                  type="button"
+                                  className="btn-edit"
+                                  onClick={() => EditUser(user.un)}
+                                >
+                                  <FontAwesomeIcon icon={faUserPen} />
+                                </button>
+                                <button type="button" className="btn-delete">
+                                  <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <Pagination
+                      count={Math.ceil(users.length / usersPerPage)}
+                      page={currentPage}
+                      onChange={handleChangePage}
+                      color="primary"
+                      className="mt-3"
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
+      </div>
       <style jsx>{`
         .loading-container {
           display: flex;
           justify-content: center;
           align-items: center;
           height: 100vh;
+        }
+        .btn-success {
+          background-color: #28a745;
+          color: white;
+        }
+        .btn-secondary {
+          background-color: #6c757d;
+          color: white;
         }
       `}</style>
     </Layout>
