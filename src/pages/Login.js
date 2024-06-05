@@ -30,8 +30,9 @@ const Login = () => {
       const data = await response.data;
       
       localStorage.setItem('authToken', data.token);
+    
+      localStorage.setItem('loginuser', JSON.stringify(data.user));
       
-
       setIsLoggedIn(true);
       navigate('/');
       window.location.href = '/';
