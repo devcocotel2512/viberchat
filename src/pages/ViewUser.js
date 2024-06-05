@@ -118,7 +118,7 @@ const ViewUser = () => {
             <div className="col-md-12">
               <div className="card">
               <div className="header d-flex justify-content-between align-items-center">
-                  <h2>Channel Details</h2>
+                  <h2>User Details</h2>
                   <button
                   type="button"
                   className="btn btn-primary rounded"

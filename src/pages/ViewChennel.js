@@ -15,7 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -83,7 +83,10 @@ const Channel = () => {
 
   const indexOfLastChannel = currentPage * channelsPerPage;
   const indexOfFirstChannel = indexOfLastChannel - channelsPerPage;
-  const currentChannels = channels.slice(indexOfFirstChannel, indexOfLastChannel);
+  const currentChannels = channels.slice(
+    indexOfFirstChannel,
+    indexOfLastChannel
+  );
 
   return (
     <Layout>
@@ -98,7 +101,7 @@ const Channel = () => {
           <div className="row clearfix">
             <div className="col-md-12">
               <div className="card">
-                <div className="header d-flex justify-content-between align-items-center">
+                <div className="header  d-flex justify-content-between align-items-center">
                   <h2>Channel Details</h2>
                   <button
                     type="button"
@@ -111,19 +114,28 @@ const Channel = () => {
                 <div className="body">
                   {loading ? (
                     <div className="loading-container">
-                      <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                      <ClipLoader
+                        color={"#123abc"}
+                        loading={loading}
+                        size={50}
+                      />
                     </div>
                   ) : (
                     <>
                       <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <Table
+                          sx={{ minWidth: 700 }}
+                          aria-label="customized table"
+                        >
                           <TableHead>
                             <TableRow>
                               <StyledTableCell>Sr.No</StyledTableCell>
                               <StyledTableCell>Name</StyledTableCell>
                               <StyledTableCell>Label</StyledTableCell>
                               <StyledTableCell>Form</StyledTableCell>
-                              <StyledTableCell align="center">Action</StyledTableCell>
+                              <StyledTableCell align="center">
+                                Action
+                              </StyledTableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -143,10 +155,7 @@ const Channel = () => {
                                   >
                                     <FontAwesomeIcon icon={faPenToSquare} />
                                   </button>
-                                  <button
-                                    type="button"
-                                    className="btn-delete"
-                                  >
+                                  <button type="button" className="btn-delete">
                                     <FontAwesomeIcon icon={faTrash} />
                                   </button>
                                 </StyledTableCell>
@@ -170,11 +179,6 @@ const Channel = () => {
           </div>
         </div>
       <style jsx>{`
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
         .loading-container {
           display: flex;
           justify-content: center;

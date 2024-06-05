@@ -15,9 +15,9 @@ const Chat = () => {
   const [chats, setChats] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedChatHistory, setSelectedChatHistory] = useState([]);
-  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  // const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
 
-  const [loggedInUser, setLoggedInUser] = useState(retrievedUser);
+  const [loggedInUser, setLoggedInUser] = useState();
   const handleChannelSelection = (event) => {
     setSelectedChannel(event.target.value);
   };
@@ -448,9 +448,9 @@ const Chat = () => {
                       </div>
                     </a>
                     <div>
-                      <div class="form-group1">
+                      <div class="form-group">
                         <select
-                          className="form-control pb-20 "
+                          className="form-control  "
                           id="channelSelect"
                           title="Channels"
                           value={selectedChannel}
