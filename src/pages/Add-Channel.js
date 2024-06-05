@@ -115,12 +115,8 @@ const Channel = () => {
     <Layout>
       <div id="main-content">
         <div className="container-fluid">
-          <div className="block-header">
             <div className="row clearfix">
-              <div className="col-lg-4 col-md-12 col-sm-12">
-                <h1>Hi, Welcomeback!</h1>
-                <span>JustDo Form Validation,</span>
-              </div>
+              
               <div className="col-lg-8 col-md-12 col-sm-12 text-lg-right"></div>
             </div>
           </div>
@@ -283,7 +279,7 @@ const Channel = () => {
           </div>
         </div>
         <ToastContainer />
-      </div>
+     
     </Layout>
   );
 };

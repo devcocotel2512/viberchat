@@ -106,25 +106,26 @@ const ViewUser = () => {
     <Layout>
       <div id="main-content">
         <div className="container-fluid">
-          <div className="block-header">
+
             <div className="row clearfix mb-2">
               <div className="col-xl-5 col-md-5 col-sm-12"></div>
               <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
-                <button
-                  type="button"
-                  className="btn btn-primary rounded"
-                  onClick={handleAddUserClick}
-                >
-                  Add User
-                </button>
+                
               </div>
             </div>
           </div>
           <div className="row clearfix">
             <div className="col-md-12">
               <div className="card">
-                <div className="header">
-                  <h2 className="h2">Users Details</h2>
+              <div className="header d-flex justify-content-between align-items-center">
+                  <h2>Channel Details</h2>
+                  <button
+                  type="button"
+                  className="btn btn-primary rounded"
+                  onClick={handleAddUserClick}
+                >
+                  Add User
+                </button>
                 </div>
                 <div className="body">
                   {loading ? (
@@ -190,7 +191,6 @@ const ViewUser = () => {
             </div>
           </div>
         </div>
-      </div>
       <style jsx>{`
         .loading-container {
           display: flex;

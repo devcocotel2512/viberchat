@@ -448,9 +448,9 @@ const Chat = () => {
                       </div>
                     </a>
                     <div>
-                      <div class="form-group">
+                      <div class="form-group1">
                         <select
-                          class="form-control"
+                          className="form-control pb-20 "
                           id="channelSelect"
                           title="Channels"
                           value={selectedChannel}

@@ -87,28 +87,26 @@ const Channel = () => {
 
   return (
     <Layout>
-       <ToastContainer />
+      <ToastContainer />
       <div id="main-content">
         <div className="container-fluid">
-          <div className="block-header">
             <div className="row clearfix mb-2">
               <div className="col-xl-5 col-md-5 col-sm-12"></div>
-              <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
-                <button
-                  type="button"
-                  className="btn btn-primary rounded"
-                  onClick={handleAddChannelClick}
-                >
-                  Add Channel
-                </button>
-              </div>
+              <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs"></div>
             </div>
           </div>
           <div className="row clearfix">
             <div className="col-md-12">
               <div className="card">
-                <div className="header">
+                <div className="header d-flex justify-content-between align-items-center">
                   <h2>Channel Details</h2>
+                  <button
+                    type="button"
+                    className="btn btn-primary rounded"
+                    onClick={handleAddChannelClick}
+                  >
+                    Add Channel
+                  </button>
                 </div>
                 <div className="body">
                   {loading ? (
@@ -171,8 +169,12 @@ const Channel = () => {
             </div>
           </div>
         </div>
-      </div>
       <style jsx>{`
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
         .loading-container {
           display: flex;
           justify-content: center;

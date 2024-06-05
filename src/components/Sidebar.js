@@ -28,7 +28,7 @@ function Sidebar() {
                 <li><Link to="/messages"><i className="fa fa-envelope"></i>Messages</Link></li>  {/* Assuming messages route is at /messages */}
                 <li><Link to="/settings"><i className="fa fa-gear"></i>Settings</Link></li>
                 <li className="divider"></li>
-                <li><Link to="/login"><i className="fa fa-power-off"></i>Logout</Link></li>
+                <li><Link to="/logout"><i className="fa fa-power-off"></i>Logout</Link></li>
               </ul>
             </div>
           </div>
@@ -36,7 +36,7 @@ function Sidebar() {
             <ul id="main-menu" className="metismenu animation-li-delay">
               {/* <li className="header">Main</li>
               <li className="active"><Link to="/"><i className="fa fa-dashboard"></i> <span>Dashboard</span></Link></li> */}  {/* Assuming dashboard route is at / */}
-              <li className="header">Apps</li>
+              <li className="header mr-180">Apps</li>
               {/* <li><Link to="app-inbox.html"><i className="fa fa-envelope"></i> <span>Email</span> <span className="badge badge-default mr-0">12</span></a></li> */}  {/* Remove this as it's an external HTML file */}
               <li><Link to="/chat"><i className="fa fa-comments"></i> <span>Chat</span></Link></li>
               <li><Link to="/channel"><i className="fa fa-comments"></i> <span> Channel</span></Link></li>

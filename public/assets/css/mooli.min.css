@@ -2670,7 +2670,7 @@ body {
     width: calc(100% - 270px);
     float: right;
     position: relative;
-    margin-top: 75px;
+    margin-top: 15px;
     padding: 0 20px
 }
 
@@ -3768,6 +3768,9 @@ ul.choose-skin li.active div::after {
     -moz-border-radius: 50px;
     border-radius: 50px
 }
+.form-group1{
+    margin: 0;
+}
 
 .form-control:focus {
     -moz-box-shadow: none;
@@ -4232,6 +4235,8 @@ textarea.parsley-error {
 select.form-control:not([size]):not([multiple]) {
     height: 36px
 }
+
+
 
 .auth-main {
     background-color: var(--font-fff);
@@ -10006,7 +10011,7 @@ hr {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px
+    padding: 8px 12px
 }
 
 .chatapp_body .chat-history {
@@ -10018,7 +10023,7 @@ hr {
 
 @media screen and (max-width: 1440px) {
     .chatapp_body .chat-history {
-        height: 290px;
+        height: 370px;
         overflow-y: auto
     }
 }
