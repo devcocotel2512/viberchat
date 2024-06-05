@@ -2914,7 +2914,7 @@ html.fullscreen-bg #wrapper {
 }
 
 .card .header h2 {
-    font-weight: 400;
+    font-weight: 700;
     position: relative
 }
 
@@ -8403,6 +8403,7 @@ ul.choose-skin li.active div::after,
     font-size: 17px
 }
 
+
 .font-18,
 .card .header .header-dropdown li a.dropdown-toggle:after,
 .card .header h2,
@@ -8410,7 +8411,7 @@ ul.choose-skin li.active div::after,
 .separator-linethrough span,
 .panel-group .panel .panel-title>a i,
 .feeds_widget li .feeds-left {
-    font-size: 18px
+    font-size: 25px
 }
 
 .font-19 {

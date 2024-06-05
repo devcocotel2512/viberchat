@@ -7,7 +7,6 @@ function Sidebar() {
   return (
     <>
       <div id="left-sidebar" className="sidebar">
-        <Link to="#" className="menu_toggle"><i className="fa fa-angle-left"></i></Link>
         <div className="navbar-brand">
           <Link to="/">
             <img src={moli} alt="Mooli Logo" className="img-fluid logo" />
