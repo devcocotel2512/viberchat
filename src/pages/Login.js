@@ -3,6 +3,8 @@ import moli from '../img/icon.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from './services/authService';
 
+
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,7 +40,7 @@ const Login = () => {
           </a>
         </div>
         <div className="card">
-          <div className="header">
+          <div className="header1">
             <p className="lead">Login to your account</p>
           </div>
           <div className="body">
@@ -82,13 +84,14 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="animate_lines"></div>
+      <div className="animate_lines">
       <div className="line"></div>
       <div className="line"></div>
       <div className="line"></div>
       <div className="line"></div>
       <div className="line"></div>
       <div className="line"></div>
+      </div>
     </div>
   );
 };

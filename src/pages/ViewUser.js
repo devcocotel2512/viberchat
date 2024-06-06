@@ -34,11 +34,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const BoldTableCell = styled(StyledTableCell)({
+  fontWeight: "bold",
+});
+
 const ViewUser = () => {
   const navigate = useNavigate();
   const { un } = useParams();
   const [users, setUsers] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const usersPerPage = 10;
@@ -103,7 +107,7 @@ const ViewUser = () => {
     setCurrentPage(1); // Reset to first page on new search
   };
 
-  const filteredUsers = users.filter(user =>
+  const filteredUsers = users.filter((user) =>
     user.un.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -126,14 +130,16 @@ const ViewUser = () => {
               <div className="header d-flex justify-content-between align-items-center">
                 <h2 className="text">User Details</h2>
 
-                <div className="search-container">
+                <div action="" className="search-bar">
                   <input
-                    type="text"
-                    className="form-control2"
-                    placeholder="Search by username"
+                    type="search"
+                    placeholder="Search Here...."
                     value={searchQuery}
                     onChange={handleSearch}
                   />
+                  <button className="search-btn" type="submit">
+                    <span>Search</span>
+                  </button>
                 </div>
 
                 <button
@@ -145,7 +151,6 @@ const ViewUser = () => {
                 </button>
               </div>
               <div className="body">
-               
                 {loading ? (
                   <div className="loading-container">
                     <ClipLoader color={"#123abc"} loading={loading} size={50} />
@@ -153,30 +158,45 @@ const ViewUser = () => {
                 ) : (
                   <>
                     <TableContainer component={Paper}>
-                      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                      <Table
+                        sx={{ minWidth: 700 }}
+                        aria-label="customized table"
+                      >
                         <TableHead>
                           <TableRow>
                             <StyledTableCell>Sr.No</StyledTableCell>
                             <StyledTableCell>Name</StyledTableCell>
                             <StyledTableCell>Email</StyledTableCell>
-                            <StyledTableCell align="mr-12">Verified</StyledTableCell>
-                            <StyledTableCell align="center">Action</StyledTableCell>
+                            <StyledTableCell align="mr-12">
+                              Verified
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                              Action
+                            </StyledTableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           {currentUsers.map((user, index) => (
                             <StyledTableRow key={index}>
-                              <StyledTableCell>
+                              <BoldTableCell>
                                 {indexOfFirstUser + index + 1}
-                              </StyledTableCell>
-                              <StyledTableCell>{user.un}</StyledTableCell>
-                              <StyledTableCell>{user.em}</StyledTableCell>
+                              </BoldTableCell>
+                              <BoldTableCell>{user.un}</BoldTableCell>
+                              <BoldTableCell>{user.em}</BoldTableCell>
                               <StyledTableCell>
                                 <button
-                                  className={`btn2 ${user.verified ? 'btn-success' : 'btn-secondary'}`}
-                                  onClick={() => handleToggleVerified(indexOfFirstUser + index)}
+                                  className={`btn2 ${
+                                    user.verified
+                                      ? "btn-success"
+                                      : "btn-secondary"
+                                  }`}
+                                  onClick={() =>
+                                    handleToggleVerified(
+                                      indexOfFirstUser + index
+                                    )
+                                  }
                                 >
-                                  {user.verified ? 'Active' : 'Deactive'}
+                                  {user.verified ? "Active" : "Deactive"}
                                 </button>
                               </StyledTableCell>
                               <StyledTableCell align="center">
