@@ -38,56 +38,39 @@ const ViewUser = () => {
   const navigate = useNavigate();
   const { un } = useParams();
   const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
   const usersPerPage = 10;
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await authService.getCurrentUser();
-        setIsAdmin(response.data.isAdmin);
+        setLoading(true);
+        const response = await authService.getUser({
+          searchquery: {
+            _id: "raidlayer",
+            _un: un,
+          },
+          projection: {
+            user: 1,
+          },
+          showcount: 1,
+        });
+        const usersData = response.data.data[0].user.map((user) => ({
+          ...user,
+          verified: Boolean(user.verified),
+        }));
+        setUsers(usersData);
       } catch (error) {
-        console.error("Error checking admin status:", error);
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    checkAdminStatus();
-  }, []);
-
-  useEffect(() => {
-    if (isAdmin) {
-      const fetchUsers = async () => {
-        try {
-          setLoading(true);
-          const response = await authService.getUser({
-            searchquery: {
-              _id: "raidlayer",
-              _un: un,
-            },
-            projection: {
-              user: 1,
-            },
-            showcount: 1,
-          });
-          const usersData = response.data.data[0].user.map((user) => ({
-            ...user,
-            verified: Boolean(user.verified),
-          }));
-          setUsers(usersData);
-        } catch (error) {
-          console.error("Error fetching users:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchUsers();
-    } else {
-      setLoading(false);
-    }
-  }, [un, isAdmin]);
+    fetchUsers();
+  }, [un]);
 
   const handleAddUserClick = () => {
     navigate("/add-user");
@@ -115,9 +98,18 @@ const ViewUser = () => {
     setCurrentPage(newPage);
   };
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1); // Reset to first page on new search
+  };
+
+  const filteredUsers = users.filter(user =>
+    user.un.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   return (
     <Layout>
@@ -133,6 +125,17 @@ const ViewUser = () => {
             <div className="card">
               <div className="header d-flex justify-content-between align-items-center">
                 <h2 className="text">User Details</h2>
+
+                <div className="search-container">
+                  <input
+                    type="text"
+                    className="form-control2"
+                    placeholder="Search by username"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                  />
+                </div>
+
                 <button
                   type="button"
                   className="btn btn-primary rounded"
@@ -142,11 +145,12 @@ const ViewUser = () => {
                 </button>
               </div>
               <div className="body">
+               
                 {loading ? (
                   <div className="loading-container">
                     <ClipLoader color={"#123abc"} loading={loading} size={50} />
                   </div>
-                ) : isAdmin ? (
+                ) : (
                   <>
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -193,15 +197,13 @@ const ViewUser = () => {
                       </Table>
                     </TableContainer>
                     <Pagination
-                      count={Math.ceil(users.length / usersPerPage)}
+                      count={Math.ceil(filteredUsers.length / usersPerPage)}
                       page={currentPage}
                       onChange={handleChangePage}
                       color="primary"
                       className="mt-3"
                     />
                   </>
-                ) : (
-                  <div>You do not have permission to view this content.</div>
                 )}
               </div>
             </div>
@@ -222,6 +224,11 @@ const ViewUser = () => {
         .btn-secondary {
           background-color: #6c757d;
           color: white;
+        }
+        .search-container {
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 10px;
         }
       `}</style>
     </Layout>
