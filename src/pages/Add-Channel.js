@@ -51,7 +51,7 @@ const Channel = () => {
     // Construct the payload for the API request
     const payload = {
       lbl: formValues.label,
-      id: 1, // Assuming this is a static value
+      id:  Date.now(), // Assuming this is a static value
       type: type, // Assuming this is a static value
       frm: formValues.form,
       nm: formValues.name,

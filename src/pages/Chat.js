@@ -11,13 +11,14 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [recipient, setRecipient] = useState("");
+  const [recipientid, setRecipientid] = useState("");
   const [channels, setChannels] = useState([]);
   const [chats, setChats] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedChatHistory, setSelectedChatHistory] = useState([]);
-  // const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
-
-  const [loggedInUser, setLoggedInUser] = useState();
+  // console.log(JSON.parse(localStorage.getItem("loginuser")).un);
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
   const handleChannelSelection = (event) => {
     setSelectedChannel(event.target.value);
   };
@@ -62,7 +63,7 @@ const Chat = () => {
     } else if (diffInDays === 1) {
       return "Yesterday";
     } else if (diffInDays < 7) {
-      return `${diffInDays} days ago`;
+      return `${diffInDays} days ago `+chatTime.format("d");
     } else {
       return chatTime.format("D MMMM, YYYY");
     }
@@ -77,12 +78,12 @@ const Chat = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted:", { message, recipient, selectedChannel });
+    console.log("Form submitted:", { message, recipientid, selectedChannel });
 
     try {
       const response = await chatService.sendChat({
         msg: message,
-        rec: recipient,
+        rec: recipientid,
         chnl: selectedChannel,
         sender_name: loggedInUser.un,
         sender_avatar: "https://avatar.example.com",
@@ -95,12 +96,17 @@ const Chat = () => {
 
     setMessage("");
     setRecipient("");
+    // setRecipientid("");
   };
   const handleRecipientClick = (recipientName, recid, chnl) => {
+    
+    console.log(chats);
     const selectedChat = chats.find(
-      (chat) => chat.recipient_name === recipientName
+      (chat) => chat.recid === recid
     );
-    setRecipient(recid);
+    recipientName = recipientName || "Unknown";
+    setRecipient( recipientName );
+    setRecipientid(recid);
     setSelectedChannel(chnl);
 
     if (selectedChat) {
@@ -193,7 +199,7 @@ const Chat = () => {
                               className="media"
                               onClick={() =>
                                 handleRecipientClick(
-                                  chat.recipient_name,
+                                  chat.name,
                                   chat.recid,
                                   chat.lstcnl
                                 )
@@ -206,7 +212,7 @@ const Chat = () => {
                               />
                               <div className="media-body">
                                 <span className="name">
-                                  {chat.rec || "Unknown"}{" "}
+                                  {chat.name || "Unknown"}{" "}
                                   <small className="text-muted">
                                     {formatChatTime(chat.time)}
                                   </small>
@@ -443,7 +449,7 @@ const Chat = () => {
                         />
                         <div class="media-body mr-3 ml-3 text-muted">
                           <h6 class="m-0">{recipient || "Unknown"}</h6>
-                          <small>Webdeveloper</small>
+                          <small>{recipientid||'-'}</small>
                         </div>
                       </div>
                     </a>
