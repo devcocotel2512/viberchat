@@ -40,12 +40,6 @@ const Register = () => {
             <p className="lead">Create an account</p>
           </div>
           <div className="body">
-            {/* <button className="btn btn-signin-social">
-              <i className="fa fa-facebook-official facebook-color"></i> Sign in with Facebook
-            </button>
-            <div className="separator-linethrough">
-              <span>OR</span>
-            </div> */}
             <form className="form-auth-small" onSubmit={handleSubmit}>
             <div className="form-group c_form_group">
                 <label>Username</label>
