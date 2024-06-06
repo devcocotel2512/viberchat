@@ -78,6 +78,7 @@ const Chat = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     console.log("Form submitted:", { message, recipientid, selectedChannel });
 
     try {
@@ -89,13 +90,22 @@ const Chat = () => {
         sender_avatar: "https://avatar.example.com",
         typeofmsg: "text",
       });
+      
+      const sentMessage = {
+        message: message,
+        sent: 1, // Assuming 1 for sent, 0 for received
+        time: response.time // Adjust this according to the response format
+      };
+  
+      // Update selectedChatHistory state with the new message
+      setSelectedChatHistory([...selectedChatHistory, sentMessage]);
       console.log("Message sent successfully:", response);
     } catch (error) {
       console.error("Error sending message:", error);
     }
 
     setMessage("");
-    setRecipient("");
+    // setRecipient("");
     // setRecipientid("");
   };
   const handleRecipientClick = (recipientName, recid, chnl) => {
