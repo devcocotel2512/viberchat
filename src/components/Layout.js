@@ -8,7 +8,6 @@ function Layout({ children }) {
     <div id="body" className="theme-amethyst">
       <div className="overlay"></div>
       <div id="wrapper">
-        <Navbar />
         <Sidebar />
         <div id="content">
           {children}

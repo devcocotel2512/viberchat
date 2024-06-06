@@ -15,7 +15,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -83,49 +83,59 @@ const Channel = () => {
 
   const indexOfLastChannel = currentPage * channelsPerPage;
   const indexOfFirstChannel = indexOfLastChannel - channelsPerPage;
-  const currentChannels = channels.slice(indexOfFirstChannel, indexOfLastChannel);
+  const currentChannels = channels.slice(
+    indexOfFirstChannel,
+    indexOfLastChannel
+  );
 
   return (
     <Layout>
-       <ToastContainer />
+      <ToastContainer />
       <div id="main-content">
         <div className="container-fluid">
-          <div className="block-header">
             <div className="row clearfix mb-2">
               <div className="col-xl-5 col-md-5 col-sm-12"></div>
-              <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs">
-                <button
-                  type="button"
-                  className="btn btn-primary rounded"
-                  onClick={handleAddChannelClick}
-                >
-                  Add Channel
-                </button>
-              </div>
+              <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs"></div>
             </div>
           </div>
           <div className="row clearfix">
             <div className="col-md-12">
               <div className="card">
-                <div className="header">
+                <div className="header  d-flex justify-content-between align-items-center">
                   <h2>Channel Details</h2>
+                  <button
+                    type="button"
+                    className="btn btn-primary rounded"
+                    onClick={handleAddChannelClick}
+                  >
+                    Add Channel
+                  </button>
                 </div>
                 <div className="body">
                   {loading ? (
                     <div className="loading-container">
-                      <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                      <ClipLoader
+                        color={"#123abc"}
+                        loading={loading}
+                        size={50}
+                      />
                     </div>
                   ) : (
                     <>
                       <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                        <Table
+                          sx={{ minWidth: 700 }}
+                          aria-label="customized table"
+                        >
                           <TableHead>
                             <TableRow>
                               <StyledTableCell>Sr.No</StyledTableCell>
                               <StyledTableCell>Name</StyledTableCell>
                               <StyledTableCell>Label</StyledTableCell>
                               <StyledTableCell>Form</StyledTableCell>
-                              <StyledTableCell align="center">Action</StyledTableCell>
+                              <StyledTableCell align="center">
+                                Action
+                              </StyledTableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -145,10 +155,7 @@ const Channel = () => {
                                   >
                                     <FontAwesomeIcon icon={faPenToSquare} />
                                   </button>
-                                  <button
-                                    type="button"
-                                    className="btn-delete"
-                                  >
+                                  <button type="button" className="btn-delete">
                                     <FontAwesomeIcon icon={faTrash} />
                                   </button>
                                 </StyledTableCell>
@@ -171,7 +178,6 @@ const Channel = () => {
             </div>
           </div>
         </div>
-      </div>
       <style jsx>{`
         .loading-container {
           display: flex;
