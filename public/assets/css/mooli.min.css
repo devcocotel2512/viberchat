@@ -2670,7 +2670,7 @@ body {
     width: calc(100% - 270px);
     float: right;
     position: relative;
-    margin-top: 75px;
+    margin-top: 15px;
     padding: 0 20px
 }
 
@@ -2899,6 +2899,17 @@ html.fullscreen-bg #wrapper {
     display: block !important
 }
 
+.error-box {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+
 .card .header .header-dropdown li .dropdown-menu li a {
     color: var(--font-fff);
     white-space: nowrap
@@ -2914,8 +2925,16 @@ html.fullscreen-bg #wrapper {
 }
 
 .card .header h2 {
-    font-weight: 400;
+    font-weight: 700;
     position: relative
+}
+
+.btn2{
+    border-radius: 10px;
+    height: 40px;
+    width: 80px;
+    border: none;
+
 }
 
 .card .header h2 small {
@@ -3118,6 +3137,13 @@ html.fullscreen-bg #wrapper {
     height: 33px;
     border-radius: 10px;
     border: 0
+}
+
+.form-control2{
+    height: 33px;
+    margin-left: 380px;
+    margin-top: 10px;
+    border-radius: ;
 }
 
 
@@ -3768,6 +3794,9 @@ ul.choose-skin li.active div::after {
     -moz-border-radius: 50px;
     border-radius: 50px
 }
+.form-group1{
+    margin: 0;
+}
 
 .form-control:focus {
     -moz-box-shadow: none;
@@ -4232,6 +4261,8 @@ textarea.parsley-error {
 select.form-control:not([size]):not([multiple]) {
     height: 36px
 }
+
+
 
 .auth-main {
     background-color: var(--font-fff);
@@ -8398,6 +8429,7 @@ ul.choose-skin li.active div::after,
     font-size: 17px
 }
 
+
 .font-18,
 .card .header .header-dropdown li a.dropdown-toggle:after,
 .card .header h2,
@@ -8405,7 +8437,7 @@ ul.choose-skin li.active div::after,
 .separator-linethrough span,
 .panel-group .panel .panel-title>a i,
 .feeds_widget li .feeds-left {
-    font-size: 18px
+    font-size: 25px
 }
 
 .font-19 {
@@ -10006,7 +10038,7 @@ hr {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px
+    padding: 8px 12px
 }
 
 .chatapp_body .chat-history {
@@ -10018,14 +10050,14 @@ hr {
 
 @media screen and (max-width: 1440px) {
     .chatapp_body .chat-history {
-        height: 450px;
+        height: 370px;
         overflow-y: auto
     }
 }
 
 @media screen and (max-width: 992px) {
     .chatapp_body .chat-history {
-        height: 630px;
+        height: 200px;
         overflow-y: auto
     }
 }
