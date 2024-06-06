@@ -16,11 +16,11 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
                 <span className="badge bg-blue border-0">{formatChatday(messageObject.time)}</span>
               </div>
             )}
-            <li className="right clearfix">
+            <li className={messageObject.sent === 0 ? 'left clearfix' : 'right clearfix'}>
               <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
               <div className="message">
                 <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
-                <span>{messageObject.message}</span>
+                <span>{messageObject.message} </span>
               </div>
               <span className="data_time">{formatChattimedate(messageObject.time)}</span>
             </li>
