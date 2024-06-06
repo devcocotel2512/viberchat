@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate }) => {
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedChatHistory]);
+
   return (
     <div className="chat-history">
       <ul className="message_data">
@@ -16,7 +24,10 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
                 <span className="badge bg-blue border-0">{formatChatday(messageObject.time)}</span>
               </div>
             )}
-            <li className={messageObject.sent === 0 ? 'left clearfix' : 'right clearfix'}>
+            <li
+              className={messageObject.sent === 0 ? 'left clearfix' : 'right clearfix'}
+              ref={index === selectedChatHistory.length - 1 ? lastMessageRef : null}
+            >
               <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
               <div className="message">
                 <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
