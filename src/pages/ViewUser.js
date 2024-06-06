@@ -40,36 +40,54 @@ const ViewUser = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const usersPerPage = 10;
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const checkAdminStatus = async () => {
       try {
-        setLoading(true);
-        const response = await authService.getUser({
-          searchquery: {
-            _id: "raidlayer",
-            _un: un,
-          },
-          projection: {
-            user: 1,
-          },
-          showcount: 1,
-        });
-        const usersData = response.data.data[0].user.map((user) => ({
-          ...user,
-          verified: Boolean(user.verified),
-        }));
-        setUsers(usersData);
+        const response = await authService.getCurrentUser();
+        setIsAdmin(response.data.isAdmin);
       } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
+        console.error("Error checking admin status:", error);
       }
     };
 
-    fetchUsers();
-  }, [un]);
+    checkAdminStatus();
+  }, []);
+
+  useEffect(() => {
+    if (isAdmin) {
+      const fetchUsers = async () => {
+        try {
+          setLoading(true);
+          const response = await authService.getUser({
+            searchquery: {
+              _id: "raidlayer",
+              _un: un,
+            },
+            projection: {
+              user: 1,
+            },
+            showcount: 1,
+          });
+          const usersData = response.data.data[0].user.map((user) => ({
+            ...user,
+            verified: Boolean(user.verified),
+          }));
+          setUsers(usersData);
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchUsers();
+    } else {
+      setLoading(false);
+    }
+  }, [un, isAdmin]);
 
   const handleAddUserClick = () => {
     navigate("/add-user");
@@ -128,7 +146,7 @@ const ViewUser = () => {
                   <div className="loading-container">
                     <ClipLoader color={"#123abc"} loading={loading} size={50} />
                   </div>
-                ) : (
+                ) : isAdmin ? (
                   <>
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -137,7 +155,7 @@ const ViewUser = () => {
                             <StyledTableCell>Sr.No</StyledTableCell>
                             <StyledTableCell>Name</StyledTableCell>
                             <StyledTableCell>Email</StyledTableCell>
-                            <StyledTableCell>Verified</StyledTableCell>
+                            <StyledTableCell align="mr-12">Verified</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                           </TableRow>
                         </TableHead>
@@ -182,6 +200,8 @@ const ViewUser = () => {
                       className="mt-3"
                     />
                   </>
+                ) : (
+                  <div>You do not have permission to view this content.</div>
                 )}
               </div>
             </div>

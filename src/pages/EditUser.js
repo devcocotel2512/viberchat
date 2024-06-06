@@ -5,6 +5,8 @@ import authService from "./services/authService"; // Adjust the path as needed
 import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const EditUser = () => {
   const { userun } = useParams();
@@ -15,6 +17,7 @@ const EditUser = () => {
     pass: "",
   });
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -66,27 +69,31 @@ const EditUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       setLoading(true);
       await authService.updateUser({
         searchquery: {
-                  _id: "raidlayer",
-                  "user.un": userun,
-                },
-                body: {
-                          "user.$.un": userData.un,
-                          "user.$.em": userData.em,
-                          "user.$.pass": userData.pass,
-                        },
-      })
+          _id: "raidlayer",
+          "user.un": userun,
+        },
+        body: {
+          "user.$.un": userData.un,
+          "user.$.em": userData.em,
+          "user.$.pass": userData.pass,
+        },
+      });
       toast.success("User Update Successfully");
-    }catch(error){
-      console.error("Error Updating USer:", error);
-      toast.error("Failed to Upadte User");
-    }finally{
+    } catch (error) {
+      console.error("Error Updating User:", error);
+      toast.error("Failed to Update User");
+    } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const back = () => {
     navigate('/user');
@@ -136,18 +143,25 @@ const EditUser = () => {
                         </div>
                         <div className="form-group">
                           <label>Password</label>
-                          <input
-                            type="password"
-                            name="pass"
-                            className="form-control"
-                            value={userData.pass}
-                            onChange={handleChange}
-                          />
+                          <div className="input-group">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              name="pass"
+                              className="form-control"
+                              value={userData.pass}
+                              onChange={handleChange}
+                            />
+                            <div className="input-group-append">
+                              <span className="input-group-text" onClick={togglePasswordVisibility}>
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                              </span>
+                            </div>
+                          </div>
                         </div>
                         <button type="submit" className="btn btn-primary mt-4 rounded">
                           Save Changes
                         </button>
-                        <button type="button" className="btn btn-class mt-4 ml-3 rounded" onClick={back}>
+                        <button type="button" className="btn btn-class mt-4 ml-3 rounded " onClick={back}>
                           Back
                         </button>
                       </form>
@@ -166,6 +180,9 @@ const EditUser = () => {
           justify-content: center;
           align-items: center;
           height: 100vh;
+        }
+        .input-group-append {
+          cursor: pointer;
         }
       `}</style>
     </Layout>
