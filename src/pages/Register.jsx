@@ -36,7 +36,7 @@ const Register = () => {
           </a>
         </div>
         <div className="card">
-          <div className="header">
+          <div className="header1">
             <p className="lead">Create an account</p>
           </div>
           <div className="body">
