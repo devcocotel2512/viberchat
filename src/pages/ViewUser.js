@@ -34,6 +34,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const BoldTableCell = styled(StyledTableCell)({
+  fontWeight: "bold",
+});
+
 const ViewUser = () => {
   const navigate = useNavigate();
   const { un } = useParams();
@@ -174,11 +178,11 @@ const ViewUser = () => {
                         <TableBody>
                           {currentUsers.map((user, index) => (
                             <StyledTableRow key={index}>
-                              <StyledTableCell>
+                              <BoldTableCell>
                                 {indexOfFirstUser + index + 1}
-                              </StyledTableCell>
-                              <StyledTableCell>{user.un}</StyledTableCell>
-                              <StyledTableCell>{user.em}</StyledTableCell>
+                              </BoldTableCell>
+                              <BoldTableCell>{user.un}</BoldTableCell>
+                              <BoldTableCell>{user.em}</BoldTableCell>
                               <StyledTableCell>
                                 <button
                                   className={`btn2 ${

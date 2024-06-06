@@ -36,6 +36,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const BoldTableCell = styled(StyledTableCell)({
+  fontWeight: "bold",
+});
+
 const Channel = () => {
   const { lbl } = useParams();
   const navigate = useNavigate();
@@ -160,12 +164,12 @@ const Channel = () => {
                         <TableBody>
                           {currentChannels.map((channel, index) => (
                             <StyledTableRow key={index}>
-                              <StyledTableCell>
+                            <BoldTableCell>
                                 {indexOfFirstChannel + index + 1}
-                              </StyledTableCell>
-                              <StyledTableCell>{channel.nm}</StyledTableCell>
-                              <StyledTableCell>{channel.lbl}</StyledTableCell>
-                              <StyledTableCell>{channel.frm}</StyledTableCell>
+                                </BoldTableCell>
+                             <BoldTableCell>{channel.nm}</BoldTableCell>
+                             <BoldTableCell>{channel.lbl}</BoldTableCell>
+                              <BoldTableCell>{channel.frm}</BoldTableCell>
                               <StyledTableCell align="center">
                                 <button
                                   type="button"
