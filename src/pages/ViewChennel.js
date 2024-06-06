@@ -42,6 +42,7 @@ const Channel = () => {
   const [channels, setChannels] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const channelsPerPage = 10;
 
   useEffect(() => {
@@ -81,9 +82,18 @@ const Channel = () => {
     setCurrentPage(newPage);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1); // Reset to first page on new search
+  };
+
+  const filteredChannels = channels.filter((channel) =>
+    channel.nm.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const indexOfLastChannel = currentPage * channelsPerPage;
   const indexOfFirstChannel = indexOfLastChannel - channelsPerPage;
-  const currentChannels = channels.slice(
+  const currentChannels = filteredChannels.slice(
     indexOfFirstChannel,
     indexOfLastChannel
   );
@@ -93,97 +103,115 @@ const Channel = () => {
       <ToastContainer />
       <div id="main-content">
         <div className="container-fluid">
-            <div className="row clearfix mb-2">
-              <div className="col-xl-5 col-md-5 col-sm-12"></div>
-              <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs"></div>
-            </div>
+          <div className="row clearfix mb-2">
+            <div className="col-xl-5 col-md-5 col-sm-12"></div>
+            <div className="col-xl-7 col-md-7 col-sm-12 text-md-right hidden-xs"></div>
           </div>
-          <div className="row clearfix">
-            <div className="col-md-12">
-              <div className="card">
-                <div className="header  d-flex justify-content-between align-items-center">
-                  <h2>Channel Details</h2>
-                  <button
-                    type="button"
-                    className="btn btn-primary rounded"
-                    onClick={handleAddChannelClick}
-                  >
-                    Add Channel
+        </div>
+        <div className="row clearfix">
+          <div className="col-md-12">
+            <div className="card">
+              <div className="header d-flex justify-content-between align-items-center">
+                <h2>Channel Details</h2>
+
+                <div action="" className="search-bar">
+                  <input
+                    type="search"
+                    placeholder="Search Here..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                  />
+                  <button className="search-btn" type="submit">
+                    <span>Search</span>
                   </button>
                 </div>
-                <div className="body">
-                  {loading ? (
-                    <div className="loading-container">
-                      <ClipLoader
-                        color={"#123abc"}
-                        loading={loading}
-                        size={50}
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      <TableContainer component={Paper}>
-                        <Table
-                          sx={{ minWidth: 700 }}
-                          aria-label="customized table"
-                        >
-                          <TableHead>
-                            <TableRow>
-                              <StyledTableCell>Sr.No</StyledTableCell>
-                              <StyledTableCell>Name</StyledTableCell>
-                              <StyledTableCell>Label</StyledTableCell>
-                              <StyledTableCell>Form</StyledTableCell>
-                              <StyledTableCell align="center">
-                                Action
+
+                <button
+                  type="button"
+                  className="btn btn-primary rounded"
+                  onClick={handleAddChannelClick}
+                >
+                  Add Channel
+                </button>
+              </div>
+              <div className="body">
+                {loading ? (
+                  <div className="loading-container">
+                    <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                  </div>
+                ) : (
+                  <>
+                    <TableContainer component={Paper}>
+                      <Table
+                        sx={{ minWidth: 700 }}
+                        aria-label="customized table"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <StyledTableCell>Sr.No</StyledTableCell>
+                            <StyledTableCell>Name</StyledTableCell>
+                            <StyledTableCell>Label</StyledTableCell>
+                            <StyledTableCell>Form</StyledTableCell>
+                            <StyledTableCell align="center">
+                              Action
+                            </StyledTableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {currentChannels.map((channel, index) => (
+                            <StyledTableRow key={index}>
+                              <StyledTableCell>
+                                {indexOfFirstChannel + index + 1}
                               </StyledTableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {currentChannels.map((channel, index) => (
-                              <StyledTableRow key={index}>
-                                <StyledTableCell>
-                                  {indexOfFirstChannel + index + 1}
-                                </StyledTableCell>
-                                <StyledTableCell>{channel.nm}</StyledTableCell>
-                                <StyledTableCell>{channel.lbl}</StyledTableCell>
-                                <StyledTableCell>{channel.frm}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                  <button
-                                    type="button"
-                                    className="btn-edit"
-                                    onClick={() => EditChannel(channel.lbl)}
-                                  >
-                                    <FontAwesomeIcon icon={faPenToSquare} />
-                                  </button>
-                                  <button type="button" className="btn-delete">
-                                    <FontAwesomeIcon icon={faTrash} />
-                                  </button>
-                                </StyledTableCell>
-                              </StyledTableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      <Pagination
-                        count={Math.ceil(channels.length / channelsPerPage)}
-                        page={currentPage}
-                        onChange={handleChangePage}
-                        color="primary"
-                        className="mt-3"
-                      />
-                    </>
-                  )}
-                </div>
+                              <StyledTableCell>{channel.nm}</StyledTableCell>
+                              <StyledTableCell>{channel.lbl}</StyledTableCell>
+                              <StyledTableCell>{channel.frm}</StyledTableCell>
+                              <StyledTableCell align="center">
+                                <button
+                                  type="button"
+                                  className="btn-edit"
+                                  onClick={() => EditChannel(channel.lbl)}
+                                >
+                                  <FontAwesomeIcon icon={faPenToSquare} />
+                                </button>
+                                <button type="button" className="btn-delete">
+                                  <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <Pagination
+                      count={Math.ceil(
+                        filteredChannels.length / channelsPerPage
+                      )}
+                      page={currentPage}
+                      onChange={handleChangePage}
+                      color="primary"
+                      className="mt-3"
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
+      </div>
       <style jsx>{`
         .loading-container {
           display: flex;
           justify-content: center;
           align-items: center;
           height: 100vh;
+        }
+        .search-container {
+          display: flex;
+          justify-content: flex-end;
+        }
+        .search-container input {
+          max-width: 300px;
         }
       `}</style>
     </Layout>

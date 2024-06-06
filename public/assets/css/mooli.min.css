@@ -3140,11 +3140,57 @@ html.fullscreen-bg #wrapper {
 }
 
 .form-control2{
-    height: 33px;
-    margin-left: 380px;
-    margin-top: 10px;
-    border-radius: ;
+    margin-left: 370px;
+    margin-top: 9px;
+    height: 40px;
+    border-radius: 15px;
+    border-color: black;
 }
+
+/* General form styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 600px;
+    margin-left: 290px;
+  }
+  
+  /* Input field styling */
+  .search-bar input[type="search"] {
+    width: 200px;
+    padding: 5px 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .search-bar input[type="search"]:focus {
+    border-color: #1565C0;
+  }
+  
+  /* Button styling */
+  .search-bar .search-btn {
+    padding: 7px 15px;
+    background-color: #1565C0;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .search-bar .search-btn:hover {
+    background-color: #1565C0;
+  }
+  
+  .search-bar .search-btn span {
+    pointer-events: none;
+  }
+  
 
 
 
@@ -7415,7 +7461,7 @@ ul.choose-skin,
 .timeline .timeline-item .msg p:last-child,
 .pricing,
 .pricing h3 {
-    margin-bottom: 0px
+    margin-bottom: 3px
 }
 
 .m-l-5,
