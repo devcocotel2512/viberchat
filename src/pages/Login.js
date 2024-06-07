@@ -22,6 +22,9 @@ const Login = () => {
         const data = await response.data;
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('loginuser', JSON.stringify(data.user));
+        
+        localStorage.setItem('loginId', data._id);
+        
         navigate('/');
         window.location.href = '/';
       }

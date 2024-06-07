@@ -17,7 +17,10 @@ const Chat = () => {
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedChatHistory, setSelectedChatHistory] = useState([]);
   const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+  
   const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || '');  
 
   const handleChannelSelection = (event) => {
     setSelectedChannel(event.target.value);
@@ -92,6 +95,7 @@ const Chat = () => {
         sender_name: loggedInUser.un,
         sender_avatar: "https://avatar.example.com",
         typeofmsg: "text",
+        _id:loggedInId
       });
 
       const sentMessage = {
