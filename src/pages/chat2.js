@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Layout from "../components/Layout";
 import channelService from "./services/channelService";
 import chatService from "./services/chatService";
@@ -13,6 +13,8 @@ const Chat = () => {
   const [chats, setChats] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedChatHistory, setSelectedChatHistory] = useState([]);
+  
+  const lastMessageRef = useRef(null);
 
   const handleChannelSelection = (event) => {
     setSelectedChannel(event.target.value);
@@ -78,16 +80,34 @@ const Chat = () => {
           typeofmsg: "text",
         });
         console.log("Message sent successfully:", response);
+
+        // Update chat history with the new message
+        const newMessage = {
+          message,
+          sent: 1, // Assuming 1 indicates a sent message
+          time: new Date().toISOString(), // Use the current time
+        };
         
-        // Add the sent message to the chat history
-        setSelectedChatHistory((prevHistory) => [
-          ...prevHistory,
-          {
-            message,
-            sent: 1, // Assuming 1 indicates a sent message
-            time: new Date().toISOString(), // Use the current time
-          },
-        ]);
+        setSelectedChatHistory((prevHistory) => [...prevHistory, newMessage]);
+
+        // Update chats and move the chat with the new message to the top
+        setChats((prevChats) => {
+          const updatedChats = prevChats.map((chat) => {
+            if (chat.recipient_name === recipient) {
+              return {
+                ...chat,
+                history: [...chat.history, newMessage],
+                time: newMessage.time,
+              };
+            }
+            return chat;
+          });
+
+          // Sort the chats by the latest message time
+          updatedChats.sort((a, b) => moment(b.time).diff(moment(a.time)));
+
+          return updatedChats;
+        });
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -100,7 +120,7 @@ const Chat = () => {
     const selectedChat = chats.find(
       (chat) => chat.recipient_name === recipientName
     );
-    setRecipient(index);
+    setRecipient(recipientName);
     if (selectedChat) {
       setSelectedChatHistory(selectedChat.history);
     }
@@ -129,6 +149,8 @@ const Chat = () => {
         });
         console.log("Chats fetched:", response.data.data[0].chat);
         const chatsArray = Object.values(response.data.data[0].chat);
+        // Sort chatsArray by the latest message time
+        chatsArray.sort((a, b) => moment(b.time).diff(moment(a.time)));
         setChats(chatsArray);
       } catch (error) {
         console.error("Error fetching chats:", error);
@@ -138,6 +160,12 @@ const Chat = () => {
     fetchChats();
     fetchChannels();
   }, []);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedChatHistory]);
 
   return (
     <Layout>
@@ -213,7 +241,7 @@ const Chat = () => {
                     <div className="tab-pane vivify fadeIn" id="create-chat">
                       <form
                         className="input-group"
-                        onSubmit={handleSubmit}
+                        onSubmit={(e) => e.preventDefault()}
                         style={{ flexDirection: "column" }}
                       >
                         <div className="mb-3">
@@ -245,6 +273,7 @@ const Chat = () => {
                               selectedChatHistory={selectedChatHistory}
                               formatChatday={formatChatday}
                               formatChattimedate={formatChattimedate}
+                              lastMessageRef={lastMessageRef}
                             />
                           </div>
                           <div className="chat-footer">
@@ -281,6 +310,7 @@ const Chat = () => {
                           selectedChatHistory={selectedChatHistory}
                           formatChatday={formatChatday}
                           formatChattimedate={formatChattimedate}
+                          lastMessageRef={lastMessageRef}
                         />
                       </div>
                       <div className="chat-footer">
@@ -350,7 +380,7 @@ const Chat = () => {
                 <div className="tab-pane vivify fadeIn" id="create-chat">
                   <form
                     className="input-group"
-                    onSubmit={handleSubmit}
+                    onSubmit={(e) => e.preventDefault()}
                     style={{ flexDirection: "column" }}
                   >
                     <div className="mb-3">
@@ -382,6 +412,7 @@ const Chat = () => {
                           selectedChatHistory={selectedChatHistory}
                           formatChatday={formatChatday}
                           formatChattimedate={formatChattimedate}
+                          lastMessageRef={lastMessageRef}
                         />
                       </div>
                       <div className="chat-footer">
@@ -418,6 +449,7 @@ const Chat = () => {
                       selectedChatHistory={selectedChatHistory}
                       formatChatday={formatChatday}
                       formatChattimedate={formatChattimedate}
+                      lastMessageRef={lastMessageRef}
                     />
                   </div>
                   <div className="chat-footer">
@@ -449,4 +481,5 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default Chat
+

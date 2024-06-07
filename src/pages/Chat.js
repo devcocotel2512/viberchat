@@ -16,15 +16,17 @@ const Chat = () => {
   const [chats, setChats] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedChatHistory, setSelectedChatHistory] = useState([]);
-  // console.log(JSON.parse(localStorage.getItem("loginuser")).un);
   const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
   const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+
   const handleChannelSelection = (event) => {
     setSelectedChannel(event.target.value);
   };
+
   const handleInputChange = (event) => {
     setMessage(event.target.value);
   };
+
   const formatChatTime = (time) => {
     const now = moment();
     const chatTime = moment(time);
@@ -49,10 +51,12 @@ const Chat = () => {
       return chatTime.format("MMMM D, YYYY, h:mm A");
     }
   };
+
   const formatChattimedate = (time) => {
     const chatTime = moment(time);
     return chatTime.format("h:mm A");
   };
+
   const formatChatday = (time) => {
     const now = moment();
     const chatTime = moment(time);
@@ -68,18 +72,17 @@ const Chat = () => {
       return chatTime.format("D MMMM, YYYY");
     }
   };
+
   const handleSendMessage = (event) => {
     event.preventDefault();
     if (message.trim()) {
-      // Check for empty message
       handleSubmit(event);
-      setMessage(""); // Clear textarea after sending a non-empty message
+      setMessage(""); 
     }
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    console.log("Form submitted:", { message, recipientid, selectedChannel });
 
     try {
       const response = await chatService.sendChat({
@@ -90,32 +93,27 @@ const Chat = () => {
         sender_avatar: "https://avatar.example.com",
         typeofmsg: "text",
       });
-      
+
       const sentMessage = {
         message: message,
-        sent: 1, // Assuming 1 for sent, 0 for received
-        time: response.time // Adjust this according to the response format
+        sent: 1,
+        time: response.time 
       };
-  
-      // Update selectedChatHistory state with the new message
+
       setSelectedChatHistory([...selectedChatHistory, sentMessage]);
-      console.log("Message sent successfully:", response);
     } catch (error) {
       console.error("Error sending message:", error);
     }
 
     setMessage("");
-    // setRecipient("");
-    // setRecipientid("");
   };
+
   const handleRecipientClick = (recipientName, recid, chnl) => {
-    
-    console.log(chats);
     const selectedChat = chats.find(
       (chat) => chat.recid === recid
     );
     recipientName = recipientName || "Unknown";
-    setRecipient( recipientName );
+    setRecipient(recipientName);
     setRecipientid(recid);
     setSelectedChannel(chnl);
 
@@ -123,6 +121,7 @@ const Chat = () => {
       setSelectedChatHistory(selectedChat.history);
     }
   };
+
   useEffect(() => {
     const fetchChannels = async () => {
       try {
@@ -144,8 +143,15 @@ const Chat = () => {
           projection: { chat: 1 },
           showcount: 1,
         });
-        console.log("Chats fetched:", response.data.data[0].chat); // Debug log
         const chatsArray = Object.values(response.data.data[0].chat);
+
+        // Sort chats based on the time of the last message
+        chatsArray.sort((a, b) => {
+          const lastMessageTimeA = new Date(a.time);
+          const lastMessageTimeB = new Date(b.time);
+          return lastMessageTimeB - lastMessageTimeA; // Sort in descending order
+        });
+
         setChats(chatsArray);
       } catch (error) {
         console.error("Error fetching chats:", error);
