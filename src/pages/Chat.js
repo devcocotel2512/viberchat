@@ -7,9 +7,9 @@ import moment from "moment";
 import ChatHistory from "../components/ChatHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import "../Css/chat.css";
 
-const Chat = ({ loggedInUser }) => { // Pass loggedInUser as a prop
+
+const Chat = () => { // Pass loggedInUser as a prop
   const [message, setMessage] = useState("");
   const [recipient, setRecipient] = useState("");
   const [recipientid, setRecipientid] = useState("");
@@ -24,13 +24,10 @@ const Chat = ({ loggedInUser }) => { // Pass loggedInUser as a prop
   const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
   const [loggedInId, setLoggedInId] = useState(retrievedId || '');  
 
-  const [retrievedUser, setRetrievedUser] = useState(loggedInUser || {}); // Use passed loggedInUser or default to empty object
+   
   const [isOpen, setIsOpen] = useState(false); // State for user detail visibility
 
-  useEffect(() => {
-    const retrievedUser = JSON.parse(localStorage.getItem("loginuser")) || {};
-    setRetrievedUser(retrievedUser);
-  }, []);
+  
 
   const toggleDetail = () => {
     setIsOpen(!isOpen);
