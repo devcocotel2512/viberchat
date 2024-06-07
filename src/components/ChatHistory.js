@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import TaskFormModal from './TaskFormModal';
 
-const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate }) => {
+const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate,recipientid }) => {
+  const [chatMsgToken, setChatMsgToken] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const chatEndRef = useRef(null);
 
@@ -11,12 +12,15 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
+  
   useEffect(() => {
     scrollToBottom();
   }, [selectedChatHistory]); // Scroll when selectedChatHistory updates
 
-  const openModal = () => {
+  const openModal = (MsgToken) => {
+    
+    setChatMsgToken(MsgToken);
+    
     setIsModalOpen(true);
   };
 
@@ -45,7 +49,7 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
               <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
               <div className="message">
                 <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
-                <a href="#" className="smily task" onClick={openModal}><i className="fa fa-tasks"></i></a>
+                <a href="#" className="smily task"  onClick={() => openModal( messageObject.msgtoken)} data-value={messageObject.msgtoken}><i className="fa fa-tasks"></i></a>
                 <a href="#" className="smily delete"><i className="fa fa-trash-o"></i></a>
                 <span>{messageObject.message}</span>
               </div>
@@ -59,9 +63,12 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
 
       {/* Modal for creating a task */}
       <TaskFormModal
+      recipientid={recipientid}
+      chatMsgToken={chatMsgToken}
         show={isModalOpen}
         handleClose={closeModal}
         handleCreateTask={handleCreateTask}
+        
       />
     </div>
   );
