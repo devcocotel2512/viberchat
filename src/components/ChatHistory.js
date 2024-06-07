@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import TaskFormModal from './TaskFormModal';
 
 const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const chatEndRef = useRef(null);
 
   // Scroll to the bottom of the chat history whenever it updates
@@ -13,6 +15,19 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
   useEffect(() => {
     scrollToBottom();
   }, [selectedChatHistory]); // Scroll when selectedChatHistory updates
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCreateTask = (newTask) => {
+    // Handle the newly created task, e.g., update state or make additional API calls
+    console.log('New task created:', newTask);
+  };
 
   return (
     <div className="chat-history">
@@ -30,7 +45,9 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
               <img className="user_pix" src="assets/images/xs/avatar7.jpg" alt="avatar" />
               <div className="message">
                 <a href="#" className="smily"><i className="fa fa-smile-o"></i></a>
-                <span>{messageObject.message} </span>
+                <a href="#" className="smily task" onClick={openModal}><i className="fa fa-tasks"></i></a>
+                <a href="#" className="smily delete"><i className="fa fa-trash-o"></i></a>
+                <span>{messageObject.message}</span>
               </div>
               <span className="data_time">{formatChattimedate(messageObject.time)}</span>
             </li>
@@ -39,6 +56,13 @@ const ChatHistory = ({ selectedChatHistory, formatChatday, formatChattimedate })
         {/* This empty div is used to scroll to the bottom */}
         <div ref={chatEndRef}></div>
       </ul>
+
+      {/* Modal for creating a task */}
+      <TaskFormModal
+        show={isModalOpen}
+        handleClose={closeModal}
+        handleCreateTask={handleCreateTask}
+      />
     </div>
   );
 };

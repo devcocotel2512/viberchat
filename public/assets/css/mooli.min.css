@@ -1770,7 +1770,8 @@
     -webkit-animation: eliment-animation .3s ease-in-out .33333s;
     animation: eliment-animation .3s ease-in-out .33333s;
     -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards
+    animation-fill-mode: forwards;
+    text-decoration: none;
 }
 
 .animation-li-delay li:nth-child(1)>a {
@@ -10135,7 +10136,19 @@ hr {
     color: var(--font-777);
     top: 0
 }
-
+.chatapp_body .chat-history .message_data li.left .message .task {
+    left:73px;
+    
+}
+.chatapp_body .chat-history .message_data li.right .message .task {
+    left:-41px
+}
+.chatapp_body .chat-history .message_data li.left .message .delete {
+    left:95px
+}
+.chatapp_body .chat-history .message_data li.right .message .delete {
+    left:-60px
+}
 @media screen and (max-width: 640px) {
     .chatapp_body .chat-history .message_data li .message .smily {
         display: none
