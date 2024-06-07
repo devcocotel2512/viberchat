@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import '../css/TaskFormModal.css'; // Import the custom CSS
+
 const TaskFormModal = ({ show, handleClose, handleCreateTask }) => {
   const [taskDetails, setTaskDetails] = useState({ name: '', label: '', status: 'pending' });
 

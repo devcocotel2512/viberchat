@@ -10127,8 +10127,11 @@ hr {
     *zoom: 1;
     *display: inline;
     position: relative;
-    padding: 15px;
-    line-height: 26px
+    padding: 7px;
+    line-height: 15px;
+    padding-right: 12px;
+    padding-left: 12px;
+    border-radius: 10px 10px 0px 10px;
 }
 
 .chatapp_body .chat-history .message_data li .message .smily {
@@ -10193,9 +10196,10 @@ hr {
 }
 
 .chatapp_body .chat-history .message_data li.left .message {
-    background: var(--body-color);
-    color: var(--font-333);
-    float: left
+    background: #9fd8f4;
+    color: black;
+    float: left;
+    border-radius: 10px 10px 10px 0px;
 }
 
 .chatapp_body .chat-history .message_data li.left .message .smily {
@@ -10220,8 +10224,8 @@ hr {
 
 .chatapp_body .chat-history .message_data li.right .message {
     float: right;
-    background: var(--body-color);
-    color: var(--font-777)
+    background: #9fd8f4;
+    color:black;
 }
 
 .chatapp_body .chat-history .message_data li.right .message .smily {
@@ -10253,7 +10257,9 @@ hr {
 }
 
 .chatapp_body .chat-message {
-    padding: 20px
+    padding-bottom:10px; 
+    padding-left: 3px;
+    padding-right: 6px; 
 }
 
 .user_detail {

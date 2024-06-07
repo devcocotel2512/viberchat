@@ -7,8 +7,9 @@ import moment from "moment";
 import ChatHistory from "../components/ChatHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import "../Css/chat.css";
 
-const Chat = () => {
+const Chat = ({ loggedInUser }) => { // Pass loggedInUser as a prop
   const [message, setMessage] = useState("");
   const [recipient, setRecipient] = useState("");
   const [recipientid, setRecipientid] = useState("");
@@ -16,11 +17,25 @@ const Chat = () => {
   const [chats, setChats] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedChatHistory, setSelectedChatHistory] = useState([]);
+
   const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
   const retrievedId = localStorage.getItem("loginId");
   
   const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
   const [loggedInId, setLoggedInId] = useState(retrievedId || '');  
+
+  const [retrievedUser, setRetrievedUser] = useState(loggedInUser || {}); // Use passed loggedInUser or default to empty object
+  const [isOpen, setIsOpen] = useState(false); // State for user detail visibility
+
+  useEffect(() => {
+    const retrievedUser = JSON.parse(localStorage.getItem("loginuser")) || {};
+    setRetrievedUser(retrievedUser);
+  }, []);
+
+  const toggleDetail = () => {
+    setIsOpen(!isOpen);
+  };
+
 
   const handleChannelSelection = (event) => {
     setSelectedChannel(event.target.value);
@@ -459,7 +474,7 @@ const Chat = () => {
                   </div>
                 </div>
                 <div className="chatapp_body">
-                  <div class="chat-header">
+                  <div class="chat-header" onClick={toggleDetail}>
                     <a href="javascript:void(0);" class="open_detail bg-white">
                       <div class="media mb-0">
                         <img
@@ -518,7 +533,7 @@ const Chat = () => {
                     </div>
                   </div>
 
-                  <div class="user_detail">
+                  <div class={`user_detail ${isOpen ? 'open' : ''}`}>
                     <div class="text-center mb-4">
                       <div class="profile-image">
                         <img
