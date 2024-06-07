@@ -1,8 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import Select from 'react-select';
+import taskService from '../pages/services/taskService';
+import authService from '../pages/services/authService';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import '../css/TaskFormModal.css';
 
-const TaskFormModal = ({ show, handleClose, handleCreateTask }) => {
-  const [taskDetails, setTaskDetails] = useState({ name: '', label: '', status: 'pending' });
+const TaskFormModal = ({ show, handleClose }) => {
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || '');  
+  const [taskDetails, setTaskDetails] = useState({ name: '', label: '', status: 'New', usersList: [], assignUsers: [], dueDate: '', note: '', taskOfUser: '' });
+  const [validationErrors, setValidationErrors] = useState({ name: '', label: '' });
+
+  useEffect(() => {
+    // Fetch users list from API
+    const fetchUsersList = async () => {
+      try {
+        const response = await authService.getData({
+          searchquery: { _id: loggedInId },
+          projection: { user: 1,_id:0 },
+          showcount: 1,
+        });
+        if (response.data.status) {
+          setTaskDetails((prevDetails) => ({
+            ...prevDetails,
+            usersList: response.data.data[0].user,
+          }));
+        } else {
+          throw new Error(response.data.message || 'Failed to fetch users list');
+        }
+      } catch (error) {
+        console.error('Error fetching users list:', error);
+      }
+    };
+
+    fetchUsersList();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -10,29 +47,43 @@ const TaskFormModal = ({ show, handleClose, handleCreateTask }) => {
       ...prevDetails,
       [name]: value,
     }));
+    // Clear validation error when user starts typing
+    setValidationErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
+    }));
   };
 
-  const handleSubmit = () => {
-    // Perform the API call to create a task
-    fetch('/api/tasks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(taskDetails),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Task created successfully:', data);
-        // Pass the new task data to the parent component
-        handleCreateTask(data);
-        // Close the modal and reset the form
-        setTaskDetails({ name: '', label: '', status: 'pending' });
-        handleClose();
-      })
-      .catch((error) => {
-        console.error('Error creating task:', error);
-      });
+  const handleAssignUsersChange = (selectedOptions) => {
+    const selectedUsers = selectedOptions.map(option => option.value);
+    setTaskDetails((prevDetails) => ({
+      ...prevDetails,
+      assignUsers: selectedUsers,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // Simple validation for required fields
+      if (!taskDetails.name.trim() || !taskDetails.label.trim()) {
+        throw new Error('Task name and label are required');
+      }
+
+      const response = await taskService.addTask(taskDetails);
+      if (!response.data.status) {
+        throw new Error(response.data.message || `HTTP error! status: ${response.data.status}`);
+      }
+
+      // Display success message
+      toast.success('Task added successfully!');
+      // Reset the form after successful submission
+      setTaskDetails({ name: '', label: '', status: 'New', usersList: taskDetails.usersList, assignUsers: [], dueDate: '', note: '', taskOfUser: '' });
+      handleClose(); // Close modal after successful submission
+
+    } catch (error) {
+      // Display error message
+      toast.error(error.message || 'An unexpected error occurred');
+    }
   };
 
   return (
@@ -49,7 +100,13 @@ const TaskFormModal = ({ show, handleClose, handleCreateTask }) => {
               name="name"
               value={taskDetails.name}
               onChange={handleInputChange}
+              isInvalid={!!validationErrors.name} // Add isInvalid prop for Bootstrap validation
+              required // Add required attribute for HTML5 validation
             />
+            <Form.Control.Feedback type="invalid">{validationErrors.name}</Form.Control.Feedback>
+            <Form.Text className="text-muted">
+              Enter the task name.
+            </Form.Text>
           </Form.Group>
           <Form.Group>
             <Form.Label>Task Label</Form.Label>
@@ -58,19 +115,66 @@ const TaskFormModal = ({ show, handleClose, handleCreateTask }) => {
               name="label"
               value={taskDetails.label}
               onChange={handleInputChange}
+              isInvalid={!!validationErrors.label} // Add isInvalid prop for Bootstrap validation
+              required // Add required attribute for HTML5 validation
+            />
+            <Form.Control.Feedback type="invalid">{validationErrors.label}</Form.Control.Feedback>
+            <Form.Text className="text-muted">
+              Enter the task label.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Assign Users</Form.Label>
+            <Select
+              options={taskDetails.usersList.map(user => ({ value: user.un, label: user.un }))}
+              value={taskDetails.assignUsers.map(user => ({ value: user, label: user }))}
+              onChange={handleAssignUsersChange}
+              isMulti
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Task Status</Form.Label>
+            <Form.Label>Due Date</Form.Label>
+            <Form.Control
+              type="date"
+              name="dueDate"
+              value={taskDetails.dueDate}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Note</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="note"
+              value={taskDetails.note}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Task Of User</Form.Label>
+            <Form.Control
+              type="text"
+              name="taskOfUser"
+              value={taskDetails.taskOfUser}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Status</Form.Label>
             <Form.Control
               as="select"
               name="status"
               value={taskDetails.status}
               onChange={handleInputChange}
             >
-              <option value="pending">Pending</option>
-              <option value="working">Working</option>
-              <option value="done">Done</option>
+              <option value="New">New</option>
+              <option value="Open">Open</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Open Deal">Open Deal</option>
+              <option value="Unqualified">Unqualified</option>
+              <option value="Won">Won</option>
+              <option value="Close">Close</option>
             </Form.Control>
           </Form.Group>
         </Form>
@@ -83,6 +187,7 @@ const TaskFormModal = ({ show, handleClose, handleCreateTask }) => {
           Create Task
         </Button>
       </Modal.Footer>
+      <ToastContainer /> {/* To display toast messages */}
     </Modal>
   );
 };
