@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import moli from '../img/icon.svg';
 import user from '../img/user-small.png';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faListCheck } from "@fortawesome/free-solid-svg-icons";
 
 function Sidebar() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -62,9 +64,11 @@ function Sidebar() {
             {isAdmin && (
               <>
                 <li><Link to="/user"><i className="fa fa-user"></i> <span>User</span></Link></li>
+                <li><Link to="/task"> <span>Task</span><FontAwesomeIcon icon={faListCheck} /></Link></li>
                 {/* Add other admin-specific menu items here */}
               </>
             )}
+           
           </ul>
         </nav>
       </div>

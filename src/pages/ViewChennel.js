@@ -164,11 +164,11 @@ const Channel = () => {
                         <TableBody>
                           {currentChannels.map((channel, index) => (
                             <StyledTableRow key={index}>
-                            <BoldTableCell>
+                              <BoldTableCell>
                                 {indexOfFirstChannel + index + 1}
-                                </BoldTableCell>
-                             <BoldTableCell>{channel.nm}</BoldTableCell>
-                             <BoldTableCell>{channel.lbl}</BoldTableCell>
+                              </BoldTableCell>
+                              <BoldTableCell>{channel.nm}</BoldTableCell>
+                              <BoldTableCell>{channel.lbl}</BoldTableCell>
                               <BoldTableCell>{channel.frm}</BoldTableCell>
                               <StyledTableCell align="center">
                                 <button

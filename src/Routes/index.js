@@ -14,6 +14,7 @@ import ViewChennel from '../pages/ViewChennel.js';
 import ViewUser from '../pages/ViewUser.js'
 import EditChannel from '../pages/EditChannel.js';
 import EditUser from '../pages/EditUser.js';
+import TaskDetail from '../pages/TaskDetail.js';
 
 
 
@@ -53,6 +54,7 @@ function RoutesComponent() {
       <Route path="/user"  element={ isLoggedIn ? <ViewUser /> : <Navigate to="/login" replace />}  />
       <Route path='/edit-user/:userun' element={isLoggedIn ? <EditUser /> : <Navigate to='/login' replace />} />
       <Route path='/edit-channel/:channelLbl' element={isLoggedIn ? <EditChannel /> : <Navigate to='/login' replace />} />
+      <Route path='/task' element={isLoggedIn ? <TaskDetail /> : <Navigate to='/login' replace />} />
     </Routes>
     
   );
