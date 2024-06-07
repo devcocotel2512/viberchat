@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare,faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/material/styles";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -11,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import chatService, { getTask } from "./services/chatService"; // Corrected import
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,9 +38,12 @@ const BoldTableCell = styled(StyledTableCell)({
 });
 
 const TaskDetail = () => {
+  const navigate = useNavigate();
   const { _id } = useParams();
   const [tasks, setTasks] = useState([]);
-
+  const viewChat = (taskid) => {
+    navigate(`/chat/${taskid}`);
+  };
   useEffect(() => {
     const fetchTask = async () => {
       try {
@@ -53,7 +57,7 @@ const TaskDetail = () => {
           },
           showcount: 1,
         });
-        setTasks(response.data.data[0].task);
+        setTasks(response.data.data[0].task||[]);
       } catch (error) {
         console.log("error fatching task", error);
       }
@@ -110,6 +114,11 @@ const TaskDetail = () => {
                             <button type="button" className="btn-edit">
                               <FontAwesomeIcon icon={faPenToSquare} />
                             </button>
+                            <button type="button" className="btn-eye"
+                                  onClick={() => viewChat(task._id||'')}>
+                              <FontAwesomeIcon icon={faEye} />
+                            </button>
+                            
                             <button type="button" className="btn-delete">
                               <FontAwesomeIcon icon={faTrash} />
                             </button>

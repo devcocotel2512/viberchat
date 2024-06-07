@@ -64,7 +64,7 @@ function Sidebar() {
             {isAdmin && (
               <>
                 <li><Link to="/user"><i className="fa fa-user"></i> <span>User</span></Link></li>
-                <li><Link to="/task"> <span>Task</span><FontAwesomeIcon icon={faListCheck} /></Link></li>
+                <li><Link to="/task"> <i className="fa fa-tasks"></i> <span>Task</span></Link></li>
                 {/* Add other admin-specific menu items here */}
               </>
             )}
