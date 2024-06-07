@@ -17,6 +17,13 @@ const Chat = ({ loggedInUser }) => { // Pass loggedInUser as a prop
   const [chats, setChats] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState("");
   const [selectedChatHistory, setSelectedChatHistory] = useState([]);
+
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+  
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || '');  
+
   const [retrievedUser, setRetrievedUser] = useState(loggedInUser || {}); // Use passed loggedInUser or default to empty object
   const [isOpen, setIsOpen] = useState(false); // State for user detail visibility
 
@@ -28,6 +35,7 @@ const Chat = ({ loggedInUser }) => { // Pass loggedInUser as a prop
   const toggleDetail = () => {
     setIsOpen(!isOpen);
   };
+
 
   const handleChannelSelection = (event) => {
     setSelectedChannel(event.target.value);
@@ -102,6 +110,7 @@ const Chat = ({ loggedInUser }) => { // Pass loggedInUser as a prop
         sender_name: loggedInUser.un,
         sender_avatar: "https://avatar.example.com",
         typeofmsg: "text",
+        _id:loggedInId
       });
 
       const sentMessage = {
