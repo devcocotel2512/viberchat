@@ -7,13 +7,17 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import '../css/TaskFormModal.css';
 
-const TaskFormModal = ({ show, handleClose }) => {
+const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
+  
   const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
   const retrievedId = localStorage.getItem("loginId");
 
   const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
   const [loggedInId, setLoggedInId] = useState(retrievedId || '');  
-  const [taskDetails, setTaskDetails] = useState({ name: '', label: '', status: 'New', usersList: [], assignUsers: [], dueDate: '', note: '', taskOfUser: '' });
+  
+
+  const [taskDetails, setTaskDetails] = useState({ name: '', label: '', status: 'New', usersList: [], assignUsers: [], dueDate: '', note: '', taskOfUser: recipientid,chatMsgToken:chatMsgToken });
+  console.log(taskDetails);
   const [validationErrors, setValidationErrors] = useState({ name: '', label: '' });
 
   useEffect(() => {
@@ -53,7 +57,13 @@ const TaskFormModal = ({ show, handleClose }) => {
       [name]: '',
     }));
   };
-
+  useEffect(() => {
+    setTaskDetails((prevDetails) => ({
+      ...prevDetails,
+      taskOfUser: recipientid,
+      chatMsgToken:chatMsgToken
+    }));
+  }, [recipientid,chatMsgToken]);
   const handleAssignUsersChange = (selectedOptions) => {
     const selectedUsers = selectedOptions.map(option => option.value);
     setTaskDetails((prevDetails) => ({
@@ -77,7 +87,7 @@ const TaskFormModal = ({ show, handleClose }) => {
       // Display success message
       toast.success('Task added successfully!');
       // Reset the form after successful submission
-      setTaskDetails({ name: '', label: '', status: 'New', usersList: taskDetails.usersList, assignUsers: [], dueDate: '', note: '', taskOfUser: '' });
+      setTaskDetails({ name: '', label: '', status: 'New', usersList: taskDetails.usersList, assignUsers: [], dueDate: '', note: '', taskOfUser: recipientid });
       handleClose(); // Close modal after successful submission
 
     } catch (error) {
@@ -151,15 +161,7 @@ const TaskFormModal = ({ show, handleClose }) => {
               onChange={handleInputChange}
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Task Of User</Form.Label>
-            <Form.Control
-              type="text"
-              name="taskOfUser"
-              value={taskDetails.taskOfUser}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
+          
           <Form.Group>
             <Form.Label>Status</Form.Label>
             <Form.Control

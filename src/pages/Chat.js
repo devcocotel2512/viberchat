@@ -509,6 +509,8 @@ const Chat = () => { // Pass loggedInUser as a prop
                     selectedChatHistory={selectedChatHistory}
                     formatChatday={formatChatday}
                     formatChattimedate={formatChattimedate}
+                    recipientid={recipientid}
+                    
                   />
                   <div class="chat-message">
                     <div class="form-group c_form_group mb-0 d-flex align-items-center">
