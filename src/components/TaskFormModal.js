@@ -5,7 +5,7 @@ import taskService from '../pages/services/taskService';
 import authService from '../pages/services/authService';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import '../Css/TaskFormModal.css';
+import '../css/TaskFormModal.css';
 
 const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
   
