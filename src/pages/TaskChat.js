@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
 
-
 const TaskChat = () => {
-    const { id } = useParams();
+  const { id } = useParams();
 
   return (
     <Layout>
@@ -25,21 +24,98 @@ const TaskChat = () => {
                   <button className="search-btn" type="submit">
                     <span>Search</span>
                   </button>
-               
                 </div>
               </div>
-              <div className="body">
-                This is chat
-
-                <p><b>
-                {id}
-                </b></p>
+              <div className="ml-3">
+                <p>Chat-id={id}</p>
+              </div>
+              <div className="chatapp_body">
+                <div className="chat-header">
+                  <Link to="javascript:void(0);" className="open_detail">
+                    <div className="media mb-0">
+                      <img
+                        className="rounded-circle w35"
+                        src="/assets/images/user.png"
+                        alt=""
+                      />
+                      <div className="media-body mr-3 ml-3 text-muted">
+                        <h6 className="m-0">Deborah Cox</h6>
+                        <small>Webdeveloper</small>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                <div className="chat-history">
+                  <ul className="message_data">
+                    <li className="right clearfix">
+                      <img
+                        className="user_pix"
+                        src="/assets/images/xs/avatar7.jpg"
+                        alt="avatar"
+                      />
+                      <div className="message">
+                        <Link to="" className="smily">
+                          <i className="fa fa-smile-o"></i>
+                        </Link>
+                        <span>
+                          Hi Aiden, how are you? How is the project coming
+                          along?
+                        </span>
+                      </div>
+                      <span className="data_time">10:12 AM, Today</span>
+                    </li>
+                    <li className="left clearfix">
+                      <img
+                        className="user_pix"
+                        src="/assets/images/user.png"
+                        alt="avatar"
+                      />
+                      <div className="message">
+                        <Link to="" className="smily">
+                          <i className="fa fa-smile-o"></i>
+                        </Link>
+                        <span>Are we meeting today?</span>
+                        <div className="alert alert-primary mb-0 mt-2">
+                          <i className="fa fa-file-word-o mr-2"></i>{" "}
+                          <span>finame12.doc</span>
+                        </div>
+                      </div>
+                      <span className="data_time">10:12 AM, Today</span>
+                    </li>
+                    <li className="right clearfix">
+                      <img
+                        className="user_pix"
+                        src="/assets/images/xs/avatar5.jpg"
+                        alt="avatar"
+                      />
+                      <div className="message">
+                        <Link to="#" className="smily">
+                          <i className="fa fa-smile-o"></i>
+                        </Link>
+                        <span>How is the project coming along?</span>
+                      </div>
+                      <span className="data_time">10:12 AM, Today</span>
+                    </li>
+                    <li className="divider clearfix">
+                      <span>yesterday</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="chat-message">
+                  <div className="form-group c_form_group mb-0">
+                    <textarea
+                      type="text"
+                      row=""
+                      className="form-control"
+                      placeholder="Enter text here..."
+                    ></textarea>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
     </Layout>
   );
 };
