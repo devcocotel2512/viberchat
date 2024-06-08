@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
 
+
+
 const TaskChat = () => {
   const { id } = useParams();
 
@@ -31,7 +33,7 @@ const TaskChat = () => {
               </div>
               <div className="chatapp_body">
                 <div className="chat-header">
-                  <Link to="javascript:void(0);" className="open_detail">
+                  <Link to="javascript:void(0);" className="open_detail text-decoration-none">
                     <div className="media mb-0">
                       <img
                         className="rounded-circle w35"
