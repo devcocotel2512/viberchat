@@ -19,10 +19,6 @@ const getTask = async (payload) => {
 
 const updateTask = async (payload) => {
     const response = await axios.put(`${API_URL}/api/update`, payload, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': token, // Use the token in the Authorization header
-      },
     });
     return response;
 
