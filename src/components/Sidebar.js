@@ -39,20 +39,20 @@ function Sidebar() {
       </div>
       <div className="sidebar-scroll">
         <div className="user-account">
-          <div className="user_div">
-            <img src={user} className="user-photo" alt="User Profile Picture" />
+          <div className="user_div ">
+            <img src={user} className="user-photo " alt="User Profile Picture" />
           </div>
           <div className="dropdown">
             <span>Web Developer,</span>
-            <Link to="#" className="dropdown-toggle user-name" data-toggle="dropdown">
+            <Link to="#" className="dropdown-toggle user-name text-decoration-none" data-toggle="dropdown">
               <strong>{userName}</strong>
             </Link>
-            <ul className="dropdown-menu dropdown-menu-right account vivify flipInY">
-              <li><Link to="/login"><i className="fa fa-user"></i>My Profile</Link></li>
-              <li><Link to="/messages"><i className="fa fa-envelope"></i>Messages</Link></li>
-              <li><Link to="/settings"><i className="fa fa-gear"></i>Settings</Link></li>
+            <ul className="dropdown-menu dropdown-menu-right account vivify flipInY ">
+              <li><Link to="/login" className='text-decoration-none'><i className="fa fa-user"></i>My Profile</Link></li>
+              <li><Link to="/messages" className='text-decoration-none'><i className="fa fa-envelope"></i>Messages</Link></li>
+              <li><Link to="/settings" className='text-decoration-none'><i className="fa fa-gear"></i>Settings</Link></li>
               <li className="divider"></li>
-              <li><Link to="/logout"><i className="fa fa-power-off"></i>Logout</Link></li>
+              <li><Link to="/logout" className='text-decoration-none'><i className="fa fa-power-off"></i>Logout</Link></li>
             </ul>
           </div>
         </div>
