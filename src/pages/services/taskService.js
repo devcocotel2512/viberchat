@@ -12,5 +12,20 @@ const addTask = async (payload) => {
     return response;
 };
 
+const getTask = async (payload) => {
+    const respose = await axios.post(`${API_URL}/api/mfind`, payload);
+    return respose
+}
 
-export default { addTask};
+const updateTask = async (payload) => {
+    const response = await axios.put(`${API_URL}/api/update`, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token, // Use the token in the Authorization header
+      },
+    });
+    return response;
+
+  }
+
+export default { addTask, getTask, updateTask};

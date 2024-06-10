@@ -91,6 +91,32 @@ const Channel = () => {
     setCurrentPage(1); // Reset to first page on new search
   };
 
+  const handleDelete = async (channelId) => {
+    try {
+      setLoading(true);
+      await channelService.deleteChannel({
+        searchquery: {
+          _id: "raidlayer",
+          "chnl.id": channelId,
+        },
+        body: {
+          "$pull": {
+            "chnl": { "id": channelId }
+          }
+        }
+      });
+      toast.success("Channel deleted successfully");
+      setChannels((prevChannels) =>
+        prevChannels.filter((channel) => channel.id !== channelId)
+      );
+    } catch (error) {
+      console.error("Error deleting channel:", error);
+      toast.error("Failed to delete channel");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filteredChannels = channels.filter((channel) =>
     channel.nm.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -178,7 +204,11 @@ const Channel = () => {
                                 >
                                   <FontAwesomeIcon icon={faPenToSquare} />
                                 </button>
-                                <button type="button" className="btn-delete">
+                                <button
+                                  type="button"
+                                  className="btn-delete"
+                                  onClick={() => handleDelete(channel.id)}
+                                >
                                   <FontAwesomeIcon icon={faTrash} />
                                 </button>
                               </StyledTableCell>

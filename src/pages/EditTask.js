@@ -1,62 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useNavigate, useParams } from "react-router-dom";
-import channelService from "./services/channelService";
+import taskService from "./services/taskService";
 import ClipLoader from "react-spinners/ClipLoader";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const EditChannel = () => {
+const EditTask = () => {
+  const { _id } = useParams();
   const navigate = useNavigate();
-  const { channelLbl } = useParams();
-  const [channelData, setChannelData] = useState({
-    name: "",
+  const [taskData, setTaskData] = useState({
     label: "",
-    form: "",
-    type: "",
-    authkey: "",
+    name: "",
+    note: "",
+    status: "",
+    crttmstmp: "",
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchChannelData = async () => {
+    const fetchTaskData = async () => {
       try {
         setLoading(true);
-        const response = await channelService.getChannel({
+        const response = await taskService.getTask({
           searchquery: {
             _id: "raidlayer",
-            "chnl.lbl": channelLbl,
+            "task.id": _id,
           },
           projection: {
-            "chnl.$": 1,
+            task: 1,
           },
           showcount: 1,
         });
-        const channel = response.data.data[0].chnl.find(
-          (ch) => ch.lbl === channelLbl
-        );
-        if (channel) {
-          setChannelData({
-            name: channel.nm,
-            label: channel.lbl,
-            form: channel.frm,
-            type: channel.type,
-            authkey: channel.authkey,
+        
+        const task = response.data.data[0].task.find((ts) => ts.id === _id);
+        if (task) {
+          setTaskData({
+            name: task.name,
+            label: task.label,
+            note: task.note,
+            status: task.status,
+            crttmstmp: task.crttmstmp,
           });
         }
       } catch (error) {
-        console.error("Error fetching channel data:", error);
+        console.log("Error fetching data", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchChannelData();
-  }, [channelLbl]);
+    fetchTaskData();
+  }, [_id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setChannelData((prevData) => ({
+    setTaskData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -66,34 +65,31 @@ const EditChannel = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await channelService.updateChannel({
+      await taskService.updateTask({
         searchquery: {
           _id: "raidlayer",
-          "chnl.lbl": channelLbl,
+          "task.id": _id,
         },
         body: {
-          "chnl.$.nm": channelData.name,
-          "chnl.$.lbl": channelData.label,
-          "chnl.$.frm": channelData.form,
-          "chnl.$.type": channelData.type,
-          "chnl.$.authkey": channelData.authkey,
+          "task.$.name": taskData.name,
+          "task.$.label": taskData.label,
+          "task.$.note": taskData.note,
+          "task.$.status": taskData.status,
+          "task.$.crttmstmp": taskData.crttmstmp,
         },
       });
-      toast.success("Channel updated successfully");
-      // window.location.href = '/channel';
-      navigate("/channel");
+      toast.success("Task updated successfully");
+      navigate(`/task`); // Navigate back to the task view page after a successful update
     } catch (error) {
-      console.error("Error updating channel:", error);
-      toast.error("Failed to update channel");
+      console.error("Error updating task:", error);
+      toast.error("Failed to update task");
     } finally {
       setLoading(false);
     }
   };
 
   const back = () => {
-    // window.location.href = '/channel';
     navigate("/channel");
-    
   };
 
   return (
@@ -109,79 +105,69 @@ const EditChannel = () => {
               <div className="col-md-12">
                 <div className="card">
                   <div className="header">
-                    <h2>Edit Channel:{channelLbl}</h2>
+                    <h2>Edit Task: {_id}</h2>
                   </div>
                   <div className="body">
                     {loading ? (
                       <div className="loading-container">
-                        <ClipLoader
-                          color={"#123abc"}
-                          loading={loading}
-                          size={50}
-                        />
+                        <ClipLoader color={"#123abc"} loading={loading} size={50} />
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                          <label>Name</label>
-                          <input
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            value={channelData.name}
-                            onChange={handleChange}
-                          />
-                        </div>
                         <div className="form-group">
                           <label>Label</label>
                           <input
                             type="text"
                             name="label"
                             className="form-control"
-                            value={channelData.label}
+                            value={taskData.label}
                             onChange={handleChange}
                           />
                         </div>
                         <div className="form-group">
-                          <label>Form</label>
+                          <label>Name</label>
                           <input
                             type="text"
-                            name="form"
+                            name="name"
                             className="form-control"
-                            value={channelData.form}
+                            value={taskData.name}
                             onChange={handleChange}
                           />
                         </div>
                         <div className="form-group">
-                          <label>Type</label>
+                          <label>Note</label>
                           <input
                             type="text"
-                            name="type"
+                            name="note"
                             className="form-control"
-                            value={channelData.type}
+                            value={taskData.note}
                             onChange={handleChange}
                           />
                         </div>
                         <div className="form-group">
-                          <label>Auth-Key</label>
+                          <label>Status</label>
                           <input
                             type="text"
-                            name="authkey"
+                            name="status"
                             className="form-control"
-                            value={channelData.authkey}
+                            value={taskData.status}
+                            onChange={handleChange}
                           />
                         </div>
-                        <button
-                          type="submit"
-                          className="btn btn-primary mt-4 rounded "
-                        >
+                        <div className="form-group">
+                          <label>Created Timestamp</label>
+                          <input
+                            type="text"
+                            name="crttmstmp"
+                            className="form-control"
+                            value={taskData.crttmstmp}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <button type="submit" className="btn btn-primary mt-4 rounded">
                           Save Changes
                         </button>
-                        <button
-                          type="button"
-                          className="btn btn-class mt-4 ml-3 rounded "
-                          onClick={back}
-                        >
+                        <button type="button" className="btn btn-secondary mt-4 ml-3 rounded" onClick={back}>
                           Back
                         </button>
                       </form>
@@ -206,7 +192,4 @@ const EditChannel = () => {
   );
 };
 
-export default EditChannel;
-
-
-
+export default EditTask;
