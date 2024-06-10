@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import React from "react";
+import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
-
-
+import "../Css/TaskFormModal.css";
 
 const TaskChat = () => {
   const { id } = useParams();
@@ -28,13 +27,18 @@ const TaskChat = () => {
                   </button>
                 </div>
               </div>
-              <div className="ml-3">
+              {/* <div className="ml-3">
                 <p>Chat-id={id}</p>
-              </div>
-              <div className="chatapp_body">
+              </div> */}
+
+              <div className="aa-chatapp_body">
                 <div className="chat-header">
-                  <Link to="javascript:void(0);" className="open_detail text-decoration-none">
-                    <div className="media mb-0">
+                  <Link
+                    to="javascript:void(0);"
+                    className="open_detail text-decoration-none"
+                  >
+                    <hr className="line-11" />
+                    <div className="media mb-1 mt-2">
                       <img
                         className="rounded-circle w35"
                         src="/assets/images/user.png"
@@ -47,71 +51,153 @@ const TaskChat = () => {
                     </div>
                   </Link>
                 </div>
-                <div className="chat-history">
-                  <ul className="message_data">
+                <div className="chat-history" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                  <div className="container">
+                    <ul className="message_data">
                     <li className="right clearfix">
-                      <img
-                        className="user_pix"
-                        src="/assets/images/xs/avatar7.jpg"
-                        alt="avatar"
-                      />
-                      <div className="message">
-                        <Link to="" className="smily">
-                          <i className="fa fa-smile-o"></i>
-                        </Link>
-                        <span>
-                          Hi Aiden, how are you? How is the project coming
-                          along?
-                        </span>
-                      </div>
-                      <span className="data_time">10:12 AM, Today</span>
-                    </li>
-                    <li className="left clearfix">
-                      <img
-                        className="user_pix"
-                        src="/assets/images/user.png"
-                        alt="avatar"
-                      />
-                      <div className="message">
-                        <Link to="" className="smily">
-                          <i className="fa fa-smile-o"></i>
-                        </Link>
-                        <span>Are we meeting today?</span>
-                        <div className="alert alert-primary mb-0 mt-2">
-                          <i className="fa fa-file-word-o mr-2"></i>{" "}
-                          <span>finame12.doc</span>
+                        <img
+                          className="user_pix"
+                          src="/assets/images/xs/avatar7.jpg"
+                          alt="avatar"
+                        />
+                        <div className="message">
+                          <Link to="" className="smily">
+                            <i className="fa fa-smile-o"></i>
+                          </Link>
+                          <span>
+                            Hi Aiden, how are you? How is the project coming
+                            along?
+                          </span>
                         </div>
-                      </div>
-                      <span className="data_time">10:12 AM, Today</span>
-                    </li>
-                    <li className="right clearfix">
-                      <img
-                        className="user_pix"
-                        src="/assets/images/xs/avatar5.jpg"
-                        alt="avatar"
-                      />
-                      <div className="message">
-                        <Link to="#" className="smily">
-                          <i className="fa fa-smile-o"></i>
-                        </Link>
-                        <span>How is the project coming along?</span>
-                      </div>
-                      <span className="data_time">10:12 AM, Today</span>
-                    </li>
-                    <li className="divider clearfix">
-                      <span>yesterday</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="chat-message">
-                  <div className="form-group c_form_group mb-0">
-                    <textarea
-                      type="text"
-                      row=""
-                      className="form-control"
-                      placeholder="Enter text here..."
-                    ></textarea>
+                        <span className="data_time">10:12 AM, Today</span>
+                      </li>
+                      <li className="left clearfix">
+                        <img
+                          className="user_pix"
+                          src="/assets/images/user.png"
+                          alt="avatar"
+                        />
+                        <div className="message">
+                          <Link to="" className="smily">
+                            <i className="fa fa-smile-o"></i>
+                          </Link>
+                          <span>Are we meeting today?</span>
+                          <div className="alert alert-primary mb-0 mt-2">
+                            <i className="fa fa-file-word-o mr-2"></i>{" "}
+                            <span>finame12.doc</span>
+                          </div>
+                        </div>
+                        <span className="data_time">10:12 AM, Today</span>
+                      </li>
+                      <li className="right clearfix">
+                        <img
+                          className="user_pix"
+                          src="/assets/images/xs/avatar5.jpg"
+                          alt="avatar"
+                        />
+                        <div className="message">
+                          <Link to="#" className="smily">
+                            <i className="fa fa-smile-o"></i>
+                          </Link>
+                          <span>How is the project coming along?</span>
+                        </div>
+                        <span className="data_time">10:12 AM, Today</span>
+                      </li>
+                      <li className="divider clearfix">
+                        <span>yesterday</span>
+                      </li>
+
+                      <li className="right clearfix">
+                        <img
+                          className="user_pix"
+                          src="/assets/images/xs/avatar5.jpg"
+                          alt="avatar"
+                        />
+                        <div className="message">
+                          <Link to="#" className="smily">
+                            <i className="fa fa-smile-o"></i>
+                          </Link>
+                          <span>How is the project coming along?</span>
+                        </div>
+                        <span className="data_time">10:12 AM, Today</span>
+                      </li>
+
+                      <li className="left clearfix">
+                        <img
+                          className="user_pix"
+                          src="/assets/images/user.png"
+                          alt="avatar"
+                        />
+                        <div className="message">
+                          <Link to="" className="smily">
+                            <i className="fa fa-smile-o"></i>
+                          </Link>
+                          <span>Are we meeting today?</span>
+                          <div className="alert alert-primary mb-0 mt-2">
+                            <i className="fa fa-file-word-o mr-2"></i>{" "}
+                            <span>finame12.doc</span>
+                          </div>
+                        </div>
+                        <span className="data_time">10:12 AM, Today</span>
+                      </li>
+                      <li className="left clearfix">
+                        <img
+                          className="user_pix"
+                          src="/assets/images/user.png"
+                          alt="avatar"
+                        />
+                        <div className="message">
+                          <Link to="" className="smily">
+                            <i className="fa fa-smile-o"></i>
+                          </Link>
+                          <span>Are we meeting today?</span>
+                          <div className="alert alert-primary mb-0 mt-2">
+                            <i className="fa fa-file-word-o mr-2"></i>{" "}
+                            <span>finame12.doc</span>
+                          </div>
+                        </div>
+                        <span className="data_time">10:12 AM, Today</span>
+                      </li>
+                      <li className="left clearfix">
+                        <img
+                          className="user_pix"
+                          src="/assets/images/user.png"
+                          alt="avatar"
+                        />
+                        <div className="message">
+                          <Link to="" className="smily">
+                            <i className="fa fa-smile-o"></i>
+                          </Link>
+                          <span>Are we meeting today?</span>
+                          <div className="alert alert-primary mb-0 mt-2">
+                            <i className="fa fa-file-word-o mr-2"></i>{" "}
+                            <span>finame12.doc</span>
+                          </div>
+                        </div>
+                        <span className="data_time">10:12 AM, Today</span>
+                      </li>
+                    </ul>
                   </div>
+                  <div class="chat-message">
+                    <div class="form-group c_form_group mb-0 d-flex align-items-center">
+                      <textarea
+                        type="text"
+                        rows="1"
+                        className="form-control flex-grow-1 chat-message__textarea"
+                        placeholder="Enter text here..."
+                        // value={message}
+                        // onChange={handleInputChange}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-primary send-message-btn chat-message__button"
+                        // onClick={handleSendMessage}
+                      >
+                        <i class="fa fa-paper-plane"></i>
+                      </button>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
