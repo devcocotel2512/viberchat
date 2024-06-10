@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import chatService from "./services/chatService";
 import Layout from "../components/Layout";
 
 const TaskChat = () => {
   const { id } = useParams();
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+  
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || ''); 
+  useEffect(() => {
+    const fetchTask = async () => {
+      try {
+        const response = await chatService.getData({
+          searchqurey: {
+          _id:loggedInId,
 
+          },
+          projection: {
+            chat: 1,
+          },
+          showcount: 1,
+        });
+        // setTasks(response.data.data[0].task||[]);
+      } catch (error) {
+        console.log("error fatching task", error);
+      }
+    };
+    fetchTask();
+  }, [id]); 
   return (
     <Layout>
       <div id="main-content">

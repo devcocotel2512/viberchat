@@ -12,9 +12,9 @@ const sendChat = async (payload) => {
     return response;
 };
 
-const getTask = async (payload) => {
+const getData = async (payload) => {
     const response = await axios.post(API_URL+'/api/mfind',payload)
     return response;  
 }
 
-export default { sendChat, getTask};
+export default { sendChat, getData};

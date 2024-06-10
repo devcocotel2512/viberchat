@@ -15,8 +15,10 @@ const formatChatTime = (time) => {
   } else if (diffInHours < 24) {
     return `${diffInHours} hours ago`;
   } else if (diffInDays === 1) {
+    // return 'Yesterday, ' + chatTime.format('h:mm A');
     return 'Yesterday, ' + chatTime.format('h:mm A');
   } else if (diffInDays < 7) {
+    // return `${diffInDays} days ago, ` + chatTime.format('h:mm A');
     return `${diffInDays} days ago, ` + chatTime.format('h:mm A');
   } else {
     return chatTime.format('MMMM D, YYYY, h:mm A');
