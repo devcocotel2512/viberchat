@@ -2753,6 +2753,10 @@ html.fullscreen-bg #wrapper {
     text-align: left
 }
 
+.aa .chatapp_body{
+    margin-left: 0px !important;
+}
+
 .toggle_menu_active .sidebar:hover .user-account .user_div .user-photo {
     width: 40px
 }
@@ -7543,6 +7547,11 @@ ul.choose-skin,
 .mail-inbox .mail-left h3,
 .w_social3 .card .fa {
     margin-bottom: 15px
+}
+
+.media{
+    margin-bottom: 1px;
+    margin-left: 12px;
 }
 
 .m-l-20,

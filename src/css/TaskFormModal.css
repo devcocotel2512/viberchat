@@ -6,13 +6,13 @@
   margin-top: 20px;
 }
 
-.chatapp_body .chat-header {
+.aa-chatapp_body .chat-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.chatapp_body .chat-history {
+.aa-chatapp_body .chat-history {
   border-top: 1px solid var(--border-color);
   overflow-y: auto;
   padding: 20px;
@@ -20,27 +20,31 @@
 
 .m-t-10,
 .page-loader-wrapper p,
-.chatapp_body .chat-history .message_data li,
+.aa-chatapp_body .chat-history .message_data li,
 .timeline .timeline-item .msg {
     margin-top: 10px
 }
 .m-l-35,
-.chatapp_body .chat-history .message_data li.left .message {
+.aa-chatapp_body .chat-history .message_data li.left .message {
     margin-left: 35px
 }
 
 .m-r-35,
-.chatapp_body .chat-history .message_data li.right .message {
+.aa-chatapp_body .chat-history .message_data li.right .message {
     margin-right: 35px
 }
 .m-b-40,
-.chatapp_body .chat-history .message_data li {
+.aa-chatapp_body .chat-history .message_data li {
     margin-bottom: 40px
 }
 .font-10,
 .progress .progress-bar,
-.chatapp_body .chat-history .message_data li .data_time {
+.aa-chatapp_body .chat-history .message_data li .data_time {
     font-size: 10px
+}
+
+.aa-chatapp_body{
+  margin-left: 0px !important;
 }
 
 .font-15,
@@ -48,7 +52,7 @@
 .accordion .card-header .btn,
 .wizard .content .body p,
 .accordion.custom .card-body,
-.chatapp_body .chat-history .message_data li .message,
+.aa-chatapp_body .chat-history .message_data li .message,
 .right_chat .media .name,
 .mail-inbox .mail-left h3,
 .fc .fc-view-container .fc-view.fc-basic-view>table tbody tr td.fc-day-number,
@@ -58,27 +62,35 @@
 
 .align-left,
 .accordion .card-header .btn,
-.chatapp_body .chat-history .message_data li.left .message {
+.aa-chatapp_body .chat-history .message_data li.left .message {
     text-align: left
+}
+
+.line-11{
+  width: 950px;
+  margin-top: 3px !important;
+  margin-bottom: 1px !important;
+  opacity: inherit;
+  border-color: black;
 }
 
 .align-right,
 .ct-legend,
 .media.mright .media-body,
 .wizard .actions,
-.chatapp_body .chat-history .message_data li.right .message {
+.aa-chatapp_body .chat-history .message_data li.right .message {
     text-align: right
 }
-.chatapp_body .chat-history .message_data li {
+.aa-chatapp_body .chat-history .message_data li {
   position: relative;
   list-style: none
 }
-.chatapp_body .chat-history .message_data li .data_time {
+.aa-chatapp_body .chat-history .message_data li .data_time {
   position: absolute;
   color: var(--font-777);
   bottom: -20px
 }
-.chatapp_body .chat-history .message_data li .message {
+.aa-chatapp_body .chat-history .message_data li .message {
   display: inline-block;
   vertical-align: middle;
   *vertical-align: auto;
@@ -91,35 +103,35 @@
   padding-left: 12px;
   border-radius: 10px 10px 0px 10px;
 }
-.chatapp_body {
+.aa-chatapp_body {
   margin-left: 330px;
 }
 
-.chatapp_body .chat-history .message_data li .message .smily {
+.aa-chatapp_body .chat-history .message_data li .message .smily {
   position: absolute;
   color: var(--font-777);
   top: 0
 }
-.chatapp_body .chat-history .message_data li.left .message .task {
+.aa-chatapp_body .chat-history .message_data li.left .message .task {
   left:73px;
   
 }
-.chatapp_body .chat-history .message_data li.right .message .task {
+.aa-chatapp_body .chat-history .message_data li.right .message .task {
   left:-41px
 }
-.chatapp_body .chat-history .message_data li.left .message .delete {
+.aa-chatapp_body .chat-history .message_data li.left .message .delete {
   left:95px
 }
-.chatapp_body .chat-history .message_data li.right .message .delete {
+.aa-chatapp_body .chat-history .message_data li.right .message .delete {
   left:-60px
 }
 @media screen and (max-width: 640px) {
-  .chatapp_body .chat-history .message_data li .message .smily {
+  .aa-chatapp_body .chat-history .message_data li .message .smily {
       display: none
   }
 }
 
-.chatapp_body .chat-history .message_data li .message:after {
+.aa-chatapp_body .chat-history .message_data li .message:after {
   border: solid transparent;
   position: absolute;
   pointer-events: none;
@@ -129,7 +141,7 @@
   border-width: 5px
 }
 
-.chatapp_body .chat-history .message_data li .user_pix {
+.aa-chatapp_body .chat-history .message_data li .user_pix {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
@@ -144,30 +156,30 @@
   height: 24px
 }
 
-.chatapp_body .chat-history .message_data li .user_pix:hover {
+.aa-chatapp_body .chat-history .message_data li .user_pix:hover {
   opacity: 1
 }
 
-.chatapp_body .chat-history .message_data li.left .user_pix {
+.aa-chatapp_body .chat-history .message_data li.left .user_pix {
   left: 0
 }
 
-.chatapp_body .chat-history .message_data li.left .data_time {
+.aa-chatapp_body .chat-history .message_data li.left .data_time {
   left: 50px
 }
 
-.chatapp_body .chat-history .message_data li.left .message {
+.aa-chatapp_body .chat-history .message_data li.left .message {
   background: #9fd8f4;
   color: black;
   float: left;
   border-radius: 10px 10px 10px 0px;
 }
 
-.chatapp_body .chat-history .message_data li.left .message .smily {
+.aa-chatapp_body .chat-history .message_data li.left .message .smily {
   right: -20px
 }
 
-.chatapp_body .chat-history .message_data li.left .message:after {
+.aa-chatapp_body .chat-history .message_data li.left .message:after {
   border-right-color: var(--border-color);
   border-bottom-color: var(--border-color);
   bottom: 0;
@@ -175,25 +187,25 @@
   margin-right: 0
 }
 
-.chatapp_body .chat-history .message_data li.right .user_pix {
+.aa-chatapp_body .chat-history .message_data li.right .user_pix {
   right: 0
 }
 
-.chatapp_body .chat-history .message_data li.right .data_time {
+.aa-chatapp_body .chat-history .message_data li.right .data_time {
   right: 50px
 }
 
-.chatapp_body .chat-history .message_data li.right .message {
+.aa-chatapp_body .chat-history .message_data li.right .message {
   float: right;
   background: #9fd8f4;
   color:black;
 }
 
-.chatapp_body .chat-history .message_data li.right .message .smily {
+.aa-chatapp_body .chat-history .message_data li.right .message .smily {
   left: -20px
 }
 
-.chatapp_body .chat-history .message_data li.right .message:after {
+.aa-chatapp_body .chat-history .message_data li.right .message:after {
   border-left-color: var(--border-color);
   border-bottom-color: var(--border-color);
   bottom: 0;
@@ -201,13 +213,13 @@
   margin-left: 0
 }
 
-.chatapp_body .chat-history .message_data li.divider {
+.aa-chatapp_body .chat-history .message_data li.divider {
   border-top: 1px solid var(--border-color);
   position: relative;
   text-align: center
 }
 
-.chatapp_body .chat-history .message_data li.divider span {
+.aa-chatapp_body .chat-history .message_data li.divider span {
   background: var(--white-color);
   color: var(--font-ccc);
   position: absolute;
@@ -217,7 +229,7 @@
   top: -24px
 }
 
-.chatapp_body .chat-message {
+.aa-chatapp_body .chat-message {
   padding-bottom:10px; 
   padding-left: 3px;
   padding-right: 6px; 
@@ -225,20 +237,20 @@
 
 .m-t-10,
 .page-loader-wrapper p,
-.chatapp_body .chat-history .message_data li,
+.aa-chatapp_body .chat-history .message_data li,
 .timeline .timeline-item .msg {
     margin-top: 10px
 }
 .m-l-35,
-.chatapp_body .chat-history .message_data li.left .message {
+.aa-chatapp_body .chat-history .message_data li.left .message {
     margin-left: 35px
 }
 .m-r-35,
-.chatapp_body .chat-history .message_data li.right .message {
+.aa-chatapp_body .chat-history .message_data li.right .message {
     margin-right: 35px
 }
 .m-b-40,
-.chatapp_body .chat-history .message_data li {
+.aa-chatapp_body .chat-history .message_data li {
     margin-bottom: 40px
 }
 .margin-0 h2,
@@ -251,7 +263,7 @@
 .media .media-body .media-heading,
 .wizard .content,
 .wizard .content .body label.error,
-.chatapp_body .chat-history .message_data,
+.aa-chatapp_body .chat-history .message_data,
 .timeline .timeline-item h6,
 .fc .fc-toolbar,
 .fc .fc-toolbar h2 {
@@ -264,7 +276,7 @@
 .block-header .breadcrumb,
 .accordion .card-header,
 .accordion2,
-.chatapp_body .chat-history .message_data,
+.aa-chatapp_body .chat-history .message_data,
 .right_chat .media .status,
 .fc .fc-view-container .fc-view.fc-basic-view>table>thead tr th.fc-agenda-gutter,
 .fc .fc-view-container .fc-view.fc-basic-view>table>thead tr td.fc-agenda-gutter,
@@ -276,7 +288,7 @@
 }
 .font-10,
 .progress .progress-bar,
-.chatapp_body .chat-history .message_data li .data_time {
+.aa-chatapp_body .chat-history .message_data li .data_time {
     font-size: 10px
 }
 .font-15,
@@ -284,7 +296,7 @@
 .accordion .card-header .btn,
 .wizard .content .body p,
 .accordion.custom .card-body,
-.chatapp_body .chat-history .message_data li .message,
+.aa-chatapp_body .chat-history .message_data li .message,
 .right_chat .media .name,
 .mail-inbox .mail-left h3,
 .fc .fc-view-container .fc-view.fc-basic-view>table tbody tr td.fc-day-number,
@@ -293,17 +305,17 @@
 }
 .align-left,
 .accordion .card-header .btn,
-.chatapp_body .chat-history .message_data li.left .message {
+.aa-chatapp_body .chat-history .message_data li.left .message {
     text-align: left
 }
 .align-right,
 .ct-legend,
 .media.mright .media-body,
 .wizard .actions,
-.chatapp_body .chat-history .message_data li.right .message {
+.aa-chatapp_body .chat-history .message_data li.right .message {
     text-align: right
 }
-.chatapp_body .chat-history .message_data li .message {
+.aa-chatapp_body .chat-history .message_data li .message {
   display: inline-block;
   vertical-align: middle;
   *vertical-align: auto;
@@ -317,31 +329,31 @@
   border-radius: 10px 10px 0px 10px;
 }
 
-.chatapp_body .chat-history .message_data li .message .smily {
+.aa-chatapp_body .chat-history .message_data li .message .smily {
   position: absolute;
   color: var(--font-777);
   top: 0
 }
-.chatapp_body .chat-history .message_data li.left .message .task {
+.aa-chatapp_body .chat-history .message_data li.left .message .task {
   left:73px;
   
 }
-.chatapp_body .chat-history .message_data li.right .message .task {
+.aa-chatapp_body .chat-history .message_data li.right .message .task {
   left:-41px
 }
-.chatapp_body .chat-history .message_data li.left .message .delete {
+.aa-chatapp_body .chat-history .message_data li.left .message .delete {
   left:95px
 }
-.chatapp_body .chat-history .message_data li.right .message .delete {
+.aa-chatapp_body .chat-history .message_data li.right .message .delete {
   left:-60px
 }
 @media screen and (max-width: 640px) {
-  .chatapp_body .chat-history .message_data li .message .smily {
+  .aa-chatapp_body .chat-history .message_data li .message .smily {
       display: none
   }
 }
 
-.chatapp_body .chat-history .message_data li .message:after {
+.aa-chatapp_body .chat-history .message_data li .message:after {
   border: solid transparent;
   position: absolute;
   pointer-events: none;
@@ -351,7 +363,7 @@
   border-width: 5px
 }
 
-.chatapp_body .chat-history .message_data li .user_pix {
+.aa-chatapp_body .chat-history .message_data li .user_pix {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
@@ -366,30 +378,30 @@
   height: 24px
 }
 
-.chatapp_body .chat-history .message_data li .user_pix:hover {
+.aa-chatapp_body .chat-history .message_data li .user_pix:hover {
   opacity: 1
 }
 
-.chatapp_body .chat-history .message_data li.left .user_pix {
+.aa-chatapp_body .chat-history .message_data li.left .user_pix {
   left: 0
 }
 
-.chatapp_body .chat-history .message_data li.left .data_time {
+.aa-chatapp_body .chat-history .message_data li.left .data_time {
   left: 50px
 }
 
-.chatapp_body .chat-history .message_data li.left .message {
+.aa-chatapp_body .chat-history .message_data li.left .message {
   background: #9fd8f4;
   color: black;
   float: left;
   border-radius: 10px 10px 10px 0px;
 }
 
-.chatapp_body .chat-history .message_data li.left .message .smily {
+.aa-chatapp_body .chat-history .message_data li.left .message .smily {
   right: -20px
 }
 
-.chatapp_body .chat-history .message_data li.left .message:after {
+.aa-chatapp_body .chat-history .message_data li.left .message:after {
   border-right-color: var(--border-color);
   border-bottom-color: var(--border-color);
   bottom: 0;
@@ -397,25 +409,25 @@
   margin-right: 0
 }
 
-.chatapp_body .chat-history .message_data li.right .user_pix {
+.aa-chatapp_body .chat-history .message_data li.right .user_pix {
   right: 0
 }
 
-.chatapp_body .chat-history .message_data li.right .data_time {
+.aa-chatapp_body .chat-history .message_data li.right .data_time {
   right: 50px
 }
 
-.chatapp_body .chat-history .message_data li.right .message {
+.aa-chatapp_body .chat-history .message_data li.right .message {
   float: right;
   background: #9fd8f4;
   color:black;
 }
 
-.chatapp_body .chat-history .message_data li.right .message .smily {
+.aa-chatapp_body .chat-history .message_data li.right .message .smily {
   left: -20px
 }
 
-.chatapp_body .chat-history .message_data li.right .message:after {
+.aa-chatapp_body .chat-history .message_data li.right .message:after {
   border-left-color: var(--border-color);
   border-bottom-color: var(--border-color);
   bottom: 0;
@@ -423,13 +435,13 @@
   margin-left: 0
 }
 
-.chatapp_body .chat-history .message_data li.divider {
+.aa-chatapp_body .chat-history .message_data li.divider {
   border-top: 1px solid var(--border-color);
   position: relative;
   text-align: center
 }
 
-.chatapp_body .chat-history .message_data li.divider span {
+.aa-chatapp_body .chat-history .message_data li.divider span {
   background: var(--white-color);
   color: var(--font-ccc);
   position: absolute;
