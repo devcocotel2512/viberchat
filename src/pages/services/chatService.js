@@ -12,7 +12,7 @@ const sendChat = async (payload) => {
     return response;
 };
 
-const getData = async (payload) => {
+const getTask = async (payload) => {
     const response = await axios.post(API_URL+'/api/mfind',payload)
     return response;  
 }
@@ -25,5 +25,17 @@ const updateTask = async (payload) => {
 
   }
 
-export default { sendChat, updateTask};
+
+  const deleteTask = async(payload) => {
+    const response = await axios.put(`${API_URL}/api/delete`, payload, {
+      headers: {
+        'Content-Type' :'application/json',
+        'Authorization': token,
+      }
+    })
+    return response;
+  }
+
+export default { sendChat, getTask, updateTask, deleteTask};
+
 
