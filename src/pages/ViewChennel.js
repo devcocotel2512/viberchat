@@ -47,6 +47,11 @@ const Channel = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+  
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || ''); 
   const channelsPerPage = 10;
 
   useEffect(() => {
@@ -55,7 +60,7 @@ const Channel = () => {
         setLoading(true);
         const response = await channelService.getChannel({
           searchquery: {
-            _id: "raidlayer",
+            _id: loggedInId,
             _lbl: lbl,
           },
           projection: {
@@ -63,7 +68,7 @@ const Channel = () => {
           },
           showcount: 1,
         });
-        setChannels(response.data.data[0].chnl);
+        setChannels(response.data.data[0].chnl||[]);
       } catch (error) {
         console.error("Error fetching channels:", error);
       } finally {
@@ -72,7 +77,7 @@ const Channel = () => {
     };
 
     fetchChannels();
-  }, [lbl]);
+  }, [lbl,loggedInId]);
 
   const handleAddChannelClick = () => {
     navigate("/add-channel");

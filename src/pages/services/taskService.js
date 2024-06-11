@@ -12,5 +12,17 @@ const addTask = async (payload) => {
     return response;
 };
 
+const TaskChat = async (payload) => {
+    // Retrieve the token from local storage
+    const response = await axios.post(`${API_URL}/api/task/task-chat`, payload, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`, // Use the token in the Authorization header
+        },
+    });
+    return response;
+};
 
-export default { addTask};
+
+
+export default { addTask,TaskChat};
