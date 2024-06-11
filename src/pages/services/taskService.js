@@ -12,6 +12,7 @@ const addTask = async (payload) => {
     return response;
 };
 
+
 const getTask = async (payload) => {
     const respose = await axios.post(`${API_URL}/api/mfind`, payload);
     return respose
@@ -24,4 +25,19 @@ const updateTask = async (payload) => {
 
   }
 
-export default { addTask, getTask, updateTask};
+
+const TaskChat = async (payload) => {
+    // Retrieve the token from local storage
+    const response = await axios.post(`${API_URL}/api/task/task-chat`, payload, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${token}`, // Use the token in the Authorization header
+        },
+    });
+    return response;
+};
+
+
+
+export default { addTask, getTask, updateTask,TaskChat};
+

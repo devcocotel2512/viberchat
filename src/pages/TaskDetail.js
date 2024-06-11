@@ -10,8 +10,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+
 import ClipLoader from "react-spinners/ClipLoader";
 import chatService, { getTask } from "./services/chatService"; // Corrected import
+
 import { useNavigate, useParams } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -48,10 +50,11 @@ const TaskDetail = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
+
         setLoading(true); // Set loading state to true when fetching data
         const response = await chatService.getTask({
+
           searchqurey: {
-            _id: "raidlayer",
             _id: _id,
           },
           projection: {
