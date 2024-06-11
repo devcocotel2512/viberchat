@@ -11,7 +11,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import chatService, { getTask } from "./services/chatService"; // Corrected import
+import chatService, { getData } from "./services/chatService"; // Corrected import
 import { useNavigate, useParams } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -47,9 +47,8 @@ const TaskDetail = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await chatService.getTask({
+        const response = await chatService.getData({
           searchqurey: {
-            _id: "raidlayer",
             _id: _id,
           },
           projection: {

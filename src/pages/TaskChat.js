@@ -1,11 +1,47 @@
-import React from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import taskService from "./services/taskService";
 import Layout from "../components/Layout";
-import "../Css/TaskFormModal.css";
+import "../css/TaskFormModal.css";
 
 const TaskChat = () => {
   const { id } = useParams();
+  const [chatHistory, setChatHistory] = useState([]);
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+  
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || ''); 
+  useEffect(() => {
+    const fetchTask = async () => {
+      try {
+        const response = await taskService.TaskChat({
+          taskId: id,
+          _id: loggedInId
+        });
+        
+        if (response.data.status) {
+          setChatHistory(response.data.data || []);
+          console.log("Data found:", response.data.data || []);
+        } else {
+          console.log("No data found");
+        }
+      } catch (error) {
+        console.error("Error fetching task:", error);
+      }
+    };
 
+    fetchTask();
+  }, [id, loggedInId]); // Add loggedInId to dependency array if it's used inside useEffect
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    return `${formattedHours}:${formattedMinutes} ${ampm}`;
+  };
   return (
     <Layout>
       <div id="main-content">
@@ -54,128 +90,26 @@ const TaskChat = () => {
                 <div className="chat-history" style={{ maxHeight: "400px", overflowY: "auto" }}>
                   <div className="container">
                     <ul className="message_data">
-                    <li className="right clearfix">
-                        <img
-                          className="user_pix"
-                          src="/assets/images/xs/avatar7.jpg"
-                          alt="avatar"
-                        />
-                        <div className="message">
-                          <Link to="" className="smily">
-                            <i className="fa fa-smile-o"></i>
-                          </Link>
-                          <span>
-                            Hi Aiden, how are you? How is the project coming
-                            along?
-                          </span>
-                        </div>
-                        <span className="data_time">10:12 AM, Today</span>
-                      </li>
-                      <li className="left clearfix">
-                        <img
-                          className="user_pix"
-                          src="/assets/images/user.png"
-                          alt="avatar"
-                        />
-                        <div className="message">
-                          <Link to="" className="smily">
-                            <i className="fa fa-smile-o"></i>
-                          </Link>
-                          <span>Are we meeting today?</span>
-                          <div className="alert alert-primary mb-0 mt-2">
-                            <i className="fa fa-file-word-o mr-2"></i>{" "}
-                            <span>finame12.doc</span>
+                    {chatHistory.map((entry, index) => (
+                        <li key={index} className={`${entry.sent ? 'right' : 'left'} clearfix`}>
+                          <img
+                            className="user_pix"
+                            src="/assets/images/user.png"
+                            alt="avatar"
+                          />
+                          
+                          <div className="message">
+                            
+                            <span>{entry.message}</span>
+                            <div className="message-info">
+                              {/* <span className="sender-name">{entry.name}</span> */}
+                              
+                            </div>
                           </div>
-                        </div>
-                        <span className="data_time">10:12 AM, Today</span>
-                      </li>
-                      <li className="right clearfix">
-                        <img
-                          className="user_pix"
-                          src="/assets/images/xs/avatar5.jpg"
-                          alt="avatar"
-                        />
-                        <div className="message">
-                          <Link to="#" className="smily">
-                            <i className="fa fa-smile-o"></i>
-                          </Link>
-                          <span>How is the project coming along?</span>
-                        </div>
-                        <span className="data_time">10:12 AM, Today</span>
-                      </li>
-                      <li className="divider clearfix">
-                        <span>yesterday</span>
-                      </li>
-
-                      <li className="right clearfix">
-                        <img
-                          className="user_pix"
-                          src="/assets/images/xs/avatar5.jpg"
-                          alt="avatar"
-                        />
-                        <div className="message">
-                          <Link to="#" className="smily">
-                            <i className="fa fa-smile-o"></i>
-                          </Link>
-                          <span>How is the project coming along?</span>
-                        </div>
-                        <span className="data_time">10:12 AM, Today</span>
-                      </li>
-
-                      <li className="left clearfix">
-                        <img
-                          className="user_pix"
-                          src="/assets/images/user.png"
-                          alt="avatar"
-                        />
-                        <div className="message">
-                          <Link to="" className="smily">
-                            <i className="fa fa-smile-o"></i>
-                          </Link>
-                          <span>Are we meeting today?</span>
-                          <div className="alert alert-primary mb-0 mt-2">
-                            <i className="fa fa-file-word-o mr-2"></i>{" "}
-                            <span>finame12.doc</span>
-                          </div>
-                        </div>
-                        <span className="data_time">10:12 AM, Today</span>
-                      </li>
-                      <li className="left clearfix">
-                        <img
-                          className="user_pix"
-                          src="/assets/images/user.png"
-                          alt="avatar"
-                        />
-                        <div className="message">
-                          <Link to="" className="smily">
-                            <i className="fa fa-smile-o"></i>
-                          </Link>
-                          <span>Are we meeting today?</span>
-                          <div className="alert alert-primary mb-0 mt-2">
-                            <i className="fa fa-file-word-o mr-2"></i>{" "}
-                            <span>finame12.doc</span>
-                          </div>
-                        </div>
-                        <span className="data_time">10:12 AM, Today</span>
-                      </li>
-                      <li className="left clearfix">
-                        <img
-                          className="user_pix"
-                          src="/assets/images/user.png"
-                          alt="avatar"
-                        />
-                        <div className="message">
-                          <Link to="" className="smily">
-                            <i className="fa fa-smile-o"></i>
-                          </Link>
-                          <span>Are we meeting today?</span>
-                          <div className="alert alert-primary mb-0 mt-2">
-                            <i className="fa fa-file-word-o mr-2"></i>{" "}
-                            <span>finame12.doc</span>
-                          </div>
-                        </div>
-                        <span className="data_time">10:12 AM, Today</span>
-                      </li>
+                          <span className="data_time"><b><span className="sender-name">{entry.name}</span></b> {formatDate(entry.time)}</span>
+                          
+                        </li>
+                      ))}
                     </ul>
                   </div>
                   <div class="chat-message">

@@ -59,11 +59,12 @@ const Chat = () => { // Pass loggedInUser as a prop
       }
       return `${diffInHours} hours ago`;
     } else if (diffInDays === 1) {
-      return "Yesterday, " + chatTime.format("h:mm A");
+      // return "Yesterday, " + chatTime.format("h:mm A");
+      return "Yesterday";
     } else if (diffInDays < 7) {
-      return `${diffInDays} days ago, ` + chatTime.format("h:mm A");
+      return `${diffInDays} days ago`;
     } else {
-      return chatTime.format("MMMM D, YYYY, h:mm A");
+      return chatTime.format("MMMM D, YYYY");
     }
   };
 
@@ -142,7 +143,7 @@ const Chat = () => { // Pass loggedInUser as a prop
     const fetchChannels = async () => {
       try {
         const response = await channelService.getChannel({
-          searchquery: { _id: "raidlayer" },
+          searchquery: { _id: loggedInId },
           projection: { chnl: 1 },
           showcount: 1,
         });
@@ -155,7 +156,7 @@ const Chat = () => { // Pass loggedInUser as a prop
     const fetchChats = async () => {
       try {
         const response = await authService.getData({
-          searchquery: { _id: "raidlayer" },
+          searchquery: { _id: loggedInId },
           projection: { chat: 1 },
           showcount: 1,
         });
@@ -167,9 +168,9 @@ const Chat = () => { // Pass loggedInUser as a prop
           const lastMessageTimeB = new Date(b.time);
           return lastMessageTimeB - lastMessageTimeA; // Sort in descending order
         });
-
+        console.log('dddd',chatsArray);
         setChats(chatsArray);
-      } catch (error) {
+      } catch (error) { 
         console.error("Error fetching chats:", error);
       }
     };
