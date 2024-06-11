@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare,faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { styled } from "@mui/material/styles";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -11,7 +10,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import chatService, { getData } from "./services/chatService"; // Corrected import
+
+import ClipLoader from "react-spinners/ClipLoader";
+import chatService, { getTask } from "./services/chatService"; // Corrected import
+
 import { useNavigate, useParams } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -41,13 +43,17 @@ const TaskDetail = () => {
   const navigate = useNavigate();
   const { _id } = useParams();
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const viewChat = (taskid) => {
     navigate(`/chat/${taskid}`);
   };
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await chatService.getData({
+
+        setLoading(true); // Set loading state to true when fetching data
+        const response = await chatService.getTask({
+
           searchqurey: {
             _id: _id,
           },
@@ -56,13 +62,20 @@ const TaskDetail = () => {
           },
           showcount: 1,
         });
-        setTasks(response.data.data[0].task||[]);
+        setTasks(response.data.data[0].task || []);
       } catch (error) {
-        console.log("error fatching task", error);
+        console.log("error fetching task", error);
+      } finally {
+        setLoading(false); // Set loading state to false after fetching data
       }
     };
     fetchTask();
   }, [_id]);
+
+  const EditTask = (_id) => {
+    navigate(`/edit-task/${_id}`);
+  };
+
 
   return (
     <Layout>
@@ -89,52 +102,74 @@ const TaskDetail = () => {
                 </div>
               </div>
               <div className="body">
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell>Sr.No</StyledTableCell>
-                        <StyledTableCell>Name</StyledTableCell>
-                        <StyledTableCell>Label</StyledTableCell>
-                        <StyledTableCell>Status</StyledTableCell>
-                        <StyledTableCell>Task-Of-User</StyledTableCell>
-                        <StyledTableCell align="center">Action</StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {tasks.map((task, index) => (
-                        <StyledTableRow key={index}>
-                          <BoldTableCell>{index + 1}</BoldTableCell>
-                          <BoldTableCell>{task.name}</BoldTableCell>
-                          <BoldTableCell>{task.label}</BoldTableCell>
-                          <BoldTableCell>{task.status}</BoldTableCell>
-                          <BoldTableCell>{task.taskOfUser}</BoldTableCell>
-                          <StyledTableCell align="center">
-                            <button type="button" className="btn-edit">
-                              <FontAwesomeIcon icon={faPenToSquare} />
-                            </button>
-                            <button type="button" className="btn-eye"
-                                  onClick={() => viewChat(task._id||'')}>
-                              <FontAwesomeIcon icon={faEye} />
-                            </button>
-                            
-                            <button type="button" className="btn-delete">
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                {loading ? ( // Display loading indicator if loading state is true
+                  <div className="loading-container">
+                  <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                  </div>
+                ) : (
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                      <TableHead>
+                        <TableRow>
+                          <StyledTableCell>Sr.No</StyledTableCell>
+                          <StyledTableCell>Name</StyledTableCell>
+                          <StyledTableCell>Label</StyledTableCell>
+                          <StyledTableCell>Status</StyledTableCell>
+                          <StyledTableCell>Task-Of-User</StyledTableCell>
+                          <StyledTableCell align="center">Action</StyledTableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {tasks.map((task, index) => (
+                          <StyledTableRow key={index}>
+                            <BoldTableCell>{index + 1}</BoldTableCell>
+                            <BoldTableCell>{task.name}</BoldTableCell>
+                            <BoldTableCell>{task.label}</BoldTableCell>
+                            <BoldTableCell>{task.status}</BoldTableCell>
+                            <BoldTableCell>{task.taskOfUser}</BoldTableCell>
+                            <StyledTableCell align="center">
+                              <button  type="button"
+                                  className="btn-edit"
+                                  onClick={() => EditTask(task._id)}>
+                                <FontAwesomeIcon icon={faPenToSquare} />
+                              </button>
+                              <button type="button" className="btn-eye" onClick={() => viewChat(task._id || '')}>
+                                <FontAwesomeIcon icon={faEye} />
+                              </button>
+                              <button type="button" className="btn-delete">
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
       <style jsx>{`
-        .search-bar input {
-          max-width: 300px;
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+        .btn-success {
+          background-color: #28a745;
+          color: white;
+        }
+        .btn-secondary {
+          background-color: #6c757d;
+          color: white;
+        }
+        .search-container {
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 10px;
         }
       `}</style>
     </Layout>

@@ -6,12 +6,12 @@ import authService from "./services/authService";
 import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
-  const navigate = useNavigate([]);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    verified:""
+    assignChat: "" // Updated state
   });
 
   const [errors, setErrors] = useState({});
@@ -35,6 +35,10 @@ const AddUser = () => {
       errors.password = "Password is required";
     } else if (formData.password.length < 8) {
       errors.password = "Password must be at least 8 characters";
+    }
+
+    if (!formData.assignChat) {
+      errors.assignChat = "Assign-Chat is required";
     }
 
     return errors;
@@ -62,15 +66,14 @@ const AddUser = () => {
 
     console.log("Form Data:", formData);
 
-
     const payload = {
       username: formData.name,
       email: formData.email,
-      password: formData.password
+      password: formData.password,
+      assignChat: formData.assignChat === "yes"
     };
     try {
       const response = await authService.addUser(payload);
-
 
       if (!response.data.status) {
         throw new Error(response.data.message || `HTTP error! status: ${response.data.status}`);
@@ -80,7 +83,8 @@ const AddUser = () => {
       setFormData({
         name: "",
         email: "",
-        password: ""
+        password: "",
+        assignChat: ""
       });
       toast.success("User added successfully!");
       setServerError(""); // Clear any previous server errors
@@ -171,6 +175,34 @@ const AddUser = () => {
                     </div>
 
                     <div className="form-group">
+                      <h6>Assign-Chat</h6>
+                      <div className="form-group c_form_group">
+                 
+                          <input
+                            type="checkbox"
+                             className="radio-2"
+                            name="assignChat"
+                            value="yes"
+                            checked={formData.assignChat === "yes"}
+                            onChange={handleChange}
+                          />
+                          Yes
+                        
+                          <input
+                            type="checkbox"
+                            className="radio-1"
+                            name="assignChat"
+                            value="no"
+                            checked={formData.assignChat === "no"}
+                            onChange={handleChange}
+                          />
+                          No
+                        
+                      </div>
+                      {errors.assignChat && <div className="error">{errors.assignChat}</div>}
+                    </div>
+
+                    <div className="form-group">
                       <div className="row clearfix"></div>
                     </div>
                     <br />
@@ -180,7 +212,7 @@ const AddUser = () => {
                     >
                       Submit
                     </button>
-                    <button type="submit" className="btn btn-class  ml-3 rounded" onClick={back}>
+                    <button type="button" className="btn btn-class  ml-3 rounded" onClick={back}>
                         Back
                         </button>
                   </form>

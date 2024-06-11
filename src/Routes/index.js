@@ -16,6 +16,7 @@ import EditChannel from '../pages/EditChannel.js';
 import EditUser from '../pages/EditUser.js';
 import TaskDetail from '../pages/TaskDetail.js';
 import TaskChat from '../pages/TaskChat.js';
+import EditTask from '../pages/EditTask.js';
 
 
 
@@ -57,6 +58,7 @@ function RoutesComponent() {
       <Route path='/edit-channel/:channelLbl' element={isLoggedIn ? <EditChannel /> : <Navigate to='/login' replace />} />
       <Route path='/task' element={isLoggedIn ? <TaskDetail /> : <Navigate to='/login' replace />} />
       <Route path='/chat/:id' element={isLoggedIn ? <TaskChat /> : <Navigate to='/login' replace />} />
+      <Route path='/edit-task/:id' element={isLoggedIn ? <EditTask /> : <Navigate to='/login' replace />} />
     </Routes>
     
   );

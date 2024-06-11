@@ -12,6 +12,20 @@ const addTask = async (payload) => {
     return response;
 };
 
+
+const getTask = async (payload) => {
+    const respose = await axios.post(`${API_URL}/api/mfind`, payload);
+    return respose
+}
+
+const updateTask = async (payload) => {
+    const response = await axios.put(`${API_URL}/api/update`, payload, {
+    });
+    return response;
+
+  }
+
+
 const TaskChat = async (payload) => {
     // Retrieve the token from local storage
     const response = await axios.post(`${API_URL}/api/task/task-chat`, payload, {
@@ -25,4 +39,5 @@ const TaskChat = async (payload) => {
 
 
 
-export default { addTask,TaskChat};
+export default { addTask, getTask, updateTask,TaskChat};
+

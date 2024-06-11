@@ -14,6 +14,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -107,6 +109,32 @@ const ViewUser = () => {
     setCurrentPage(1); // Reset to first page on new search
   };
 
+  const handleDelete = async (userUn) => {
+    try {
+      setLoading(true);
+      await authService.deleteUser({
+        searchquery: {
+          _id: "raidlayer",
+          "user.un": userUn,
+        },
+        body: {
+          "$pull": {
+            "user": { "un": userUn }
+          }
+        }
+      });
+      toast.success("User deleted successfully");
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user.un !== userUn)
+      );
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast.error("Failed to delete user");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filteredUsers = users.filter((user) =>
     user.un.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -117,6 +145,7 @@ const ViewUser = () => {
 
   return (
     <Layout>
+      <ToastContainer />
       <div id="main-content">
         <div className="container-fluid">
           <div className="row clearfix mb-2">
@@ -207,7 +236,11 @@ const ViewUser = () => {
                                 >
                                   <FontAwesomeIcon icon={faUserPen} />
                                 </button>
-                                <button type="button" className="btn-delete">
+                                <button
+                                  type="button"
+                                  className="btn-delete"
+                                  onClick={() => handleDelete(user.un)}
+                                >
                                   <FontAwesomeIcon icon={faTrash} />
                                 </button>
                               </StyledTableCell>

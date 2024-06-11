@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import channelService from "./services/channelService";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const EditChannel = () => {
   const navigate = useNavigate();
@@ -15,6 +15,8 @@ const EditChannel = () => {
     form: "",
     type: "",
     authkey: "",
+    crndurl: "",
+    webhook:"",
   });
   const [loading, setLoading] = useState(true);
 
@@ -42,6 +44,8 @@ const EditChannel = () => {
             form: channel.frm,
             type: channel.type,
             authkey: channel.authkey,
+            crndurl: channel.crndurl,
+            webbook:channel.webhook
           });
         }
       } catch (error) {
@@ -77,6 +81,8 @@ const EditChannel = () => {
           "chnl.$.frm": channelData.form,
           "chnl.$.type": channelData.type,
           "chnl.$.authkey": channelData.authkey,
+          "chnl.$.crndurl": channelData.crndurl,
+          "chnl.$.webhook":channelData.webhook,
         },
       });
       toast.success("Channel updated successfully");
@@ -93,7 +99,6 @@ const EditChannel = () => {
   const back = () => {
     // window.location.href = '/channel';
     navigate("/channel");
-    
   };
 
   return (
@@ -109,7 +114,7 @@ const EditChannel = () => {
               <div className="col-md-12">
                 <div className="card">
                   <div className="header">
-                    <h2>Edit Channel:</h2>
+                    <h2>Edit Channel:{channelLbl}</h2>
                   </div>
                   <div className="body">
                     {loading ? (
@@ -171,6 +176,24 @@ const EditChannel = () => {
                             value={channelData.authkey}
                           />
                         </div>
+                        <div className="form-group">
+                          <label>Url-Key</label>
+                          <input
+                            type="text"
+                            name="url"
+                            className="form-control"
+                            value={channelData.crndurl}
+                          />
+                        </div>
+                        {/* <div className="form-group">
+                          <label>WebHook</label>
+                          <input
+                            type="text"
+                            name="webbook"
+                            className="form-control"
+                            value={channelData.webhook}
+                          />
+                        </div> */}
                         <button
                           type="submit"
                           className="btn btn-primary mt-4 rounded "
@@ -207,6 +230,3 @@ const EditChannel = () => {
 };
 
 export default EditChannel;
-
-
-

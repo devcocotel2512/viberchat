@@ -17,4 +17,13 @@ const getData = async (payload) => {
     return response;  
 }
 
-export default { sendChat, getData};
+
+const updateTask = async (payload) => {
+    const response = await axios.put(`${API_URL}/api/update`, payload, {
+    });
+    return response;
+
+  }
+
+export default { sendChat, getTask, updateTask};
+

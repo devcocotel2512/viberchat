@@ -56,5 +56,16 @@ const updateUser = async (payload) => {
   };
   // export default { register,login,addUser,getUser,getData };
 
+  const deleteUser = async(payload) => {
+    const response = await axios.put(`${API_URL}/api/delete`, payload, {
+      headers: {
+        'Content-Type' :'application/json',
+        'Authorization': token,
+      }
+    })
+    return response;
+  }
+  
 
-export default { register, login, getUser, addUser, updateUser,getData };
+
+export default { register, login, getUser, addUser, updateUser,getData, deleteUser };

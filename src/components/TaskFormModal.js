@@ -6,7 +6,7 @@ import authService from '../pages/services/authService';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
+const TaskFormModal = ({ recipientid, chatMsgToken, show, handleClose }) => {
   
   const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
   const retrievedId = localStorage.getItem("loginId");
@@ -15,8 +15,7 @@ const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
   const [loggedInId, setLoggedInId] = useState(retrievedId || '');  
   
 
-  const [taskDetails, setTaskDetails] = useState({ name: '', label: '', status: 'New', usersList: [], assignUsers: [], dueDate: '', note: '', taskOfUser: recipientid,chatMsgToken:chatMsgToken });
-  console.log(taskDetails);
+  const [taskDetails, setTaskDetails] = useState({ name: '', label: '', status: 'New', usersList: [], assignUsers: [], dueDate: '', note: '', taskOfUser: recipientid, chatMsgToken: chatMsgToken });
   const [validationErrors, setValidationErrors] = useState({ name: '', label: '' });
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
       try {
         const response = await authService.getData({
           searchquery: { _id: loggedInId },
-          projection: { user: 1,_id:0 },
+          projection: { user: 1, _id: 0 },
           showcount: 1,
         });
         if (response.data.status) {
@@ -56,13 +55,15 @@ const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
       [name]: '',
     }));
   };
+
   useEffect(() => {
     setTaskDetails((prevDetails) => ({
       ...prevDetails,
       taskOfUser: recipientid,
-      chatMsgToken:chatMsgToken
+      chatMsgToken: chatMsgToken
     }));
-  }, [recipientid,chatMsgToken]);
+  }, [recipientid, chatMsgToken]);
+
   const handleAssignUsersChange = (selectedOptions) => {
     const selectedUsers = selectedOptions.map(option => option.value);
     setTaskDetails((prevDetails) => ({
@@ -74,8 +75,16 @@ const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
   const handleSubmit = async () => {
     try {
       // Simple validation for required fields
-      if (!taskDetails.name.trim() || !taskDetails.label.trim()) {
-        throw new Error('Task name and label are required');
+      let errors = {};
+      if (!taskDetails.name.trim()) {
+        errors.name = 'Task name is required';
+      }
+      if (!taskDetails.label.trim()) {
+        errors.label = 'Task label is required';
+      }
+      if (Object.keys(errors).length > 0) {
+        setValidationErrors(errors);
+        return; // Stop submission if there are errors
       }
 
       const response = await taskService.addTask(taskDetails);
@@ -139,6 +148,7 @@ const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
               value={taskDetails.assignUsers.map(user => ({ value: user, label: user }))}
               onChange={handleAssignUsersChange}
               isMulti
+              required // Add required attribute for HTML5 validation
             />
           </Form.Group>
           <Form.Group>
@@ -148,6 +158,7 @@ const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
               name="dueDate"
               value={taskDetails.dueDate}
               onChange={handleInputChange}
+              required // Add required attribute for HTML5 validation
             />
           </Form.Group>
           <Form.Group>
@@ -158,6 +169,7 @@ const TaskFormModal = ({ recipientid,chatMsgToken,show, handleClose }) => {
               name="note"
               value={taskDetails.note}
               onChange={handleInputChange}
+              required // Add required attribute for HTML5 validation
             />
           </Form.Group>
           

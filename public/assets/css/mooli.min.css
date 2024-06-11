@@ -8,6 +8,14 @@
     font-style: normal
 }
 
+.radio-1{
+    margin-left: 40px;
+    margin-right: 5px;
+}
+.radio-2{
+    margin-right: 5px;
+}
+
 [data-icon]:before {
     font-family: 'simple-Line-Icons';
     content: attr(data-icon);
