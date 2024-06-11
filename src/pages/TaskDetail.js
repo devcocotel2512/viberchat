@@ -12,7 +12,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import ClipLoader from "react-spinners/ClipLoader";
-import chatService, { getTask } from "./services/chatService"; // Corrected import
+import chatService from "./services/chatService"; // Corrected import
+import taskService from "./services/taskService"; // Corrected import
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -52,7 +53,7 @@ const TaskDetail = () => {
       try {
 
         setLoading(true); // Set loading state to true when fetching data
-        const response = await chatService.getTask({
+        const response = await taskService.getTask({
 
           searchqurey: {
             _id: _id,

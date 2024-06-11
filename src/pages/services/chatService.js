@@ -25,5 +25,5 @@ const updateTask = async (payload) => {
 
   }
 
-export default { sendChat, getTask, updateTask};
+export default { sendChat, updateTask};
 
