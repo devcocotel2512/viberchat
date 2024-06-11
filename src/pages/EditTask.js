@@ -5,8 +5,13 @@ import chatService from "./services/chatService";
 import { toast } from "react-toastify";
 
 const EditTask = () => {
-  const { _id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+  
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || ''); 
   const [taskData, setTaskData] = useState({
     name: "",
     label: "",
@@ -20,14 +25,18 @@ const EditTask = () => {
     const fetchTaskData = async () => {
       try {
         const response = await chatService.getTask({
-          searchQuery: {
-            _id: "raidlayer",
-            "task_id": _id,
+        
+            "searchquery": { 
+            "_id": loggedInId,
+            "task._id": id
           },
-          projection: {
-            task: 1,
+            "projection":{ 
+            "task.$": 1,
+            "_id": 0
           },
-        });
+            "showcount": 1
+        
+});
 
         if (
           response.data &&
@@ -54,7 +63,7 @@ const EditTask = () => {
     };
 
     fetchTaskData();
-  }, [_id]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,23 +77,24 @@ const EditTask = () => {
     e.preventDefault();
     try {
       await chatService.updateTask({
-        searchquery: {
-          _id: "raidlayer",
-          "task_id": _id,
-        },
+        "searchquery": { 
+            "_id": loggedInId,
+            "task._id": id
+          },
         body: {
-          "task.name": taskData.name,
-          "task.label": taskData.label,
-          "task.note": taskData.note,
-          "task.status": taskData.status,
-          "task.taskOfUser": taskData.taskOfUser,
-          "task.crttmstmp": taskData.crttmstmp,
+          "task.$.name": taskData.name, // Use $ to target the specific task in the array
+          "task.$.label": taskData.label,
+          "task.$.note": taskData.note,
+          "task.$.status": taskData.status,
+          "task.$.taskOfUser": taskData.taskOfUser,
+          "task.$.crttmstmp": taskData.crttmstmp,
         },
       });
-      toast.success("task edit successfully");
+      toast.success("Task updated successfully");
+      navigate("/task")
     } catch (error) {
-      console.log("erro Upadate task", error);
-      toast.error("failed to Upadet task");
+      console.error("Error updating task", error);
+      toast.error("Failed to update task");
     }
   };
 
@@ -101,68 +111,67 @@ const EditTask = () => {
               <div className="col-md-12">
                 <div className="card">
                   <div className="header"></div>
-                  <h2>Upadet task:</h2>
+                  <h2>Update Task:</h2>
                   <div className="body">
-                  <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                          <label>Name</label>
-                          <input
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            value={taskData.name}
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Label</label>
-                          <input
-                            type="label"
-                            name="label"
-                            className="form-control"
-                            value={taskData.label}
-                            onChange={handleChange}
-                          />
-                        </div>
+                    <form onSubmit={handleSubmit}>
+                      <div className="form-group">
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          value={taskData.name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Label</label>
+                        <input
+                          type="text"
+                          name="label"
+                          className="form-control"
+                          value={taskData.label}
+                          onChange={handleChange}
+                        />
+                      </div>
 
-                        <div className="form-group">
-                          <label>Note</label>
-                          <input
-                            type="note"
-                            name="note"
-                            className="form-control"
-                            value={taskData.note}
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Status</label>
-                          <input
-                            type="status"
-                            name="status"
-                            className="form-control"
-                            value={taskData.status}
-                            onChange={handleChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Task-User</label>
-                          <input
-                            type="taskuser"
-                            name="taskuser"
-                            className="form-control"
-                            value={taskData.taskOfUser}
-                            onChange={handleChange}
-                          />
-                        </div>
-                        
-                        <button type="submit" className="btn btn-primary mt-4 rounded">
-                          Save Changes
-                        </button>
-                        {/* <button type="button" className="btn btn-class mt-4 ml-3 rounded " onClick={back}>
-                          Back
-                        </button> */}
-                      </form>
+                      <div className="form-group">
+                        <label>Note</label>
+                        <input
+                          type="text"
+                          name="note"
+                          className="form-control"
+                          value={taskData.note}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Status</label>
+                        <input
+                          type="text"
+                          name="status"
+                          className="form-control"
+                          value={taskData.status}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Task Of User</label>
+                        <input
+                          type="text"
+                          name="taskOfUser"
+                          className="form-control"
+                          value={taskData.taskOfUser}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <button type="submit" className="btn btn-primary mt-4 rounded">
+                        Save Changes
+                      </button>
+                      <button type="button" className="btn btn-secondary mt-4 ml-3 rounded" onClick={() => navigate("/task")}>
+                        Back
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>

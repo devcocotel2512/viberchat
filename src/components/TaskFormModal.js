@@ -169,7 +169,7 @@ const TaskFormModal = ({ recipientid, chatMsgToken, show, handleClose }) => {
               name="note"
               value={taskDetails.note}
               onChange={handleInputChange}
-              required // Add required attribute for HTML5 validation
+               required // Add required attribute for HTML5 validation
             />
           </Form.Group>
           

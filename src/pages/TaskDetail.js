@@ -10,11 +10,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
 import ClipLoader from "react-spinners/ClipLoader";
-import chatService, { getTask } from "./services/chatService"; // Corrected import
-
+import chatService from "./services/chatService";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,21 +41,23 @@ const BoldTableCell = styled(StyledTableCell)({
 
 const TaskDetail = () => {
   const navigate = useNavigate();
-  const { _id } = useParams();
+  const { id } = useParams();
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const viewChat = (taskid) => {
-    navigate(`/chat/${taskid}`);
-  };
+  const [loading, setLoading] = useState(true);
+  const retrievedUser = JSON.parse(localStorage.getItem("loginuser"));
+  const retrievedId = localStorage.getItem("loginId");
+  
+  const [loggedInUser, setLoggedInUser] = useState(retrievedUser || {});  
+  const [loggedInId, setLoggedInId] = useState(retrievedId || ''); 
+
   useEffect(() => {
     const fetchTask = async () => {
       try {
-
-        setLoading(true); // Set loading state to true when fetching data
+        setLoading(true);
         const response = await chatService.getTask({
-
-          searchqurey: {
-            _id: _id,
+          searchquery: {
+            _id: loggedInId,
+            task_id: id,
           },
           projection: {
             task: 1,
@@ -66,19 +68,50 @@ const TaskDetail = () => {
       } catch (error) {
         console.log("error fetching task", error);
       } finally {
-        setLoading(false); // Set loading state to false after fetching data
+        setLoading(false);
       }
     };
     fetchTask();
-  }, [_id]);
+  }, [id]);
 
-  const EditTask = (_id) => {
-    navigate(`/edit-task/${_id}`);
+  const EditTask = (taskid) => {
+    navigate(`/edit-task/${taskid}`);
+  };
+
+  const viewChat = (taskid) => {
+    navigate(`/chat/${taskid}`);
+  };
+
+  const handleDelete = async (taskId) => {
+    try {
+      setLoading(true);
+      await chatService.deleteTask({
+        searchquery: {
+          _id: "raidlayer",
+          "task._id": id,
+        },
+        body: {
+          "$pull": {
+            "task": { "id": id }
+          }
+        }
+      });
+      toast.success("Task deleted successfully");
+      setTasks((prevtask) =>
+        prevtask.filter((task) => task.id !== taskId)
+      );
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error("Failed to delete task");
+    } finally {
+      setLoading(false);
+    }
   };
 
 
   return (
     <Layout>
+      <ToastContainer />
       <div id="main-content">
         <div className="container-fluid">
           <div className="row clearfix mb-2">
@@ -96,15 +129,12 @@ const TaskDetail = () => {
                   <button className="search-btn" type="submit">
                     <span>Search</span>
                   </button>
-                  {/* <button type="button" className="btn btn-primary rounded">
-                    Add Task
-                  </button> */}
                 </div>
               </div>
               <div className="body">
-                {loading ? ( // Display loading indicator if loading state is true
+                {loading ? (
                   <div className="loading-container">
-                  <ClipLoader color={"#123abc"} loading={loading} size={50} />
+                    <ClipLoader color={"#123abc"} loading={loading} size={50} />
                   </div>
                 ) : (
                   <TableContainer component={Paper}>
@@ -128,15 +158,13 @@ const TaskDetail = () => {
                             <BoldTableCell>{task.status}</BoldTableCell>
                             <BoldTableCell>{task.taskOfUser}</BoldTableCell>
                             <StyledTableCell align="center">
-                              <button  type="button"
-                                  className="btn-edit"
-                                  onClick={() => EditTask(task._id)}>
+                              <button type="button" className="btn-edit" onClick={() => EditTask(task._id)}>
                                 <FontAwesomeIcon icon={faPenToSquare} />
                               </button>
                               <button type="button" className="btn-eye" onClick={() => viewChat(task._id || '')}>
                                 <FontAwesomeIcon icon={faEye} />
                               </button>
-                              <button type="button" className="btn-delete">
+                              <button type="button" className="btn-delete" onClick={() => handleDelete(task.id)}>
                                 <FontAwesomeIcon icon={faTrash} />
                               </button>
                             </StyledTableCell>
