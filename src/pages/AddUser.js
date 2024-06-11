@@ -175,7 +175,7 @@ const AddUser = () => {
                     </div>
 
                     <div className="form-group">
-                      <h6>Assign-Chat</h6>
+                      
                       <div className="form-group c_form_group">
                  
                           <input
@@ -186,17 +186,9 @@ const AddUser = () => {
                             checked={formData.assignChat === "yes"}
                             onChange={handleChange}
                           />
-                          Yes
+                          Can read Unassing Chat
                         
-                          <input
-                            type="checkbox"
-                            className="radio-1"
-                            name="assignChat"
-                            value="no"
-                            checked={formData.assignChat === "no"}
-                            onChange={handleChange}
-                          />
-                          No
+                          
                         
                       </div>
                       {errors.assignChat && <div className="error">{errors.assignChat}</div>}

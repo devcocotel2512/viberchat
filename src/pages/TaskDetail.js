@@ -11,7 +11,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ClipLoader from "react-spinners/ClipLoader";
-import chatService from "./services/chatService";
+
+import chatService from "./services/chatService"; // Corrected import
+import taskService from "./services/taskService"; // Corrected import
+
+
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -53,11 +57,13 @@ const TaskDetail = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
+
         setLoading(true);
-        const response = await chatService.getTask({
+        const response = await taskService.getTask({
           searchquery: {
             _id: loggedInId,
             task_id: id,
+
           },
           projection: {
             task: 1,

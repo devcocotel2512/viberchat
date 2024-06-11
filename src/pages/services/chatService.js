@@ -25,6 +25,7 @@ const updateTask = async (payload) => {
 
   }
 
+
   const deleteTask = async(payload) => {
     const response = await axios.put(`${API_URL}/api/delete`, payload, {
       headers: {
@@ -36,4 +37,5 @@ const updateTask = async (payload) => {
   }
 
 export default { sendChat, getTask, updateTask, deleteTask};
+
 
